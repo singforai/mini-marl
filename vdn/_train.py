@@ -4,7 +4,7 @@ import torch
 import torch.nn.functional as F
 
 class Train_dqn:
-    def __init__(self, args):
+    def __init__(self, args, device):
 
         self.batch_size: int = args.batch_size
         self.update_iter: int = args.update_iter
@@ -13,11 +13,13 @@ class Train_dqn:
         self.gamma: float = args.gamma
         self.grad_clip_norm: float = args.grad_clip_norm
 
+        self.device = device
+
     def train(self, Replay_buffer, behavior_network, target_network, optimizer, epsilon):
         for _ in range(self.update_iter):
             states, actions, rewards, next_states, dones, priority_idx, importance_sampling_weight = Replay_buffer.sample(self.batch_size, self.chunk_size)
-            hidden = behavior_network.init_hidden(batch_size = self.batch_size)
-            target_hidden = target_network.init_hidden(batch_size = self.batch_size)
+            hidden = behavior_network.module.init_hidden(batch_size = self.batch_size).to(self.device)
+            target_hidden = target_network.module.init_hidden(batch_size = self.batch_size).to(self.device)
             loss = 0.0
 
             for step in range(self.chunk_size):
@@ -27,19 +29,19 @@ class Train_dqn:
                 next_state = next_states[:, step, :, :]
                 done = dones[:, step, :]
 
-                behavior_q, next_hidden = behavior_network(state, hidden)
+                behavior_q, next_hidden = behavior_network.module(state.to(self.device), hidden)
                 max_behavior_q = behavior_q.gather(dim=2, index=action).squeeze(dim=-1)
                 sum_max_behavior_q = max_behavior_q.sum(dim=1, keepdims=True)
 
-                target_q, next_target_hidden = target_network(next_state, target_hidden.detach())
+                target_q, next_target_hidden = target_network.module(next_state.to(self.device), target_hidden.detach())
                 max_target_q = target_q.max(dim=2)[0]
                 sum_max_target_q = max_target_q.sum(dim=1, keepdims=True)
                 target_values = importance_sampling_weight * (reward + self.gamma * (1 - done) * sum_max_target_q).sum(dim=1, keepdims=True)
                 loss += F.mse_loss(target_values.detach(), sum_max_behavior_q)
 
                 done_mask = done.squeeze(-1).bool()
-                next_hidden[done_mask] = behavior_network.init_hidden(batch_size=len(next_hidden[done_mask]))
-                next_target_hidden[done_mask] = behavior_network.init_hidden(batch_size=len(next_target_hidden[done_mask]))
+                next_hidden[done_mask] = behavior_network.module.init_hidden(batch_size=len(next_hidden[done_mask])).to(self.device)
+                next_target_hidden[done_mask] = behavior_network.module.init_hidden(batch_size=len(next_target_hidden[done_mask])).to(self.device)
                 
                 hidden = next_hidden
                 target_hidden = next_target_hidden
@@ -55,7 +57,7 @@ class Train_dqn:
                 Replay_buffer.update(idx, new_td_error[index])
 
 class Train_double_dqn:
-    def __init__(self, args):
+    def __init__(self, args, device):
 
         self.batch_size: int = args.batch_size
         self.update_iter: int = args.update_iter
@@ -64,15 +66,17 @@ class Train_double_dqn:
         self.gamma: float = args.gamma
         self.grad_clip_norm: float = args.grad_clip_norm
 
+        self.device = device
+
     def train(self, Replay_buffer, behavior_network, target_network, optimizer, epsilon):
         for _ in range(self.update_iter):
             double_network = copy.deepcopy(behavior_network)
 
             states, actions, rewards, next_states, dones, priority_idx, importance_sampling_weight = Replay_buffer.sample(self.batch_size, self.chunk_size)
             
-            hidden = behavior_network.init_hidden(batch_size = self.batch_size)
-            double_hidden = double_network.init_hidden(batch_size = self.batch_size)
-            target_hidden = target_network.init_hidden(batch_size = self.batch_size)
+            hidden = behavior_network.module.init_hidden(batch_size = self.batch_size).to(self.device)
+            double_hidden = double_network.module.init_hidden(batch_size = self.batch_size).to(self.device)
+            target_hidden = target_network.module.init_hidden(batch_size = self.batch_size).to(self.device)
 
             loss = 0.0
             for step in range(self.chunk_size):
@@ -82,12 +86,12 @@ class Train_double_dqn:
                 next_state = next_states[:, step, :, :]
                 done = dones[:, step, :]
 
-                behavior_q, next_hidden = behavior_network(state, hidden)
+                behavior_q, next_hidden = behavior_network.module(state.to(self.device), hidden)
                 max_behavior_q = behavior_q.gather(dim=2, index=action).squeeze(dim=-1)
                 sum_max_behavior_q = max_behavior_q.sum(dim=1, keepdims=True)
 
-                target_q, next_target_hidden = target_network(next_state, target_hidden.detach())
-                action, next_double_hidden, _ = double_network.sample_action(next_state, double_hidden,epsilon)
+                target_q, next_target_hidden = target_network.module(next_state.to(self.device), target_hidden.detach())
+                action, next_double_hidden, _ = double_network.module.sample_action(next_state.to(self.device), double_hidden, epsilon)
                 double_q = target_q.gather(dim=2, index = action.long().unsqueeze(dim=-1)).squeeze(dim=-1)
                 sum_double_q = double_q.sum(dim=1, keepdims=True)
 
@@ -96,8 +100,9 @@ class Train_double_dqn:
                 loss += F.mse_loss(target_values.detach(), sum_max_behavior_q)
 
                 done_mask = done.squeeze(-1).bool()
-                next_hidden[done_mask] = behavior_network.init_hidden(batch_size=len(next_hidden[done_mask]))
-                next_target_hidden[done_mask] = behavior_network.init_hidden(batch_size=len(next_target_hidden[done_mask]))
+                next_hidden[done_mask] = behavior_network.module.init_hidden(batch_size=len(next_hidden[done_mask])).to(self.device)
+                next_target_hidden[done_mask] = behavior_network.module.init_hidden(batch_size=len(next_target_hidden[done_mask])).to(self.device)
+                next_double_hidden[done_mask] = behavior_network.module.init_hidden(batch_size=len(next_double_hidden[done_mask])).to(self.device)
                 
                 hidden = next_hidden
                 target_hidden = next_target_hidden

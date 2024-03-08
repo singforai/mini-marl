@@ -1,7 +1,7 @@
 import torch
 
 class Test:
-    def __init__(self, test_env, args):
+    def __init__(self, test_env, args, device):
 
         self.test_env = test_env
 
@@ -13,16 +13,18 @@ class Test:
         self.gamma: float = args.gamma
         self.grad_clip_norm: float = args.grad_clip_norm
 
+        self.device = device
+
     def execute(self, behavior_network):
         score: float = 0
         for episode_i in range(self.test_episodes):
             state = self.test_env.reset()
             done = [False for _ in range(self.test_env.n_agents)]
             with torch.no_grad():
-                hidden = behavior_network.init_hidden()
+                hidden = behavior_network.module.init_hidden().to(self.device)
                 while not all(done):
-                    action, next_hidden, _ = behavior_network.sample_action(
-                        torch.tensor(state).unsqueeze(0), hidden, epsilon=0)
+                    action, next_hidden, _ = behavior_network.module.sample_action(
+                        torch.tensor(state).unsqueeze(0).to(self.device), hidden, epsilon=0)
                     next_state, reward, done, info = self.test_env.step(action[0])
                     score += sum(reward)
                     state = next_state

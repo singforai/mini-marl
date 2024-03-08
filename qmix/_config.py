@@ -2,7 +2,7 @@ import argparse
 
 
 def get_config() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description='Value Decomposition Network (VDN)')
+    parser = argparse.ArgumentParser(description='Qmix')
     param = parser.add_argument
 
     # wandb setting

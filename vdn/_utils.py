@@ -5,7 +5,7 @@ import random
 import logging
 
 import numpy as np
-
+import torch.nn as nn
 
 def fix_random_seed(seed):
     random.seed(seed)
@@ -15,27 +15,27 @@ def fix_random_seed(seed):
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
 
-def action_network(args, train_env):
+def action_network(args, train_env, device):
     if args.action_network == "q_net":
         from _network import Q_Network
-        target_network = Q_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)
-        behavior_network = Q_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)
+        target_network = nn.DataParallel(Q_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)).to(device)
+        behavior_network = nn.DataParallel(Q_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)).to(device)
     elif args.action_network == "dueling_net":
         from _network import Dueling_Network
-        target_network = Dueling_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)
-        behavior_network = Dueling_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)
+        target_network = nn.DataParallel(Dueling_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)).to(device)
+        behavior_network = nn.DataParallel(Dueling_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args)).to(device)
     else:
         raise Exception("Check a hyperparameter-action_network!")
 
     return target_network, behavior_network 
 
-def target_setting(args):
+def target_setting(args, device):
     if args.target_setting == 'dqn':
         from _train import Train_dqn
-        target_module = Train_dqn(args)
+        target_module = Train_dqn(args, device)
     elif args.target_setting == 'double_dqn':
         from _train import Train_double_dqn
-        target_module = Train_double_dqn(args)
+        target_module = Train_double_dqn(args, device)
     else:
         raise Exception("Check a hyperparameter-target_setting!")
     return target_module
@@ -50,7 +50,7 @@ def cal_td_error(action, reward, done, behavior_q, target_q, gamma):
     return abs(target_value-behavior_value).item()
 
 
-def set_logging(experiment_name):
+def set_logging(experiment_name: str):
     if not os.path.exists('./logs'):
         os.makedirs('./logs')
     logging.basicConfig(filename=f'./logs/{experiment_name}-{int(time.time())}.log', level=logging.INFO,
