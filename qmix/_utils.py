@@ -5,9 +5,6 @@ import random
 import logging
 
 import numpy as np
-import torch.nn as nn
-
-from typing import Callable, Dict, Any
 
 def fix_random_seed(seed):
     random.seed(seed)
@@ -18,28 +15,30 @@ def fix_random_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 def action_network(args, train_env, device):
-    from _network import Q_Network, Dueling_Network
-    class_types:Dict[str, Callable[[Any], object]] = {"q_net": Q_Network, "dueling_net": Dueling_Network}
-    class_type:Callable[[Any], object] = class_types.get(args.action_network, None)
-    if class_type == None:
-        raise Exception("Check a hyperparameter-action_network!")
+    if args.action_network == "q_net":
+        from _network import Q_Net, Mix_Net
+        target_q_net = Q_Net(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
+        target_mix_net = Mix_Net(observation_space = train_env.observation_space, args=args).to(device)
+        behavior_q_net = Q_Net(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
+        behavior_mix_net =  Mix_Net(observation_space = train_env.observation_space, args=args).to(device)
+
+        target_q_net.load_state_dict(state_dict=behavior_q_net.state_dict())
+        target_mix_net.load_state_dict(state_dict=behavior_mix_net.state_dict())
+
+    elif args.action_network == "dueling_net":
+        from _network import Dueling_Net, Mix_Net
+        target_q_net = Dueling_Net(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
+        target_mix_net = Mix_Net(observation_space = train_env.observation_space, args=args).to(device)
+        behavior_q_net = Dueling_Net(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
+        behavior_mix_net = Mix_Net(observation_space = train_env.observation_space, args=args).to(device)
+
+        target_q_net.load_state_dict(state_dict=behavior_q_net.state_dict())
+        target_mix_net.load_state_dict(state_dict=behavior_mix_net.state_dict())
     
+    else:
+        raise Exception("Check a hyperparameter-action_network!")
 
-    target_network = class_type(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
-    behavior_network = class_type(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
-
-    # if args.action_network == "q_net":
-    #     from _network import Q_Network
-    #     target_network = Q_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
-    #     behavior_network = Q_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
-    # elif args.action_network == "dueling_net":
-    #     from _network import Dueling_Network
-    #     target_network = Dueling_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
-    #     behavior_network = Dueling_Network(observation_space=train_env.observation_space, action_space=train_env.action_space, args=args).to(device)
-    # else:
-    #     raise Exception("Check a hyperparameter-action_network!")    
-
-    return target_network, behavior_network 
+    return target_q_net, target_mix_net, behavior_q_net, behavior_mix_net
 
 def target_setting(args, device):
     if args.target_setting == 'dqn':

@@ -1,4 +1,3 @@
-import os
 import pdb
 import gym
 import sys
@@ -46,17 +45,15 @@ def main(args):
                    project= environment.split(":")[1],
                    name=f"{experiment_name}-{int(time.time())}",
                    config = args, reinit=True)
-
-    set_logging(experiment_name = experiment_name)
-    log_hyperparameter(args = args)
  
     if args.use_cuda and torch.cuda.is_available():
         torch.set_num_threads(args.n_training_threads)
         device = torch.device("cuda")
     else:
         device = torch.device("cpu")
-    
-    logging.info(f"Device: {device}")
+
+    set_logging(experiment_name = experiment_name)
+    log_hyperparameter(args = args, device = device)
 
     fix_random_seed(args.seed) if args.fix_seed else None
 
@@ -85,14 +82,13 @@ def main(args):
         done = [False for _ in range(train_env.n_agents)]
 
         with torch.no_grad():
-            hidden = behavior_network.module.init_hidden().to(device)
-            target_hidden = target_network.module.init_hidden().to(device)
+            hidden = behavior_network.init_hidden().to(device)
+            target_hidden = target_network.init_hidden().to(device)
             while not all(done):
-                action, next_hidden, behavior_q = behavior_network.module.sample_action(obs=torch.Tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
-
+                action, next_hidden, behavior_q = behavior_network.sample_action(obs=torch.Tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
                 next_state, reward, done, info = train_env.step(action[0])
 
-                target_q, next_target_hidden  = target_network.module(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
+                target_q, next_target_hidden  = target_network(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
 
                 td_error: float = cal_td_error(action=action[0], reward=reward, done=int(all(
                     done)), behavior_q=behavior_q, target_q=target_q, gamma=gamma)
@@ -109,7 +105,7 @@ def main(args):
                 if count_step % chunk_size == 0:
                     sample = [state_chunk, action_chunk, reward_chunk, next_state_chunk, done_chunk]
                     td_error = sum(td_error_chunk)
-                    n_buffer: int = Replay_buffer.collect_sample(sample=sample, td_error=td_error, warm_up = True)
+                    n_buffer = Replay_buffer.collect_sample(sample=sample, td_error=td_error, warm_up = True)
                     state_chunk, action_chunk, reward_chunk, next_state_chunk, done_chunk, td_error_chunk = chunk_initialize()
                     pbar.update(1)
                     
@@ -132,14 +128,14 @@ def main(args):
         epsilon: float = max(min_epsilon, max_epsilon - (max_epsilon -min_epsilon) * (episode / args.epsilon_anneal_episode))
 
         with torch.no_grad():
-            hidden = behavior_network.module.init_hidden().to(device)
-            target_hidden = target_network.module.init_hidden().to(device)
+            hidden = behavior_network.init_hidden().to(device)
+            target_hidden = target_network.init_hidden().to(device)
             while not all(done):
-                action, next_hidden, behavior_q = behavior_network.module.sample_action(obs=torch.tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
+                action, next_hidden, behavior_q = behavior_network.sample_action(obs=torch.tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
 
                 next_state, reward, done, info = train_env.step(action[0])
 
-                target_q, next_target_hidden  = target_network.module(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
+                target_q, next_target_hidden  = target_network(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
 
                 td_error = cal_td_error(action=action[0], reward=reward, done=int(all(done)), behavior_q=behavior_q, target_q=target_q, gamma=gamma)
                 

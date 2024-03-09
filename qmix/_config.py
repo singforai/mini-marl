@@ -11,9 +11,9 @@ def get_config() -> argparse.ArgumentParser:
 
     # experiment base setting parameters
     param('--env_name', type=str, default='ma_gym:Checkers-v0', help="Built-in environment settings for ma_gym")
-    param('--experiment_name', type=str, default='vdn', help="Experiment title stored in Wandb")
+    param('--experiment_name', type=str, default='junk', help="Experiment title stored in Wandb")
     
-    param('--use_cuda', type=bool, default=True, help="Decide whether to use GPU during training ")
+    param('--use_cuda', type=bool, default=False, help="Decide whether to use GPU during training ")
     param('--n_training_threads', type=int, default=12, help="Number of threads to use for CPU internal calculations")
 
 

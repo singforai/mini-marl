@@ -1,0 +1,39 @@
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Current SDK version is 0.16.3
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Configure stats pid to 34954
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Loading settings from /home/uosai/.config/wandb/settings
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Loading settings from /home/uosai/바탕화면/mini-marl/qmix/wandb/settings
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'qmix/main.py', 'program_abspath': '/home/uosai/바탕화면/mini-marl/qmix/main.py', 'program': '/home/uosai/바탕화면/mini-marl/qmix/main.py'}
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_init.py:_log_setup():526] Logging user logs to /home/uosai/바탕화면/mini-marl/qmix/wandb/run-20240309_124716-up9fc9xs/logs/debug.log
+2024-03-09 12:47:16,984 INFO    MainThread:34954 [wandb_init.py:_log_setup():527] Logging internal logs to /home/uosai/바탕화면/mini-marl/qmix/wandb/run-20240309_124716-up9fc9xs/logs/debug-internal.log
+2024-03-09 12:47:16,985 INFO    MainThread:34954 [wandb_init.py:init():566] calling init triggers
+2024-03-09 12:47:16,985 INFO    MainThread:34954 [wandb_init.py:init():573] wandb.init called with sweep_config: {}
+config: {'use_wandb': True, 'entity_name': 'singfor7012', 'env_name': 'ma_gym:Checkers-v0', 'experiment_name': 'junk', 'use_cuda': True, 'n_training_threads': 12, 'use_render': False, 'use_time_sleep': False, 'sleep_second': 0.5, 'seed': 42, 'fix_seed': True, 'epsilon_anneal_episode': 60000, 'max_epsilon': 0.9, 'min_epsilon': 0.05, 'lr': 0.001, 'gamma': 0.99, 'batch_size': 32, 'max_episodes': 100000, 'max_step': 100, 'step_cost': -0.01, 'chunk_size': 10, 'update_iter': 10, 'update_target_interval': 20, 'grad_clip_norm': 5, 'target_setting': 'dqn', 'action_network': 'q_net', 'use_recurrent': True, 'test_interval': 10, 'test_episodes': 10, 'buffer_limit': 100, 'eps': 1e-06, 'alpha': 0.8, 'beta': 0.2, 'update_alpha_beta': True}
+2024-03-09 12:47:16,985 INFO    MainThread:34954 [wandb_init.py:init():616] starting backend
+2024-03-09 12:47:16,985 INFO    MainThread:34954 [wandb_init.py:init():620] setting up manager
+2024-03-09 12:47:16,989 INFO    MainThread:34954 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-03-09 12:47:16,992 INFO    MainThread:34954 [wandb_init.py:init():628] backend started and connected
+2024-03-09 12:47:16,996 INFO    MainThread:34954 [wandb_init.py:init():720] updated telemetry
+2024-03-09 12:47:17,009 INFO    MainThread:34954 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-03-09 12:47:17,492 INFO    MainThread:34954 [wandb_run.py:_on_init():2262] communicating current version
+2024-03-09 12:47:17,589 INFO    MainThread:34954 [wandb_run.py:_on_init():2271] got version response upgrade_message: "wandb version 0.16.4 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-03-09 12:47:17,589 INFO    MainThread:34954 [wandb_init.py:init():804] starting run threads in backend
+2024-03-09 12:47:18,382 WARNING MainThread:34954 [wandb_init.py:init():1198] interrupted
+Traceback (most recent call last):
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_init.py", line 1176, in init
+    run = wi.init()
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_init.py", line 817, in init
+    run_start_result = run_start_handle.wait(timeout=30)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/lib/mailbox.py", line 283, in wait
+    found, abandoned = self._slot._get_and_clear(timeout=wait_timeout)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/lib/mailbox.py", line 130, in _get_and_clear
+    if self._wait(timeout=timeout):
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/lib/mailbox.py", line 126, in _wait
+    return self._event.wait(timeout=timeout)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/threading.py", line 581, in wait
+    signaled = self._cond.wait(timeout)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/threading.py", line 316, in wait
+    gotit = waiter.acquire(True, timeout)
+KeyboardInterrupt

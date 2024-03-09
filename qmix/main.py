@@ -46,17 +46,15 @@ def main(args):
                    project= environment.split(":")[1],
                    name=f"{experiment_name}-{int(time.time())}",
                    config = args, reinit=True)
-
-    set_logging(experiment_name = experiment_name)
-    log_hyperparameter(args = args)
  
     if args.use_cuda and torch.cuda.is_available():
         torch.set_num_threads(args.n_training_threads)
         device = torch.device("cuda")
     else:
         device = torch.device("cpu")
-    
-    logging.info(f"Device: {device}")
+
+    set_logging(experiment_name = experiment_name)
+    log_hyperparameter(args = args, device = device)
 
     fix_random_seed(args.seed) if args.fix_seed else None
 
@@ -67,10 +65,10 @@ def main(args):
 
     Replay_buffer = Prioritized_Experience_Replay(args=args)
 
-    target_network, behavior_network = action_network(args, train_env, device)
-    target_network.load_state_dict(state_dict=behavior_network.state_dict())
+    target_q_net, target_mix_net, behavior_q_net, behavior_mix_net = action_network(args, train_env, device)
     
-    optimizer = optim.Adam(params=behavior_network.parameters(), lr=args.lr)
+    
+    optimizer = optim.Adam([{'params': behavior_q_net.parameters()}, {'params': behavior_mix_net.parameters()}], lr=args.lr)
 
     target_module = target_setting(args = args, device = device)
 
@@ -85,20 +83,16 @@ def main(args):
         done = [False for _ in range(train_env.n_agents)]
 
         with torch.no_grad():
-            hidden = behavior_network.module.init_hidden().to(device)
-            target_hidden = target_network.module.init_hidden().to(device)
+            hidden = behavior_q_net.init_hidden().to(device)
+            target_hidden = target_q_net.init_hidden().to(device)
             while not all(done):
-                action, next_hidden, behavior_q = behavior_network.module.sample_action(obs=torch.Tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
-
+                action, next_hidden, behavior_q = behavior_q_net.sample_action(obs=torch.Tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
                 next_state, reward, done, info = train_env.step(action[0])
+                target_q, next_target_hidden  = target_q_net(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
 
-                target_q, next_target_hidden  = target_network.module(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
-
-                td_error: float = cal_td_error(action=action[0], reward=reward, done=int(all(
-                    done)), behavior_q=behavior_q, target_q=target_q, gamma=gamma)
+                td_error: float = cal_td_error(action=action[0], reward=reward, done=int(all(done)), behavior_q=behavior_q, target_q=target_q, gamma=gamma)
 
                 count_step += 1
-
                 state_chunk.append(state)
                 action_chunk.append(action.tolist())
                 reward_chunk.append(reward)
@@ -109,7 +103,7 @@ def main(args):
                 if count_step % chunk_size == 0:
                     sample = [state_chunk, action_chunk, reward_chunk, next_state_chunk, done_chunk]
                     td_error = sum(td_error_chunk)
-                    n_buffer: int = Replay_buffer.collect_sample(sample=sample, td_error=td_error, warm_up = True)
+                    n_buffer = Replay_buffer.collect_sample(sample=sample, td_error=td_error, warm_up = True)
                     state_chunk, action_chunk, reward_chunk, next_state_chunk, done_chunk, td_error_chunk = chunk_initialize()
                     pbar.update(1)
                     
@@ -120,8 +114,6 @@ def main(args):
                 state = next_state
                 hidden = next_hidden
                 target_hidden = next_target_hidden
-    
-    
 
     for episode in tqdm(range(max_episodes), desc="training", ncols=70):
         #pdb.set_trace()
@@ -132,14 +124,14 @@ def main(args):
         epsilon: float = max(min_epsilon, max_epsilon - (max_epsilon -min_epsilon) * (episode / args.epsilon_anneal_episode))
 
         with torch.no_grad():
-            hidden = behavior_network.module.init_hidden().to(device)
-            target_hidden = target_network.module.init_hidden().to(device)
+            hidden = behavior_q_net.init_hidden().to(device)
+            target_hidden = target_q_net.init_hidden().to(device)
             while not all(done):
-                action, next_hidden, behavior_q = behavior_network.module.sample_action(obs=torch.tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
+                action, next_hidden, behavior_q = behavior_q_net.sample_action(obs=torch.tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
 
                 next_state, reward, done, info = train_env.step(action[0])
 
-                target_q, next_target_hidden  = target_network.module(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
+                target_q, next_target_hidden  = target_q_net(torch.tensor(next_state).unsqueeze(dim=0).to(device), target_hidden)
 
                 td_error = cal_td_error(action=action[0], reward=reward, done=int(all(done)), behavior_q=behavior_q, target_q=target_q, gamma=gamma)
                 
@@ -169,14 +161,13 @@ def main(args):
                     if use_time_sleep:
                         time.sleep(sleep_second)
 
-        target_module.train(Replay_buffer=Replay_buffer, behavior_network=behavior_network,
-                        target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+        target_module.train(Replay_buffer=Replay_buffer, behavior_q_net=behavior_q_net, behavior_mix_net = behavior_mix_net, target_q_net=target_q_net, target_mix_net = target_mix_net, optimizer=optimizer, epsilon=epsilon)
 
         if episode % update_target_interval == 0:
-            target_network.load_state_dict(state_dict=behavior_network.state_dict())
+            target_q_net.load_state_dict(state_dict=behavior_q_net.state_dict())
 
         if (episode + 1) % test_interval == 0:
-            test_score: float = test.execute(behavior_network=behavior_network)
+            test_score: float = test.execute(behavior_q_net=behavior_q_net)
             train_score: float = score / test_interval
             
             logging.info(f"{(episode+1):<8}/{max_episodes:<10} episodes | avg train score: {train_score:<6.2f} | avg test score: {test_score:<6.2f} | n_buffer: {n_buffer:<6} | eps: {epsilon:<5.4f} | alpha: {Replay_buffer.alpha:<6.4f} | beta: {Replay_buffer.beta:<6.4f}")
