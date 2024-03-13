@@ -1,0 +1,65 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+warm up: 100%|██████████████████▉| 4996/5000 [00:33<00:00, 144.38it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):12/100000 [01:09<9:23:02,  2.95it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 203, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 177, in main
+    train_loss = train_module.train(Replay_buffer=Replay_buffer, behavior_network=behavior_network,
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 86, in train
+    Replay_buffer.update(idx, new_td_error[index])
+  File "/home/uosai/바탕화면/mini-marl/vdn/replay_buffer/per.py", line 81, in update
+    self.sum_tree.update(priority_idx, priority)
+  File "/home/uosai/바탕화면/mini-marl/vdn/replay_buffer/sumtree.py", line 64, in update
+    self.priority_tree[priority_idx] = priority
+KeyboardInterrupt

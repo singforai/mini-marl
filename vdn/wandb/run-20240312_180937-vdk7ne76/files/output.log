@@ -1,0 +1,92 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+warm up:  99%|███████████████████▊| 988/1000 [00:08<00:00, 125.46it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):5/100000 [02:06<14:34:17,  1.90it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 202, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 107, in train
+    action, next_double_hidden, _ = double_network.sample_action(next_state.to(self.device), double_hidden, epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 117, in sample_action
+    q_tensor, next_hidden = self.forward(obs, hidden)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 110, in forward
+    value_values[agent_i] = self.value_net[agent_i](feature).unsqueeze(dim=0)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 116, in forward
+    return F.linear(input, self.weight, self.bias)
+KeyboardInterrupt

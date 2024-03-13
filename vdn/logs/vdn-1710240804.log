@@ -1,0 +1,564 @@
+2024-03-12 19:53:24,715 - INFO - ============================================================
+2024-03-12 19:53:24,715 - INFO - use_wandb                     | True
+2024-03-12 19:53:24,715 - INFO - entity_name                   | singfor7012
+2024-03-12 19:53:24,715 - INFO - env_name                      | ma_gym:Checkers-v0
+2024-03-12 19:53:24,715 - INFO - experiment_name               | vdn
+2024-03-12 19:53:24,715 - INFO - use_cuda                      | False
+2024-03-12 19:53:24,715 - INFO - n_training_threads            | 12
+2024-03-12 19:53:24,715 - INFO - use_render                    | False
+2024-03-12 19:53:24,715 - INFO - use_time_sleep                | False
+2024-03-12 19:53:24,715 - INFO - sleep_second                  | 0.5
+2024-03-12 19:53:24,715 - INFO - seed                          | 42
+2024-03-12 19:53:24,715 - INFO - fix_seed                      | True
+2024-03-12 19:53:24,715 - INFO - epsilon_anneal_episode        | 60000
+2024-03-12 19:53:24,715 - INFO - max_epsilon                   | 0.9
+2024-03-12 19:53:24,715 - INFO - min_epsilon                   | 0.05
+2024-03-12 19:53:24,715 - INFO - lr                            | 1e-08
+2024-03-12 19:53:24,715 - INFO - gamma                         | 0.99
+2024-03-12 19:53:24,715 - INFO - batch_size                    | 32
+2024-03-12 19:53:24,715 - INFO - max_episodes                  | 100000
+2024-03-12 19:53:24,715 - INFO - max_step                      | 100
+2024-03-12 19:53:24,715 - INFO - step_cost                     | -0.01
+2024-03-12 19:53:24,715 - INFO - chunk_size                    | 10
+2024-03-12 19:53:24,715 - INFO - update_iter                   | 1
+2024-03-12 19:53:24,715 - INFO - update_target_interval        | 1
+2024-03-12 19:53:24,715 - INFO - grad_clip_norm                | 0.5
+2024-03-12 19:53:24,715 - INFO - decide_target                 | double_dqn
+2024-03-12 19:53:24,715 - INFO - decide_network                | q_net
+2024-03-12 19:53:24,715 - INFO - use_recurrent                 | True
+2024-03-12 19:53:24,715 - INFO - test_interval                 | 10
+2024-03-12 19:53:24,715 - INFO - test_episodes                 | 10
+2024-03-12 19:53:24,715 - INFO - buffer_limit                  | 2000
+2024-03-12 19:53:24,715 - INFO - eps                           | 1e-06
+2024-03-12 19:53:24,715 - INFO - alpha                         | 0.8
+2024-03-12 19:53:24,715 - INFO - beta                          | 0.2
+2024-03-12 19:53:24,715 - INFO - update_alpha_beta             | True
+2024-03-12 19:53:24,715 - INFO - Device: cpu
+2024-03-12 19:53:24,715 - INFO - ============================================================
+2024-03-12 19:53:39,357 - INFO - 1       /100000     episodes | train score: -1.86  | train loss: 81.41   | eps: 0.9000 | alpha: 0.8000 | beta: 0.2000
+2024-03-12 19:53:39,430 - INFO - 2       /100000     episodes | train score: -9.12  | train loss: 96.39   | eps: 0.9000 | alpha: 0.8000 | beta: 0.2000
+2024-03-12 19:53:39,543 - INFO - 3       /100000     episodes | train score: -2.00  | train loss: 79.88   | eps: 0.9000 | alpha: 0.8000 | beta: 0.2000
+2024-03-12 19:53:39,659 - INFO - 4       /100000     episodes | train score: -1.80  | train loss: 95.80   | eps: 0.9000 | alpha: 0.8000 | beta: 0.2000
+2024-03-12 19:53:39,779 - INFO - 5       /100000     episodes | train score: -0.94  | train loss: 106.18  | eps: 0.8999 | alpha: 0.8000 | beta: 0.2000
+2024-03-12 19:53:39,904 - INFO - 6       /100000     episodes | train score: 7.00   | train loss: 116.63  | eps: 0.8999 | alpha: 0.8000 | beta: 0.2000
+2024-03-12 19:53:40,012 - INFO - 7       /100000     episodes | train score: -3.00  | train loss: 73.32   | eps: 0.8999 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:40,082 - INFO - 8       /100000     episodes | train score: 9.06   | train loss: 63.52   | eps: 0.8999 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:40,184 - INFO - 9       /100000     episodes | train score: -20.00 | train loss: 66.53   | eps: 0.8999 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:40,284 - INFO - 10      /100000     episodes | train score: 7.12   | train loss: 51.12   | eps: 0.8999 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:40,648 - INFO - avg test score: -2.00 
+2024-03-12 19:53:40,749 - INFO - 11      /100000     episodes | train score: -3.00  | train loss: 72.86   | eps: 0.8999 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:40,843 - INFO - 12      /100000     episodes | train score: 7.42   | train loss: 54.39   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:40,945 - INFO - 13      /100000     episodes | train score: 7.00   | train loss: 65.24   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:41,049 - INFO - 14      /100000     episodes | train score: -2.00  | train loss: 80.84   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:41,125 - INFO - 15      /100000     episodes | train score: 8.84   | train loss: 50.94   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:41,227 - INFO - 16      /100000     episodes | train score: -11.00 | train loss: 47.16   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:41,334 - INFO - 17      /100000     episodes | train score: -2.00  | train loss: 73.17   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:41,445 - INFO - 18      /100000     episodes | train score: -12.00 | train loss: 24.70   | eps: 0.8998 | alpha: 0.8000 | beta: 0.2001
+2024-03-12 19:53:41,533 - INFO - 19      /100000     episodes | train score: 16.36  | train loss: 59.32   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:41,635 - INFO - 20      /100000     episodes | train score: -12.00 | train loss: 31.99   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:42,012 - INFO - avg test score: -2.00 
+2024-03-12 19:53:42,109 - INFO - 21      /100000     episodes | train score: 26.54  | train loss: 70.06   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:42,206 - INFO - 22      /100000     episodes | train score: -1.92  | train loss: 46.82   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:42,283 - INFO - 23      /100000     episodes | train score: -0.24  | train loss: 48.62   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:42,363 - INFO - 24      /100000     episodes | train score: -1.34  | train loss: 26.56   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:42,424 - INFO - 25      /100000     episodes | train score: 8.14   | train loss: 40.63   | eps: 0.8997 | alpha: 0.8000 | beta: 0.2002
+2024-03-12 19:53:42,524 - INFO - 26      /100000     episodes | train score: -2.00  | train loss: 51.65   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2002
+2024-03-12 19:53:42,626 - INFO - 27      /100000     episodes | train score: -3.00  | train loss: 65.12   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2002
+2024-03-12 19:53:42,728 - INFO - 28      /100000     episodes | train score: -2.00  | train loss: 59.29   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2002
+2024-03-12 19:53:42,829 - INFO - 29      /100000     episodes | train score: -12.00 | train loss: 32.66   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2002
+2024-03-12 19:53:42,930 - INFO - 30      /100000     episodes | train score: -0.84  | train loss: 48.12   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2002
+2024-03-12 19:53:43,321 - INFO - avg test score: -2.00 
+2024-03-12 19:53:43,404 - INFO - 31      /100000     episodes | train score: -10.44 | train loss: 40.49   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2002
+2024-03-12 19:53:43,495 - INFO - 32      /100000     episodes | train score: -0.68  | train loss: 50.18   | eps: 0.8996 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:43,604 - INFO - 33      /100000     episodes | train score: -22.00 | train loss: 61.44   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:43,709 - INFO - 34      /100000     episodes | train score: -3.00  | train loss: 44.54   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:43,813 - INFO - 35      /100000     episodes | train score: -3.00  | train loss: 39.03   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:43,916 - INFO - 36      /100000     episodes | train score: -4.00  | train loss: 62.79   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:44,043 - INFO - 37      /100000     episodes | train score: 6.00   | train loss: 28.19   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:44,156 - INFO - 38      /100000     episodes | train score: -21.00 | train loss: 48.53   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:44,261 - INFO - 39      /100000     episodes | train score: -21.00 | train loss: 25.35   | eps: 0.8995 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:44,354 - INFO - 40      /100000     episodes | train score: -9.54  | train loss: 53.30   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:44,729 - INFO - avg test score: -2.00 
+2024-03-12 19:53:44,827 - INFO - 41      /100000     episodes | train score: -9.82  | train loss: 46.70   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:44,931 - INFO - 42      /100000     episodes | train score: -10.00 | train loss: 41.58   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:45,035 - INFO - 43      /100000     episodes | train score: -30.00 | train loss: 26.09   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2003
+2024-03-12 19:53:45,140 - INFO - 44      /100000     episodes | train score: -1.76  | train loss: 48.44   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:45,215 - INFO - 45      /100000     episodes | train score: -10.14 | train loss: 52.53   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:45,319 - INFO - 46      /100000     episodes | train score: 18.00  | train loss: 31.46   | eps: 0.8994 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:45,428 - INFO - 47      /100000     episodes | train score: -12.00 | train loss: 25.20   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:45,521 - INFO - 48      /100000     episodes | train score: 8.34   | train loss: 64.19   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:45,623 - INFO - 49      /100000     episodes | train score: 6.00   | train loss: 15.92   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:45,697 - INFO - 50      /100000     episodes | train score: 7.90   | train loss: 38.01   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,068 - INFO - avg test score: -2.00 
+2024-03-12 19:53:46,143 - INFO - 51      /100000     episodes | train score: 8.94   | train loss: 30.61   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,240 - INFO - 52      /100000     episodes | train score: -10.80 | train loss: 43.72   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,346 - INFO - 53      /100000     episodes | train score: 7.00   | train loss: 28.57   | eps: 0.8993 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,457 - INFO - 54      /100000     episodes | train score: -12.00 | train loss: 42.07   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,564 - INFO - 55      /100000     episodes | train score: 7.00   | train loss: 40.77   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,668 - INFO - 56      /100000     episodes | train score: -12.00 | train loss: 42.83   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2004
+2024-03-12 19:53:46,761 - INFO - 57      /100000     episodes | train score: -0.70  | train loss: 27.16   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:46,867 - INFO - 58      /100000     episodes | train score: -12.00 | train loss: 28.46   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:46,967 - INFO - 59      /100000     episodes | train score: -12.00 | train loss: 73.55   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:47,059 - INFO - 60      /100000     episodes | train score: 7.38   | train loss: 31.22   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:47,438 - INFO - avg test score: -2.00 
+2024-03-12 19:53:47,566 - INFO - 61      /100000     episodes | train score: -22.00 | train loss: 63.96   | eps: 0.8992 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:47,670 - INFO - 62      /100000     episodes | train score: 8.56   | train loss: 47.28   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:47,799 - INFO - 63      /100000     episodes | train score: 5.00   | train loss: 31.52   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:47,914 - INFO - 64      /100000     episodes | train score: 7.32   | train loss: 46.67   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:48,042 - INFO - 65      /100000     episodes | train score: 16.00  | train loss: 31.03   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:48,162 - INFO - 66      /100000     episodes | train score: 17.24  | train loss: 51.12   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:48,290 - INFO - 67      /100000     episodes | train score: -2.00  | train loss: 64.81   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:48,418 - INFO - 68      /100000     episodes | train score: -13.00 | train loss: 47.64   | eps: 0.8991 | alpha: 0.8001 | beta: 0.2005
+2024-03-12 19:53:48,546 - INFO - 69      /100000     episodes | train score: -3.00  | train loss: 42.28   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:48,675 - INFO - 70      /100000     episodes | train score: -3.00  | train loss: 50.91   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:49,093 - INFO - avg test score: -2.00 
+2024-03-12 19:53:49,193 - INFO - 71      /100000     episodes | train score: 8.10   | train loss: 38.22   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:49,289 - INFO - 72      /100000     episodes | train score: -1.80  | train loss: 41.67   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:49,390 - INFO - 73      /100000     episodes | train score: -4.00  | train loss: 20.71   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:49,493 - INFO - 74      /100000     episodes | train score: -12.00 | train loss: 32.42   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:49,640 - INFO - 75      /100000     episodes | train score: 7.00   | train loss: 48.79   | eps: 0.8990 | alpha: 0.8001 | beta: 0.2006
+2024-03-12 19:53:49,801 - INFO - 76      /100000     episodes | train score: -2.00  | train loss: 61.55   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2006
+2024-03-12 19:53:49,970 - INFO - 77      /100000     episodes | train score: 7.00   | train loss: 93.44   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2006
+2024-03-12 19:53:50,097 - INFO - 78      /100000     episodes | train score: 16.14  | train loss: 78.25   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2006
+2024-03-12 19:53:50,197 - INFO - 79      /100000     episodes | train score: -18.92 | train loss: 50.38   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2006
+2024-03-12 19:53:50,324 - INFO - 80      /100000     episodes | train score: -0.54  | train loss: 55.00   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2006
+2024-03-12 19:53:50,760 - INFO - avg test score: -2.00 
+2024-03-12 19:53:50,843 - INFO - 81      /100000     episodes | train score: -9.94  | train loss: 48.92   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2006
+2024-03-12 19:53:50,933 - INFO - 82      /100000     episodes | train score: -10.48 | train loss: 38.62   | eps: 0.8989 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,030 - INFO - 83      /100000     episodes | train score: -10.60 | train loss: 55.93   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,134 - INFO - 84      /100000     episodes | train score: -11.00 | train loss: 41.99   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,243 - INFO - 85      /100000     episodes | train score: -2.00  | train loss: 49.15   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,344 - INFO - 86      /100000     episodes | train score: -1.90  | train loss: 68.25   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,443 - INFO - 87      /100000     episodes | train score: -0.76  | train loss: 37.01   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,523 - INFO - 88      /100000     episodes | train score: 8.82   | train loss: 41.30   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,633 - INFO - 89      /100000     episodes | train score: -2.00  | train loss: 61.35   | eps: 0.8988 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:51,741 - INFO - 90      /100000     episodes | train score: -11.00 | train loss: 52.81   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:52,124 - INFO - avg test score: -2.00 
+2024-03-12 19:53:52,253 - INFO - 91      /100000     episodes | train score: -22.00 | train loss: 42.76   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:52,384 - INFO - 92      /100000     episodes | train score: -12.00 | train loss: 44.02   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:52,514 - INFO - 93      /100000     episodes | train score: 6.00   | train loss: 45.53   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2007
+2024-03-12 19:53:52,652 - INFO - 94      /100000     episodes | train score: -3.00  | train loss: 63.77   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:52,761 - INFO - 95      /100000     episodes | train score: -1.80  | train loss: 43.80   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:52,878 - INFO - 96      /100000     episodes | train score: -12.00 | train loss: 72.09   | eps: 0.8987 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:52,965 - INFO - 97      /100000     episodes | train score: 7.98   | train loss: 39.83   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:53,111 - INFO - 98      /100000     episodes | train score: 8.00   | train loss: 40.68   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:53,206 - INFO - 99      /100000     episodes | train score: -1.78  | train loss: 59.84   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:53,326 - INFO - 100     /100000     episodes | train score: -12.00 | train loss: 42.52   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:53,712 - INFO - avg test score: -2.00 
+2024-03-12 19:53:53,841 - INFO - 101     /100000     episodes | train score: -3.00  | train loss: 45.30   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:53,971 - INFO - 102     /100000     episodes | train score: -10.94 | train loss: 51.84   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:54,102 - INFO - 103     /100000     episodes | train score: -2.00  | train loss: 45.40   | eps: 0.8986 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:54,232 - INFO - 104     /100000     episodes | train score: -1.00  | train loss: 48.62   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:54,330 - INFO - 105     /100000     episodes | train score: -0.26  | train loss: 35.74   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:54,408 - INFO - 106     /100000     episodes | train score: -8.80  | train loss: 60.11   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2008
+2024-03-12 19:53:54,538 - INFO - 107     /100000     episodes | train score: 6.00   | train loss: 50.96   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:54,669 - INFO - 108     /100000     episodes | train score: 6.00   | train loss: 57.53   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:54,799 - INFO - 109     /100000     episodes | train score: -40.00 | train loss: 39.07   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:54,930 - INFO - 110     /100000     episodes | train score: -3.00  | train loss: 70.64   | eps: 0.8985 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:55,332 - INFO - avg test score: -2.00 
+2024-03-12 19:53:55,422 - INFO - 111     /100000     episodes | train score: -10.12 | train loss: 39.95   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:55,552 - INFO - 112     /100000     episodes | train score: -12.00 | train loss: 56.19   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:55,681 - INFO - 113     /100000     episodes | train score: -11.00 | train loss: 53.65   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:55,780 - INFO - 114     /100000     episodes | train score: 16.74  | train loss: 50.21   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:55,909 - INFO - 115     /100000     episodes | train score: -11.00 | train loss: 88.68   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:56,038 - INFO - 116     /100000     episodes | train score: -3.00  | train loss: 64.42   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:56,138 - INFO - 117     /100000     episodes | train score: -1.32  | train loss: 85.35   | eps: 0.8984 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:56,242 - INFO - 118     /100000     episodes | train score: -1.42  | train loss: 41.55   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2009
+2024-03-12 19:53:56,351 - INFO - 119     /100000     episodes | train score: -1.54  | train loss: 63.68   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:56,478 - INFO - 120     /100000     episodes | train score: -10.92 | train loss: 51.52   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:56,880 - INFO - avg test score: -2.00 
+2024-03-12 19:53:57,007 - INFO - 121     /100000     episodes | train score: 6.00   | train loss: 53.30   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:57,133 - INFO - 122     /100000     episodes | train score: -0.94  | train loss: 65.47   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:57,261 - INFO - 123     /100000     episodes | train score: -3.00  | train loss: 92.79   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:57,392 - INFO - 124     /100000     episodes | train score: -10.00 | train loss: 49.68   | eps: 0.8983 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:57,521 - INFO - 125     /100000     episodes | train score: -11.00 | train loss: 44.33   | eps: 0.8982 | alpha: 0.8002 | beta: 0.2010
+2024-03-12 19:53:57,652 - INFO - 126     /100000     episodes | train score: -2.00  | train loss: 50.57   | eps: 0.8982 | alpha: 0.8003 | beta: 0.2010
+2024-03-12 19:53:57,907 - INFO - 127     /100000     episodes | train score: -10.00 | train loss: 43.70   | eps: 0.8982 | alpha: 0.8003 | beta: 0.2010
+2024-03-12 19:53:58,035 - INFO - 128     /100000     episodes | train score: -20.00 | train loss: 46.30   | eps: 0.8982 | alpha: 0.8003 | beta: 0.2010
+2024-03-12 19:53:58,164 - INFO - 129     /100000     episodes | train score: -4.00  | train loss: 52.50   | eps: 0.8982 | alpha: 0.8003 | beta: 0.2010
+2024-03-12 19:53:58,292 - INFO - 130     /100000     episodes | train score: -12.00 | train loss: 50.48   | eps: 0.8982 | alpha: 0.8003 | beta: 0.2010
+2024-03-12 19:53:58,692 - INFO - avg test score: -2.00 
+2024-03-12 19:53:58,819 - INFO - 131     /100000     episodes | train score: 6.00   | train loss: 48.91   | eps: 0.8982 | alpha: 0.8003 | beta: 0.2010
+2024-03-12 19:53:58,925 - INFO - 132     /100000     episodes | train score: -1.50  | train loss: 60.22   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,010 - INFO - 133     /100000     episodes | train score: 7.98   | train loss: 67.89   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,084 - INFO - 134     /100000     episodes | train score: 0.24   | train loss: 76.19   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,191 - INFO - 135     /100000     episodes | train score: 7.50   | train loss: 34.89   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,319 - INFO - 136     /100000     episodes | train score: -11.00 | train loss: 42.52   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,448 - INFO - 137     /100000     episodes | train score: -22.00 | train loss: 64.60   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,566 - INFO - 138     /100000     episodes | train score: -0.74  | train loss: 65.76   | eps: 0.8981 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,666 - INFO - 139     /100000     episodes | train score: -10.30 | train loss: 60.21   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:53:59,793 - INFO - 140     /100000     episodes | train score: -1.94  | train loss: 69.63   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:54:00,195 - INFO - avg test score: -2.00 
+2024-03-12 19:54:00,273 - INFO - 141     /100000     episodes | train score: -18.86 | train loss: 55.93   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:54:00,400 - INFO - 142     /100000     episodes | train score: -12.00 | train loss: 70.70   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:54:00,493 - INFO - 143     /100000     episodes | train score: -10.20 | train loss: 47.22   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2011
+2024-03-12 19:54:00,619 - INFO - 144     /100000     episodes | train score: 7.04   | train loss: 84.24   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:00,747 - INFO - 145     /100000     episodes | train score: -31.00 | train loss: 75.46   | eps: 0.8980 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:00,876 - INFO - 146     /100000     episodes | train score: -20.00 | train loss: 57.24   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:00,979 - INFO - 147     /100000     episodes | train score: -10.38 | train loss: 57.24   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:01,109 - INFO - 148     /100000     episodes | train score: -11.00 | train loss: 86.26   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:01,258 - INFO - 149     /100000     episodes | train score: -12.00 | train loss: 66.08   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:01,348 - INFO - 150     /100000     episodes | train score: -1.12  | train loss: 37.98   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:01,749 - INFO - avg test score: -2.00 
+2024-03-12 19:54:01,854 - INFO - 151     /100000     episodes | train score: -0.46  | train loss: 60.11   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:01,981 - INFO - 152     /100000     episodes | train score: -11.00 | train loss: 50.96   | eps: 0.8979 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:02,109 - INFO - 153     /100000     episodes | train score: 17.00  | train loss: 52.53   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:02,238 - INFO - 154     /100000     episodes | train score: -12.00 | train loss: 79.26   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:02,366 - INFO - 155     /100000     episodes | train score: -12.00 | train loss: 57.74   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:02,493 - INFO - 156     /100000     episodes | train score: -13.00 | train loss: 47.13   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2012
+2024-03-12 19:54:02,560 - INFO - 157     /100000     episodes | train score: 10.40  | train loss: 59.16   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:02,688 - INFO - 158     /100000     episodes | train score: -2.00  | train loss: 76.97   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:02,791 - INFO - 159     /100000     episodes | train score: -1.44  | train loss: 64.52   | eps: 0.8978 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:02,919 - INFO - 160     /100000     episodes | train score: -2.00  | train loss: 84.56   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:03,319 - INFO - avg test score: -2.00 
+2024-03-12 19:54:03,399 - INFO - 161     /100000     episodes | train score: 0.08   | train loss: 63.65   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:03,507 - INFO - 162     /100000     episodes | train score: 7.44   | train loss: 48.24   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:03,607 - INFO - 163     /100000     episodes | train score: 16.70  | train loss: 70.05   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:03,734 - INFO - 164     /100000     episodes | train score: 8.02   | train loss: 40.18   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:03,844 - INFO - 165     /100000     episodes | train score: -19.58 | train loss: 30.01   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:03,936 - INFO - 166     /100000     episodes | train score: 0.84   | train loss: 63.55   | eps: 0.8977 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:04,064 - INFO - 167     /100000     episodes | train score: -12.00 | train loss: 57.68   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:04,168 - INFO - 168     /100000     episodes | train score: -1.44  | train loss: 66.43   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2013
+2024-03-12 19:54:04,259 - INFO - 169     /100000     episodes | train score: -18.14 | train loss: 52.32   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:04,388 - INFO - 170     /100000     episodes | train score: 17.00  | train loss: 51.56   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:04,789 - INFO - avg test score: -2.00 
+2024-03-12 19:54:04,898 - INFO - 171     /100000     episodes | train score: -1.56  | train loss: 66.60   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:04,976 - INFO - 172     /100000     episodes | train score: -0.84  | train loss: 94.07   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:05,085 - INFO - 173     /100000     episodes | train score: -9.54  | train loss: 59.78   | eps: 0.8976 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:05,215 - INFO - 174     /100000     episodes | train score: -3.00  | train loss: 64.36   | eps: 0.8975 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:05,340 - INFO - 175     /100000     episodes | train score: -10.84 | train loss: 80.27   | eps: 0.8975 | alpha: 0.8003 | beta: 0.2014
+2024-03-12 19:54:05,438 - INFO - 176     /100000     episodes | train score: 7.76   | train loss: 68.54   | eps: 0.8975 | alpha: 0.8004 | beta: 0.2014
+2024-03-12 19:54:05,550 - INFO - 177     /100000     episodes | train score: -10.62 | train loss: 55.50   | eps: 0.8975 | alpha: 0.8004 | beta: 0.2014
+2024-03-12 19:54:05,660 - INFO - 178     /100000     episodes | train score: -19.56 | train loss: 67.07   | eps: 0.8975 | alpha: 0.8004 | beta: 0.2014
+2024-03-12 19:54:05,752 - INFO - 179     /100000     episodes | train score: 8.84   | train loss: 47.53   | eps: 0.8975 | alpha: 0.8004 | beta: 0.2014
+2024-03-12 19:54:05,867 - INFO - 180     /100000     episodes | train score: 8.34   | train loss: 71.15   | eps: 0.8975 | alpha: 0.8004 | beta: 0.2014
+2024-03-12 19:54:06,270 - INFO - avg test score: -2.00 
+2024-03-12 19:54:06,345 - INFO - 181     /100000     episodes | train score: -0.78  | train loss: 36.41   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2014
+2024-03-12 19:54:06,474 - INFO - 182     /100000     episodes | train score: 8.00   | train loss: 72.63   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:06,603 - INFO - 183     /100000     episodes | train score: -11.00 | train loss: 54.10   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:06,733 - INFO - 184     /100000     episodes | train score: -2.00  | train loss: 48.13   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:06,864 - INFO - 185     /100000     episodes | train score: -2.00  | train loss: 48.23   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:06,969 - INFO - 186     /100000     episodes | train score: -18.42 | train loss: 70.68   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:07,101 - INFO - 187     /100000     episodes | train score: -3.00  | train loss: 41.32   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:07,231 - INFO - 188     /100000     episodes | train score: -21.00 | train loss: 74.71   | eps: 0.8974 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:07,323 - INFO - 189     /100000     episodes | train score: -1.16  | train loss: 52.70   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:07,450 - INFO - 190     /100000     episodes | train score: -3.00  | train loss: 84.00   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:07,870 - INFO - avg test score: -2.00 
+2024-03-12 19:54:08,000 - INFO - 191     /100000     episodes | train score: -3.00  | train loss: 71.04   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:08,094 - INFO - 192     /100000     episodes | train score: -10.14 | train loss: 90.74   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:08,192 - INFO - 193     /100000     episodes | train score: -18.58 | train loss: 63.63   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2015
+2024-03-12 19:54:08,301 - INFO - 194     /100000     episodes | train score: 7.00   | train loss: 74.76   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:08,410 - INFO - 195     /100000     episodes | train score: 6.00   | train loss: 82.95   | eps: 0.8973 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:08,507 - INFO - 196     /100000     episodes | train score: -1.70  | train loss: 85.92   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:08,575 - INFO - 197     /100000     episodes | train score: 7.98   | train loss: 56.24   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:08,682 - INFO - 198     /100000     episodes | train score: 16.00  | train loss: 75.94   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:08,792 - INFO - 199     /100000     episodes | train score: -3.00  | train loss: 63.97   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:08,903 - INFO - 200     /100000     episodes | train score: -21.00 | train loss: 62.83   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:09,292 - INFO - avg test score: -2.00 
+2024-03-12 19:54:09,396 - INFO - 201     /100000     episodes | train score: -12.00 | train loss: 64.84   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:09,499 - INFO - 202     /100000     episodes | train score: 8.72   | train loss: 83.41   | eps: 0.8972 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:09,607 - INFO - 203     /100000     episodes | train score: -1.86  | train loss: 34.19   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:09,713 - INFO - 204     /100000     episodes | train score: 7.00   | train loss: 43.37   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:09,845 - INFO - 205     /100000     episodes | train score: -11.00 | train loss: 54.35   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:09,932 - INFO - 206     /100000     episodes | train score: -0.02  | train loss: 54.56   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2016
+2024-03-12 19:54:10,062 - INFO - 207     /100000     episodes | train score: -11.00 | train loss: 41.39   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:10,191 - INFO - 208     /100000     episodes | train score: -2.00  | train loss: 71.22   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:10,291 - INFO - 209     /100000     episodes | train score: 0.14   | train loss: 69.92   | eps: 0.8971 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:10,367 - INFO - 210     /100000     episodes | train score: -1.26  | train loss: 76.01   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:10,828 - INFO - avg test score: -2.00 
+2024-03-12 19:54:10,930 - INFO - 211     /100000     episodes | train score: -22.00 | train loss: 67.14   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,030 - INFO - 212     /100000     episodes | train score: -4.00  | train loss: 60.13   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,103 - INFO - 213     /100000     episodes | train score: 7.84   | train loss: 64.82   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,178 - INFO - 214     /100000     episodes | train score: 17.72  | train loss: 57.90   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,297 - INFO - 215     /100000     episodes | train score: -2.00  | train loss: 53.23   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,445 - INFO - 216     /100000     episodes | train score: -1.96  | train loss: 78.84   | eps: 0.8970 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,548 - INFO - 217     /100000     episodes | train score: -1.00  | train loss: 73.09   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,679 - INFO - 218     /100000     episodes | train score: -22.00 | train loss: 36.27   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2017
+2024-03-12 19:54:11,787 - INFO - 219     /100000     episodes | train score: -1.84  | train loss: 45.60   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:11,893 - INFO - 220     /100000     episodes | train score: 7.00   | train loss: 52.61   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:12,306 - INFO - avg test score: -2.00 
+2024-03-12 19:54:12,371 - INFO - 221     /100000     episodes | train score: 8.06   | train loss: 56.58   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:12,470 - INFO - 222     /100000     episodes | train score: -2.00  | train loss: 65.28   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:12,553 - INFO - 223     /100000     episodes | train score: -19.42 | train loss: 52.97   | eps: 0.8969 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:12,607 - INFO - 224     /100000     episodes | train score: -0.68  | train loss: 50.46   | eps: 0.8968 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:12,710 - INFO - 225     /100000     episodes | train score: -12.00 | train loss: 63.85   | eps: 0.8968 | alpha: 0.8004 | beta: 0.2018
+2024-03-12 19:54:12,785 - INFO - 226     /100000     episodes | train score: -1.26  | train loss: 47.98   | eps: 0.8968 | alpha: 0.8005 | beta: 0.2018
+2024-03-12 19:54:12,906 - INFO - 227     /100000     episodes | train score: -10.98 | train loss: 86.43   | eps: 0.8968 | alpha: 0.8005 | beta: 0.2018
+2024-03-12 19:54:13,005 - INFO - 228     /100000     episodes | train score: 7.00   | train loss: 88.10   | eps: 0.8968 | alpha: 0.8005 | beta: 0.2018
+2024-03-12 19:54:13,107 - INFO - 229     /100000     episodes | train score: -12.00 | train loss: 69.35   | eps: 0.8968 | alpha: 0.8005 | beta: 0.2018
+2024-03-12 19:54:13,202 - INFO - 230     /100000     episodes | train score: 7.58   | train loss: 51.16   | eps: 0.8968 | alpha: 0.8005 | beta: 0.2018
+2024-03-12 19:54:13,585 - INFO - avg test score: -2.00 
+2024-03-12 19:54:13,685 - INFO - 231     /100000     episodes | train score: -1.84  | train loss: 62.08   | eps: 0.8967 | alpha: 0.8005 | beta: 0.2018
+2024-03-12 19:54:13,793 - INFO - 232     /100000     episodes | train score: -2.00  | train loss: 71.76   | eps: 0.8967 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:13,890 - INFO - 233     /100000     episodes | train score: -10.58 | train loss: 49.41   | eps: 0.8967 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:13,979 - INFO - 234     /100000     episodes | train score: 7.28   | train loss: 113.07  | eps: 0.8967 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,080 - INFO - 235     /100000     episodes | train score: -21.00 | train loss: 67.64   | eps: 0.8967 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,179 - INFO - 236     /100000     episodes | train score: 7.00   | train loss: 78.14   | eps: 0.8967 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,277 - INFO - 237     /100000     episodes | train score: -3.00  | train loss: 59.16   | eps: 0.8967 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,350 - INFO - 238     /100000     episodes | train score: 16.80  | train loss: 64.95   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,454 - INFO - 239     /100000     episodes | train score: -11.00 | train loss: 74.58   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,542 - INFO - 240     /100000     episodes | train score: 10.02  | train loss: 60.03   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:14,903 - INFO - avg test score: -2.00 
+2024-03-12 19:54:15,004 - INFO - 241     /100000     episodes | train score: -12.00 | train loss: 76.25   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:15,109 - INFO - 242     /100000     episodes | train score: 7.00   | train loss: 89.16   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:15,185 - INFO - 243     /100000     episodes | train score: 8.72   | train loss: 68.31   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2019
+2024-03-12 19:54:15,283 - INFO - 244     /100000     episodes | train score: -12.00 | train loss: 72.46   | eps: 0.8966 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:15,348 - INFO - 245     /100000     episodes | train score: -9.94  | train loss: 58.76   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:15,447 - INFO - 246     /100000     episodes | train score: -11.00 | train loss: 49.09   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:15,550 - INFO - 247     /100000     episodes | train score: 7.00   | train loss: 77.73   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:15,650 - INFO - 248     /100000     episodes | train score: -3.00  | train loss: 45.39   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:15,741 - INFO - 249     /100000     episodes | train score: 8.26   | train loss: 49.30   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:15,841 - INFO - 250     /100000     episodes | train score: -3.00  | train loss: 43.59   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,208 - INFO - avg test score: -2.00 
+2024-03-12 19:54:16,303 - INFO - 251     /100000     episodes | train score: 0.16   | train loss: 69.74   | eps: 0.8965 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,401 - INFO - 252     /100000     episodes | train score: -12.00 | train loss: 58.40   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,501 - INFO - 253     /100000     episodes | train score: -12.00 | train loss: 71.87   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,600 - INFO - 254     /100000     episodes | train score: -2.00  | train loss: 73.90   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,699 - INFO - 255     /100000     episodes | train score: -11.00 | train loss: 59.59   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,765 - INFO - 256     /100000     episodes | train score: -10.02 | train loss: 55.64   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2020
+2024-03-12 19:54:16,864 - INFO - 257     /100000     episodes | train score: -20.00 | train loss: 68.57   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:16,937 - INFO - 258     /100000     episodes | train score: 0.74   | train loss: 52.04   | eps: 0.8964 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,025 - INFO - 259     /100000     episodes | train score: 8.72   | train loss: 70.07   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,107 - INFO - 260     /100000     episodes | train score: -8.38  | train loss: 70.79   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,486 - INFO - avg test score: -2.00 
+2024-03-12 19:54:17,583 - INFO - 261     /100000     episodes | train score: 8.12   | train loss: 55.16   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,670 - INFO - 262     /100000     episodes | train score: 8.32   | train loss: 34.56   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,770 - INFO - 263     /100000     episodes | train score: 8.00   | train loss: 55.60   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,864 - INFO - 264     /100000     episodes | train score: -0.88  | train loss: 69.75   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:17,944 - INFO - 265     /100000     episodes | train score: -1.22  | train loss: 71.95   | eps: 0.8963 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:18,026 - INFO - 266     /100000     episodes | train score: -1.32  | train loss: 64.97   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:18,129 - INFO - 267     /100000     episodes | train score: -21.00 | train loss: 72.94   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:18,194 - INFO - 268     /100000     episodes | train score: 0.06   | train loss: 72.58   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2021
+2024-03-12 19:54:18,297 - INFO - 269     /100000     episodes | train score: -12.00 | train loss: 60.97   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:18,395 - INFO - 270     /100000     episodes | train score: -4.00  | train loss: 69.72   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:18,778 - INFO - avg test score: -2.00 
+2024-03-12 19:54:18,867 - INFO - 271     /100000     episodes | train score: -9.52  | train loss: 68.08   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:18,967 - INFO - 272     /100000     episodes | train score: -12.00 | train loss: 68.14   | eps: 0.8962 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:19,070 - INFO - 273     /100000     episodes | train score: -2.00  | train loss: 59.30   | eps: 0.8961 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:19,166 - INFO - 274     /100000     episodes | train score: 8.16   | train loss: 58.54   | eps: 0.8961 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:19,267 - INFO - 275     /100000     episodes | train score: -2.00  | train loss: 73.80   | eps: 0.8961 | alpha: 0.8005 | beta: 0.2022
+2024-03-12 19:54:19,353 - INFO - 276     /100000     episodes | train score: 8.46   | train loss: 60.73   | eps: 0.8961 | alpha: 0.8006 | beta: 0.2022
+2024-03-12 19:54:19,452 - INFO - 277     /100000     episodes | train score: -3.00  | train loss: 58.57   | eps: 0.8961 | alpha: 0.8006 | beta: 0.2022
+2024-03-12 19:54:19,525 - INFO - 278     /100000     episodes | train score: 7.80   | train loss: 73.98   | eps: 0.8961 | alpha: 0.8006 | beta: 0.2022
+2024-03-12 19:54:19,608 - INFO - 279     /100000     episodes | train score: -0.52  | train loss: 66.88   | eps: 0.8961 | alpha: 0.8006 | beta: 0.2022
+2024-03-12 19:54:19,707 - INFO - 280     /100000     episodes | train score: 8.00   | train loss: 53.14   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2022
+2024-03-12 19:54:20,082 - INFO - avg test score: -2.00 
+2024-03-12 19:54:20,185 - INFO - 281     /100000     episodes | train score: -2.00  | train loss: 56.46   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2022
+2024-03-12 19:54:20,268 - INFO - 282     /100000     episodes | train score: -1.42  | train loss: 87.77   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,356 - INFO - 283     /100000     episodes | train score: -1.52  | train loss: 90.29   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,443 - INFO - 284     /100000     episodes | train score: 0.48   | train loss: 90.28   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,511 - INFO - 285     /100000     episodes | train score: -8.02  | train loss: 67.78   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,618 - INFO - 286     /100000     episodes | train score: -3.00  | train loss: 61.46   | eps: 0.8960 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,716 - INFO - 287     /100000     episodes | train score: -10.76 | train loss: 63.17   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,793 - INFO - 288     /100000     episodes | train score: -1.20  | train loss: 72.51   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:20,896 - INFO - 289     /100000     episodes | train score: -2.00  | train loss: 62.69   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:21,000 - INFO - 290     /100000     episodes | train score: -2.00  | train loss: 74.68   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:21,383 - INFO - avg test score: -2.00 
+2024-03-12 19:54:21,459 - INFO - 291     /100000     episodes | train score: 17.76  | train loss: 67.87   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:21,559 - INFO - 292     /100000     episodes | train score: 6.00   | train loss: 55.15   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:21,634 - INFO - 293     /100000     episodes | train score: -0.30  | train loss: 65.92   | eps: 0.8959 | alpha: 0.8006 | beta: 0.2023
+2024-03-12 19:54:21,716 - INFO - 294     /100000     episodes | train score: -10.32 | train loss: 63.34   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:21,817 - INFO - 295     /100000     episodes | train score: -3.00  | train loss: 67.28   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:22,032 - INFO - 296     /100000     episodes | train score: -23.00 | train loss: 48.13   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:22,135 - INFO - 297     /100000     episodes | train score: 7.22   | train loss: 51.19   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:22,240 - INFO - 298     /100000     episodes | train score: 7.00   | train loss: 75.00   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:22,343 - INFO - 299     /100000     episodes | train score: -2.00  | train loss: 56.78   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:22,447 - INFO - 300     /100000     episodes | train score: 16.00  | train loss: 63.28   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:22,830 - INFO - avg test score: -2.00 
+2024-03-12 19:54:22,905 - INFO - 301     /100000     episodes | train score: -10.18 | train loss: 58.61   | eps: 0.8958 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:23,003 - INFO - 302     /100000     episodes | train score: 15.00  | train loss: 65.81   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:23,102 - INFO - 303     /100000     episodes | train score: -1.86  | train loss: 50.75   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:23,204 - INFO - 304     /100000     episodes | train score: -2.00  | train loss: 70.75   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:23,308 - INFO - 305     /100000     episodes | train score: -13.00 | train loss: 96.23   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:23,408 - INFO - 306     /100000     episodes | train score: 16.16  | train loss: 65.13   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2024
+2024-03-12 19:54:23,513 - INFO - 307     /100000     episodes | train score: -3.00  | train loss: 80.02   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:23,589 - INFO - 308     /100000     episodes | train score: 0.00   | train loss: 70.01   | eps: 0.8957 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:23,689 - INFO - 309     /100000     episodes | train score: -3.00  | train loss: 78.53   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:23,795 - INFO - 310     /100000     episodes | train score: -4.00  | train loss: 61.29   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,155 - INFO - avg test score: -2.00 
+2024-03-12 19:54:24,259 - INFO - 311     /100000     episodes | train score: -3.00  | train loss: 80.03   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,363 - INFO - 312     /100000     episodes | train score: 14.00  | train loss: 85.03   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,467 - INFO - 313     /100000     episodes | train score: 5.00   | train loss: 75.52   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,571 - INFO - 314     /100000     episodes | train score: 5.00   | train loss: 67.33   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,676 - INFO - 315     /100000     episodes | train score: -10.00 | train loss: 59.65   | eps: 0.8956 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,781 - INFO - 316     /100000     episodes | train score: -11.00 | train loss: 102.12  | eps: 0.8955 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,882 - INFO - 317     /100000     episodes | train score: -2.00  | train loss: 81.52   | eps: 0.8955 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:24,965 - INFO - 318     /100000     episodes | train score: 7.48   | train loss: 55.13   | eps: 0.8955 | alpha: 0.8006 | beta: 0.2025
+2024-03-12 19:54:25,031 - INFO - 319     /100000     episodes | train score: 0.02   | train loss: 63.65   | eps: 0.8955 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:25,158 - INFO - 320     /100000     episodes | train score: -1.88  | train loss: 92.93   | eps: 0.8955 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:25,575 - INFO - avg test score: -2.00 
+2024-03-12 19:54:25,703 - INFO - 321     /100000     episodes | train score: -12.00 | train loss: 63.07   | eps: 0.8955 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:25,832 - INFO - 322     /100000     episodes | train score: -12.00 | train loss: 53.34   | eps: 0.8955 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:25,900 - INFO - 323     /100000     episodes | train score: 18.40  | train loss: 67.99   | eps: 0.8954 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:26,028 - INFO - 324     /100000     episodes | train score: 6.00   | train loss: 54.50   | eps: 0.8954 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:26,105 - INFO - 325     /100000     episodes | train score: -0.80  | train loss: 55.67   | eps: 0.8954 | alpha: 0.8006 | beta: 0.2026
+2024-03-12 19:54:26,232 - INFO - 326     /100000     episodes | train score: 8.00   | train loss: 67.92   | eps: 0.8954 | alpha: 0.8007 | beta: 0.2026
+2024-03-12 19:54:26,361 - INFO - 327     /100000     episodes | train score: -21.00 | train loss: 75.53   | eps: 0.8954 | alpha: 0.8007 | beta: 0.2026
+2024-03-12 19:54:26,457 - INFO - 328     /100000     episodes | train score: 8.74   | train loss: 69.10   | eps: 0.8954 | alpha: 0.8007 | beta: 0.2026
+2024-03-12 19:54:26,541 - INFO - 329     /100000     episodes | train score: 18.00  | train loss: 78.93   | eps: 0.8954 | alpha: 0.8007 | beta: 0.2026
+2024-03-12 19:54:26,670 - INFO - 330     /100000     episodes | train score: -11.00 | train loss: 86.03   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2026
+2024-03-12 19:54:27,071 - INFO - avg test score: -2.00 
+2024-03-12 19:54:27,150 - INFO - 331     /100000     episodes | train score: 8.12   | train loss: 52.81   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2026
+2024-03-12 19:54:27,279 - INFO - 332     /100000     episodes | train score: -21.00 | train loss: 86.57   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:27,384 - INFO - 333     /100000     episodes | train score: 8.54   | train loss: 63.79   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:27,493 - INFO - 334     /100000     episodes | train score: -1.54  | train loss: 68.47   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:27,616 - INFO - 335     /100000     episodes | train score: -0.88  | train loss: 39.84   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:27,740 - INFO - 336     /100000     episodes | train score: -9.90  | train loss: 71.63   | eps: 0.8953 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:27,839 - INFO - 337     /100000     episodes | train score: 8.70   | train loss: 75.88   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:27,929 - INFO - 338     /100000     episodes | train score: -1.10  | train loss: 56.10   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:28,058 - INFO - 339     /100000     episodes | train score: -12.00 | train loss: 89.53   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:28,186 - INFO - 340     /100000     episodes | train score: -20.00 | train loss: 70.84   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:28,588 - INFO - avg test score: -2.00 
+2024-03-12 19:54:28,716 - INFO - 341     /100000     episodes | train score: -2.00  | train loss: 77.47   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:28,821 - INFO - 342     /100000     episodes | train score: -10.48 | train loss: 90.67   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:28,949 - INFO - 343     /100000     episodes | train score: 7.00   | train loss: 63.68   | eps: 0.8952 | alpha: 0.8007 | beta: 0.2027
+2024-03-12 19:54:29,080 - INFO - 344     /100000     episodes | train score: -12.00 | train loss: 72.86   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:29,208 - INFO - 345     /100000     episodes | train score: -2.00  | train loss: 91.13   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:29,308 - INFO - 346     /100000     episodes | train score: -19.36 | train loss: 72.11   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:29,411 - INFO - 347     /100000     episodes | train score: 17.58  | train loss: 58.73   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:29,499 - INFO - 348     /100000     episodes | train score: 8.92   | train loss: 60.28   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:29,627 - INFO - 349     /100000     episodes | train score: 7.00   | train loss: 82.69   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:29,755 - INFO - 350     /100000     episodes | train score: -3.00  | train loss: 90.88   | eps: 0.8951 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:30,156 - INFO - avg test score: -2.00 
+2024-03-12 19:54:30,277 - INFO - 351     /100000     episodes | train score: -1.82  | train loss: 82.63   | eps: 0.8950 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:30,406 - INFO - 352     /100000     episodes | train score: -2.00  | train loss: 49.82   | eps: 0.8950 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:30,532 - INFO - 353     /100000     episodes | train score: -1.90  | train loss: 72.54   | eps: 0.8950 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:30,636 - INFO - 354     /100000     episodes | train score: -1.42  | train loss: 78.42   | eps: 0.8950 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:30,765 - INFO - 355     /100000     episodes | train score: 8.00   | train loss: 79.04   | eps: 0.8950 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:30,897 - INFO - 356     /100000     episodes | train score: 7.00   | train loss: 111.64  | eps: 0.8950 | alpha: 0.8007 | beta: 0.2028
+2024-03-12 19:54:31,025 - INFO - 357     /100000     episodes | train score: 8.00   | train loss: 61.39   | eps: 0.8950 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:31,213 - INFO - 358     /100000     episodes | train score: -12.00 | train loss: 59.37   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:31,332 - INFO - 359     /100000     episodes | train score: -1.02  | train loss: 56.09   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:31,416 - INFO - 360     /100000     episodes | train score: -0.52  | train loss: 86.28   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:31,778 - INFO - avg test score: -2.00 
+2024-03-12 19:54:31,883 - INFO - 361     /100000     episodes | train score: -2.00  | train loss: 58.14   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:31,994 - INFO - 362     /100000     episodes | train score: -12.00 | train loss: 75.84   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,103 - INFO - 363     /100000     episodes | train score: -11.00 | train loss: 78.21   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,204 - INFO - 364     /100000     episodes | train score: -2.00  | train loss: 77.79   | eps: 0.8949 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,266 - INFO - 365     /100000     episodes | train score: -9.78  | train loss: 58.80   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,366 - INFO - 366     /100000     episodes | train score: -12.00 | train loss: 58.77   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,472 - INFO - 367     /100000     episodes | train score: -12.00 | train loss: 79.76   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,596 - INFO - 368     /100000     episodes | train score: -19.94 | train loss: 55.22   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2029
+2024-03-12 19:54:32,700 - INFO - 369     /100000     episodes | train score: -13.00 | train loss: 75.92   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:32,805 - INFO - 370     /100000     episodes | train score: -21.00 | train loss: 57.86   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:33,176 - INFO - avg test score: -2.00 
+2024-03-12 19:54:33,306 - INFO - 371     /100000     episodes | train score: 6.00   | train loss: 66.50   | eps: 0.8948 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:33,423 - INFO - 372     /100000     episodes | train score: -3.00  | train loss: 70.83   | eps: 0.8947 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:33,516 - INFO - 373     /100000     episodes | train score: -9.66  | train loss: 87.51   | eps: 0.8947 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:33,605 - INFO - 374     /100000     episodes | train score: 7.46   | train loss: 90.36   | eps: 0.8947 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:33,715 - INFO - 375     /100000     episodes | train score: 7.00   | train loss: 71.56   | eps: 0.8947 | alpha: 0.8007 | beta: 0.2030
+2024-03-12 19:54:33,796 - INFO - 376     /100000     episodes | train score: -0.30  | train loss: 75.20   | eps: 0.8947 | alpha: 0.8008 | beta: 0.2030
+2024-03-12 19:54:33,906 - INFO - 377     /100000     episodes | train score: -2.00  | train loss: 78.10   | eps: 0.8947 | alpha: 0.8008 | beta: 0.2030
+2024-03-12 19:54:34,010 - INFO - 378     /100000     episodes | train score: -2.00  | train loss: 76.66   | eps: 0.8947 | alpha: 0.8008 | beta: 0.2030
+2024-03-12 19:54:34,107 - INFO - 379     /100000     episodes | train score: -18.66 | train loss: 60.10   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2030
+2024-03-12 19:54:34,218 - INFO - 380     /100000     episodes | train score: -21.00 | train loss: 58.46   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2030
+2024-03-12 19:54:34,626 - INFO - avg test score: -2.00 
+2024-03-12 19:54:34,729 - INFO - 381     /100000     episodes | train score: -12.00 | train loss: 64.09   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2030
+2024-03-12 19:54:34,835 - INFO - 382     /100000     episodes | train score: -2.00  | train loss: 56.80   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:34,923 - INFO - 383     /100000     episodes | train score: -19.60 | train loss: 58.35   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,025 - INFO - 384     /100000     episodes | train score: -11.00 | train loss: 75.26   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,126 - INFO - 385     /100000     episodes | train score: 8.00   | train loss: 96.36   | eps: 0.8946 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,234 - INFO - 386     /100000     episodes | train score: 7.00   | train loss: 96.85   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,320 - INFO - 387     /100000     episodes | train score: -1.36  | train loss: 76.59   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,427 - INFO - 388     /100000     episodes | train score: -3.00  | train loss: 68.86   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,539 - INFO - 389     /100000     episodes | train score: -3.00  | train loss: 47.23   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:35,648 - INFO - 390     /100000     episodes | train score: -3.00  | train loss: 68.96   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:36,034 - INFO - avg test score: -2.00 
+2024-03-12 19:54:36,144 - INFO - 391     /100000     episodes | train score: -12.00 | train loss: 67.48   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:36,264 - INFO - 392     /100000     episodes | train score: -2.00  | train loss: 57.23   | eps: 0.8945 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:36,386 - INFO - 393     /100000     episodes | train score: 7.08   | train loss: 62.51   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2031
+2024-03-12 19:54:36,457 - INFO - 394     /100000     episodes | train score: -17.78 | train loss: 62.04   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:36,550 - INFO - 395     /100000     episodes | train score: 0.62   | train loss: 67.25   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:36,667 - INFO - 396     /100000     episodes | train score: -13.00 | train loss: 78.48   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:36,776 - INFO - 397     /100000     episodes | train score: -12.00 | train loss: 58.32   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:36,881 - INFO - 398     /100000     episodes | train score: -12.00 | train loss: 71.96   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:36,989 - INFO - 399     /100000     episodes | train score: -9.98  | train loss: 87.30   | eps: 0.8944 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:37,101 - INFO - 400     /100000     episodes | train score: 6.00   | train loss: 59.76   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:37,491 - INFO - avg test score: -2.00 
+2024-03-12 19:54:37,603 - INFO - 401     /100000     episodes | train score: -3.00  | train loss: 82.21   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:37,710 - INFO - 402     /100000     episodes | train score: 7.00   | train loss: 85.16   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:37,788 - INFO - 403     /100000     episodes | train score: -27.24 | train loss: 84.14   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:37,859 - INFO - 404     /100000     episodes | train score: 18.88  | train loss: 53.33   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:37,939 - INFO - 405     /100000     episodes | train score: 17.62  | train loss: 55.90   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:38,027 - INFO - 406     /100000     episodes | train score: -10.62 | train loss: 82.53   | eps: 0.8943 | alpha: 0.8008 | beta: 0.2032
+2024-03-12 19:54:38,131 - INFO - 407     /100000     episodes | train score: -2.00  | train loss: 88.82   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:38,239 - INFO - 408     /100000     episodes | train score: -2.00  | train loss: 84.77   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:38,314 - INFO - 409     /100000     episodes | train score: -0.14  | train loss: 82.67   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:38,419 - INFO - 410     /100000     episodes | train score: -10.90 | train loss: 69.17   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:38,825 - INFO - avg test score: -2.00 
+2024-03-12 19:54:38,937 - INFO - 411     /100000     episodes | train score: -1.00  | train loss: 86.65   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,043 - INFO - 412     /100000     episodes | train score: 6.00   | train loss: 75.05   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,153 - INFO - 413     /100000     episodes | train score: -2.00  | train loss: 64.23   | eps: 0.8942 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,251 - INFO - 414     /100000     episodes | train score: -0.66  | train loss: 94.22   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,315 - INFO - 415     /100000     episodes | train score: 18.20  | train loss: 69.58   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,419 - INFO - 416     /100000     episodes | train score: -2.00  | train loss: 101.88  | eps: 0.8941 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,520 - INFO - 417     /100000     episodes | train score: -1.00  | train loss: 66.52   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,614 - INFO - 418     /100000     episodes | train score: 7.24   | train loss: 79.01   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2033
+2024-03-12 19:54:39,679 - INFO - 419     /100000     episodes | train score: 8.12   | train loss: 95.59   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:39,781 - INFO - 420     /100000     episodes | train score: -22.00 | train loss: 55.07   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:40,147 - INFO - avg test score: -2.00 
+2024-03-12 19:54:40,250 - INFO - 421     /100000     episodes | train score: -1.00  | train loss: 65.16   | eps: 0.8941 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:40,334 - INFO - 422     /100000     episodes | train score: 0.62   | train loss: 71.60   | eps: 0.8940 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:40,426 - INFO - 423     /100000     episodes | train score: -1.72  | train loss: 83.89   | eps: 0.8940 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:40,534 - INFO - 424     /100000     episodes | train score: -12.00 | train loss: 64.34   | eps: 0.8940 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:40,636 - INFO - 425     /100000     episodes | train score: -12.00 | train loss: 70.38   | eps: 0.8940 | alpha: 0.8008 | beta: 0.2034
+2024-03-12 19:54:40,740 - INFO - 426     /100000     episodes | train score: 7.04   | train loss: 87.11   | eps: 0.8940 | alpha: 0.8009 | beta: 0.2034
+2024-03-12 19:54:40,845 - INFO - 427     /100000     episodes | train score: -12.00 | train loss: 59.92   | eps: 0.8940 | alpha: 0.8009 | beta: 0.2034
+2024-03-12 19:54:40,935 - INFO - 428     /100000     episodes | train score: -10.54 | train loss: 50.64   | eps: 0.8940 | alpha: 0.8009 | beta: 0.2034
+2024-03-12 19:54:41,023 - INFO - 429     /100000     episodes | train score: -1.64  | train loss: 66.80   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2034
+2024-03-12 19:54:41,117 - INFO - 430     /100000     episodes | train score: -0.68  | train loss: 96.13   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2034
+2024-03-12 19:54:41,488 - INFO - avg test score: -2.00 
+2024-03-12 19:54:41,608 - INFO - 431     /100000     episodes | train score: 9.20   | train loss: 95.30   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2034
+2024-03-12 19:54:41,710 - INFO - 432     /100000     episodes | train score: -10.38 | train loss: 78.30   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:41,788 - INFO - 433     /100000     episodes | train score: 17.16  | train loss: 80.28   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:41,917 - INFO - 434     /100000     episodes | train score: -11.00 | train loss: 80.82   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:42,036 - INFO - 435     /100000     episodes | train score: -1.76  | train loss: 86.53   | eps: 0.8939 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:42,165 - INFO - 436     /100000     episodes | train score: -11.00 | train loss: 86.31   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:42,276 - INFO - 437     /100000     episodes | train score: -1.64  | train loss: 79.80   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:42,386 - INFO - 438     /100000     episodes | train score: -1.58  | train loss: 69.45   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:42,514 - INFO - 439     /100000     episodes | train score: -2.00  | train loss: 67.05   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:42,643 - INFO - 440     /100000     episodes | train score: -21.00 | train loss: 46.49   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:43,045 - INFO - avg test score: -2.00 
+2024-03-12 19:54:43,145 - INFO - 441     /100000     episodes | train score: 8.66   | train loss: 68.98   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:43,243 - INFO - 442     /100000     episodes | train score: 8.68   | train loss: 72.02   | eps: 0.8938 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:43,372 - INFO - 443     /100000     episodes | train score: -12.00 | train loss: 60.88   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2035
+2024-03-12 19:54:43,500 - INFO - 444     /100000     episodes | train score: -12.00 | train loss: 79.78   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:43,591 - INFO - 445     /100000     episodes | train score: 7.86   | train loss: 55.96   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:43,676 - INFO - 446     /100000     episodes | train score: 9.98   | train loss: 61.15   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:43,806 - INFO - 447     /100000     episodes | train score: -12.00 | train loss: 90.85   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:43,902 - INFO - 448     /100000     episodes | train score: -0.20  | train loss: 76.55   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:44,031 - INFO - 449     /100000     episodes | train score: -11.00 | train loss: 80.79   | eps: 0.8937 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:44,126 - INFO - 450     /100000     episodes | train score: 18.80  | train loss: 96.95   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:44,526 - INFO - avg test score: -2.00 
+2024-03-12 19:54:44,641 - INFO - 451     /100000     episodes | train score: -10.64 | train loss: 66.64   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:44,771 - INFO - 452     /100000     episodes | train score: -11.00 | train loss: 74.20   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:44,901 - INFO - 453     /100000     episodes | train score: -2.00  | train loss: 70.09   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:45,015 - INFO - 454     /100000     episodes | train score: 25.32  | train loss: 71.92   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:45,127 - INFO - 455     /100000     episodes | train score: 8.40   | train loss: 87.52   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:45,223 - INFO - 456     /100000     episodes | train score: 17.76  | train loss: 81.03   | eps: 0.8936 | alpha: 0.8009 | beta: 0.2036
+2024-03-12 19:54:45,344 - INFO - 457     /100000     episodes | train score: -9.86  | train loss: 69.58   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:45,473 - INFO - 458     /100000     episodes | train score: 8.00   | train loss: 73.91   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:45,602 - INFO - 459     /100000     episodes | train score: 17.00  | train loss: 88.93   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:45,671 - INFO - 460     /100000     episodes | train score: -9.64  | train loss: 85.20   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:46,073 - INFO - avg test score: -2.00 
+2024-03-12 19:54:46,174 - INFO - 461     /100000     episodes | train score: -1.38  | train loss: 85.17   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:46,302 - INFO - 462     /100000     episodes | train score: 25.02  | train loss: 74.42   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:46,385 - INFO - 463     /100000     episodes | train score: -18.98 | train loss: 75.48   | eps: 0.8935 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:46,514 - INFO - 464     /100000     episodes | train score: -3.00  | train loss: 77.61   | eps: 0.8934 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:46,773 - INFO - 465     /100000     episodes | train score: 7.00   | train loss: 64.97   | eps: 0.8934 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:46,902 - INFO - 466     /100000     episodes | train score: -2.00  | train loss: 57.27   | eps: 0.8934 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:47,032 - INFO - 467     /100000     episodes | train score: -12.00 | train loss: 101.81  | eps: 0.8934 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:47,102 - INFO - 468     /100000     episodes | train score: 9.36   | train loss: 88.71   | eps: 0.8934 | alpha: 0.8009 | beta: 0.2037
+2024-03-12 19:54:47,230 - INFO - 469     /100000     episodes | train score: -11.00 | train loss: 88.79   | eps: 0.8934 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:47,308 - INFO - 470     /100000     episodes | train score: 9.18   | train loss: 64.54   | eps: 0.8934 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:47,708 - INFO - avg test score: -2.00 
+2024-03-12 19:54:47,826 - INFO - 471     /100000     episodes | train score: -0.80  | train loss: 82.05   | eps: 0.8933 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:47,922 - INFO - 472     /100000     episodes | train score: -1.24  | train loss: 70.93   | eps: 0.8933 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:48,050 - INFO - 473     /100000     episodes | train score: -12.00 | train loss: 63.07   | eps: 0.8933 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:48,131 - INFO - 474     /100000     episodes | train score: -7.86  | train loss: 75.21   | eps: 0.8933 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:48,259 - INFO - 475     /100000     episodes | train score: -12.00 | train loss: 78.11   | eps: 0.8933 | alpha: 0.8009 | beta: 0.2038
+2024-03-12 19:54:48,388 - INFO - 476     /100000     episodes | train score: -13.00 | train loss: 79.66   | eps: 0.8933 | alpha: 0.8010 | beta: 0.2038
+2024-03-12 19:54:48,518 - INFO - 477     /100000     episodes | train score: -2.00  | train loss: 64.37   | eps: 0.8933 | alpha: 0.8010 | beta: 0.2038
+2024-03-12 19:54:48,635 - INFO - 478     /100000     episodes | train score: -10.72 | train loss: 93.09   | eps: 0.8932 | alpha: 0.8010 | beta: 0.2038
+2024-03-12 19:54:48,728 - INFO - 479     /100000     episodes | train score: 17.82  | train loss: 65.68   | eps: 0.8932 | alpha: 0.8010 | beta: 0.2038
+2024-03-12 19:54:48,850 - INFO - 480     /100000     episodes | train score: -1.86  | train loss: 64.74   | eps: 0.8932 | alpha: 0.8010 | beta: 0.2038

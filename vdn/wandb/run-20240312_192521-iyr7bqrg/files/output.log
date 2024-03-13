@@ -1,0 +1,125 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+warm up: 100%|████████████████▉| 19994/20000 [02:34<00:00, 117.31it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):6/100000 [00:38<11:10:02,  2.49it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 202, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 107, in train
+    target_q, next_target_hidden = target_network(next_state.to(self.device), target_hidden.detach())
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 71, in forward
+    feature = self.feature_net[agent_i](obs[:, agent_i, :])
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/activation.py", line 101, in forward
+    return F.relu(input, inplace=self.inplace)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/functional.py", line 1473, in relu
+    result = torch.relu(input)
+KeyboardInterrupt

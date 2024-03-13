@@ -1,0 +1,55 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+warm up: 100%|██████████████████▉| 1994/2000 [00:14<00:00, 141.62it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):78/100000 [01:09<3:35:03,  7.71it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 201, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 185, in main
+    test_score: float = test.execute(behavior_network=behavior_network)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_test.py", line 26, in execute
+    action, next_hidden, _ = behavior_network.sample_action(
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 80, in sample_action
+    q_tensor, next_hidden = self.forward(obs, hidden)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 74, in forward
+    next_hidden[agent_i] = feature.unsqueeze(1)
+KeyboardInterrupt

@@ -1,0 +1,67 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+warm up: 100%|██████████████████▉| 4993/5000 [00:42<00:00, 105.65it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):60/100000 [01:07<8:38:28,  3.21it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 202, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 143, in main
+    target_q, next_target_hidden = target_network(torch.tensor(
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 71, in forward
+    feature = self.feature_net[agent_i](obs[:, agent_i, :])
+KeyboardInterrupt

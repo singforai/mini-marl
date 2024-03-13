@@ -1,0 +1,65 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+warm up: 100%|██████████████████▉| 1998/2000 [00:15<00:00, 146.30it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):24/100000 [01:28<6:50:36,  4.05it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 201, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 95, in train
+    states, actions, rewards, next_states, dones, priority_idx, is_weight = super().sample_chunk(batch_size = self.batch_size,
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 21, in sample_chunk
+    states, actions, rewards, next_states, dones, priority_idx, is_weight = self.replay_buffer.sample(batch_size, chunk_size)
+  File "/home/uosai/바탕화면/mini-marl/vdn/replay_buffer/per.py", line 77, in sample
+    batch_size, _chunk_size, 1), idxs, torch.tensor(importance_sampling_weight, dtype=torch.float).view(batch_size,1)
+KeyboardInterrupt

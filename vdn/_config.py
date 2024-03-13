@@ -2,20 +2,24 @@ import argparse
 
 
 def get_config() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description='Value Decomposition Network (VDN)')
+    parser = argparse.ArgumentParser(
+        description='Value Decomposition Network (VDN)')
     param = parser.add_argument
 
     # wandb setting
     param('--use_wandb', type=bool, default=False, help="Whether to use wandb")
-    param('--entity_name', type=str, default='singfor7012', help = "wandb_name")
+    param('--entity_name', type=str, default='singfor7012', help="wandb_name")
 
     # experiment base setting parameters
-    param('--env_name', type=str, default='ma_gym:Checkers-v0', help="Built-in environment settings for ma_gym")
-    param('--experiment_name', type=str, default='vdn', help="Experiment title stored in Wandb")
-    
-    param('--use_cuda', type=bool, default=False, help="Decide whether to use GPU during training ")
-    param('--n_training_threads', type=int, default=12, help="Number of threads to use for CPU internal calculations")
+    param('--env_name', type=str, default='ma_gym:Checkers-v0',
+          help="Built-in environment settings for ma_gym")
+    param('--experiment_name', type=str, default='vdn',
+          help="Experiment title stored in Wandb")
 
+    param('--use_cuda', type=bool, default=False,
+          help="Decide whether to use GPU during training ")
+    param('--n_training_threads', type=int, default=12,
+          help="Number of threads to use for CPU internal calculations")
 
     # rendering parameters
     param('--use_render', type=bool, default=False,
@@ -57,17 +61,16 @@ def get_config() -> argparse.ArgumentParser:
           help="Decide how many times to train on sampled data")
     param('--update_target_interval', type=int, default=20,
           help="Episode interval at which the target network copies the parameters of the behavioral network")
-    param('--grad_clip_norm', type=int, default=5,
+    param('--grad_clip_norm', type=int, default=0.01,
           help="Limit the maximum value of gradient's L2 norm")
 
     # Architecture parameters
-    param('--target_setting', type = str, default = "dqn", 
+    param('--decide_target', type=str, default="dqn",
           help="Determine how to set target value during training [option: dqn/double_dqn]")
-    param('--action_network', type = str, default = "q_net", 
-          help="Determine the form of the network to approximate the value of action [option: q_net/dueling_net]") 
+    param('--decide_network', type=str, default="q_net",
+          help="Determine the form of the network to approximate the value of action [option: q_net/dueling_net]")
     param('--use_recurrent', type=bool, default=True,
           help="Determine whether to use GRU for training")
-
 
     # test parameters
     param('--test_interval', type=int, default=10,

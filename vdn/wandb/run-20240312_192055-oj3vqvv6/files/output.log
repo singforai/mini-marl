@@ -1,0 +1,50 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+warm up:  99%|███████████████████▊| 989/1000 [00:08<00:00, 135.41it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):0/100000 [01:06<16:57:10,  1.64it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 202, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 124, in train
+    loss.backward()
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/_tensor.py", line 522, in backward
+    torch.autograd.backward(
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/autograd/__init__.py", line 266, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

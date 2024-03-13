@@ -1,0 +1,60 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+warm up: 100%|███████████████████| 2000/2000 [00:14<00:00, 137.86it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):74/100000 [01:12<6:58:21,  3.97it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 201, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 104, in train
+    sum_max_behavior_q, next_hidden = super().sum_behavior_value(state = state.to(self.device),
+  File "/home/uosai/바탕화면/mini-marl/vdn/_train.py", line 37, in sum_behavior_value
+    behavior_q, next_hidden = self.behavior_network(obs = state.to(self.device), hidden = hidden)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 73, in forward
+    feature = self.gru_net[agent_i](feature, hidden[:, agent_i, :])
+KeyboardInterrupt

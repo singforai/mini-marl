@@ -1,0 +1,12 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+warm up:   2%|▎                  | 319/20000 [00:02<02:19, 140.70it/s]Traceback (most recent call last):
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 202, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 89, in main
+    action, next_hidden, behavior_q = behavior_network.sample_action(
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 81, in sample_action
+    action, q_tensor = super().epsilon_greedy(q_tensor, epsilon)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_network.py", line 52, in epsilon_greedy
+    action[~mask] = q_tensor[~mask].argmax(dim=2).float()
+KeyboardInterrupt

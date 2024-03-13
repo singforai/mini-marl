@@ -1,0 +1,183 @@
+{
+    "os": "Linux-6.5.0-25-generic-x86_64-with-glibc2.35",
+    "python": "3.9.18",
+    "heartbeatAt": "2024-03-12T10:18:47.380360",
+    "startedAt": "2024-03-12T10:18:46.784593",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--buffer_limit",
+        "1000",
+        "--decide_target",
+        "double_dqn",
+        "--decide_network",
+        "Dueling_Net",
+        "--use_wandb",
+        "True",
+        "--update_target_interval",
+        "10"
+    ],
+    "state": "running",
+    "program": "/home/uosai/\ubc14\ud0d5\ud654\uba74/mini-marl/vdn/main.py",
+    "codePathLocal": "main.py",
+    "codePath": "vdn/main.py",
+    "git": {
+        "remote": "https://github.com/singforai/mini-marl.git",
+        "commit": "7c5a24496a3d0883383830cae04bf9cd9cfc0183"
+    },
+    "email": "singfor7012@gmail.com",
+    "root": "/home/uosai/\ubc14\ud0d5\ud654\uba74/mini-marl",
+    "host": "uos-desktop",
+    "username": "uosai",
+    "executable": "/home/uosai/\ubc14\ud0d5\ud654\uba74/miniconda3/envs/simplenv/bin/python",
+    "cpu_count": 12,
+    "cpu_count_logical": 24,
+    "cpu_freq": {
+        "current": 3356.0927916666674,
+        "min": 2200.0,
+        "max": 3700.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3632.856,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 4541.256,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 4459.918,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 4522.2,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 4541.413,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3628.841,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3629.205,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3627.104,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3624.316,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3630.582,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3771.886,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 4481.914,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3632.737,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3632.044,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 2200.0,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 4541.406,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3631.831,
+            "min": 2200.0,
+            "max": 3700.0
+        },
+        {
+            "current": 3633.123,
+            "min": 2200.0,
+            "max": 3700.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 233.17998886108398,
+            "used": 175.3392219543457
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3080",
+    "gpu_count": 2,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3080",
+            "memory_total": 10737418240
+        },
+        {
+            "name": "NVIDIA GeForce RTX 3080",
+            "memory_total": 10737418240
+        }
+    ],
+    "memory": {
+        "total": 62.709068298339844
+    }
+}
