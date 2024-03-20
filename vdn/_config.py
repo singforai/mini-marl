@@ -7,8 +7,8 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param('--use_wandb', type=bool, default = False, help="Whether to use wandb")
-    param('--entity_name', type=str, default='singfor7012', help="wandb_name")
+    param('--use_wandb', type=bool, default=True, help="Whether to use wandb")
+    param('--entity_name', type=str, default='sangkiko', help="wandb_name")
     param('--project_name', type =str, default = "checker-v0",
           help = "wandb project category name")
     # experiment base setting parameters
@@ -17,7 +17,7 @@ def get_config() -> argparse.ArgumentParser:
     param('--experiment_name', type=str, default='vdn',
           help="Experiment title stored in Wandb")
 
-    param('--use_cuda', type=bool, default=False,
+    param('--use_cuda', type=bool, default=True,
           help="Decide whether to use GPU during training ")
     param('--n_training_threads', type=int, default=12,
           help="Number of threads to use for CPU internal calculations")
@@ -80,7 +80,7 @@ def get_config() -> argparse.ArgumentParser:
           help="Number of tested episodes")
 
     # Replay_buffer parameters
-    param('--buffer_limit', type=int, default=10000,
+    param('--buffer_limit', type=int, default=1000,
           help="It determines the capacity of Replay buffer and warm up chunk step")
     param('--eps', type=int, default=1e-6,
           help="small positive constant that reacts when TD-error is zero")

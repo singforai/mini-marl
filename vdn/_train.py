@@ -17,11 +17,13 @@ class Train_Target:
         self.chunk_size: int = args.chunk_size if args.use_recurrent else 1
         self.gamma: float = args.gamma
         self.grad_clip_norm: float = args.grad_clip_norm
+        
+        self.device = device
 
     def sample_chunk(self, batch_size, chunk_size):
         states, actions, rewards, next_states, dones, priority_idx, is_weight = self.replay_buffer.sample(
             batch_size, chunk_size)
-        return states, actions, rewards, next_states, dones, priority_idx, is_weight
+        return states, actions.to(self.device), rewards.to(self.device), next_states, dones.to(self.device), priority_idx, is_weight.to(self.device)
 
     def initialize_hidden(self, batch_size1, batch_size2, batch_size3=None):
         hidden = self.behavior_network.init_hidden(
@@ -48,6 +50,8 @@ class Train_Target:
 class Target_Dqn(Train_Target):
     def __init__(self, Replay_buffer, behavior_network, target_network, args, device):
         super().__init__(Replay_buffer, behavior_network, target_network, args, device)
+        
+        self.device = device
 
     def train(self, target_network, optimizer, epsilon):
         iter_loss = 0
@@ -68,6 +72,7 @@ class Target_Dqn(Train_Target):
                     obs=next_state.to(self.device), hidden=target_hidden.detach())
                 max_target_q = target_q.max(dim=2)[0]
                 sum_max_target_q = max_target_q.sum(dim=1, keepdims=True)
+                
                 target_values = is_weight*(reward + self.gamma * (1 - done) *
                                            sum_max_target_q).sum(dim=1, keepdims=True)
 
