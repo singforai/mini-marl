@@ -23,6 +23,11 @@ class Network(nn.Module):
         self.action_net = nn.ParameterList()
         self.value_net = nn.ParameterList()
         self.advantage_net = nn.ParameterList()
+        
+        if args.use_cuda:
+            self.device = "cuda"
+        else:
+            self.device = "cpu"
 
     def feature_network(self, agent_i: int = 0):
         n_obs: int = self.observation_space[agent_i].shape[0]
@@ -45,10 +50,10 @@ class Network(nn.Module):
                                                 nn.Linear(self.advantage_hidden, self.action_space[agent_i].n)))
 
     def epsilon_greedy(self, q_tensor, epsilon):
-        mask = (torch.rand(size=(q_tensor.shape[0],)) <= epsilon)
-        action = torch.empty(size=(q_tensor.shape[0], q_tensor.shape[1]))
+        mask = (torch.rand(size=(q_tensor.shape[0],)) <= epsilon).to(self.device)
+        action = torch.empty(size=(q_tensor.shape[0], q_tensor.shape[1])).to(self.device)
         action[mask] = torch.randint(
-            low=0, high=q_tensor.shape[2], size=action[mask].shape).float()
+            low=0, high=q_tensor.shape[2], size=action[mask].shape).float().to(self.device)
         action[~mask] = q_tensor[~mask].argmax(dim=2).float()
         return action, q_tensor
 

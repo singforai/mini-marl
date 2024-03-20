@@ -5,8 +5,8 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument    
 
     # wandb setting
-    param('--use_wandb', type=bool, default=False, help="Whether to use wandb")
-    param('--entity_name', type=str, default='singfor7012', help="wandb_name")
+    param('--use_wandb', type=bool, default=True, help="Whether to use wandb")
+    param('--entity_name', type=str, default='sangkiko', help="wandb_name")
     param('--project_name', type =str, default = "checker-v0",
           help = "wandb project category name")# experiment base setting parameters
     param('--env_name', type=str, default='ma_gym:Checkers-v0',
@@ -15,7 +15,7 @@ def get_config() -> argparse.ArgumentParser:
           help="Experiment title stored in Wandb")
     
     # env setting
-    param('--max_episodes', type=int, default=60000,
+    param('--max_episodes', type=int, default=1000,
           help="Number of episodes trained")
     param('--max_step', type=int, default=100,
           help="Maximum support step per episode")
@@ -29,7 +29,7 @@ def get_config() -> argparse.ArgumentParser:
           help=" Runtime of time.sleep")
     
     #  cuda setting
-    param('--use_cuda', type=bool, default=False,
+    param('--use_cuda', type=bool, default=True,
           help="Decide whether to use GPU during training ")
     param('--n_training_threads', type=int, default=12,
           help="Number of threads to use for CPU internal calculations")# rendering parameters
@@ -76,7 +76,7 @@ def get_config() -> argparse.ArgumentParser:
           help="The number of recurrent layers")
     param('--gamma', type=float, default=0.99,
           help="Discount factor used to calculate TD error")
-    param("--batch_size", type=int, default=1, 
+    param("--batch_size", type=int, default=32, 
           help="batch_size")
     
     # rollout threads
