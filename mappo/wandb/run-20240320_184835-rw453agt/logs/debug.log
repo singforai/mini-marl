@@ -1,0 +1,27 @@
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Current SDK version is 0.16.4
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Configure stats pid to 20892
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Loading settings from /home/uosai/.config/wandb/settings
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Loading settings from /home/uosai/바탕화면/mini-marl/mappo/wandb/settings
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'mappo/main.py', 'program_abspath': '/home/uosai/바탕화면/mini-marl/mappo/main.py', 'program': '/home/uosai/바탕화면/mini-marl/mappo/main.py'}
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_init.py:_log_setup():526] Logging user logs to /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_184835-rw453agt/logs/debug.log
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_init.py:_log_setup():527] Logging internal logs to /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_184835-rw453agt/logs/debug-internal.log
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_init.py:init():566] calling init triggers
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_init.py:init():573] wandb.init called with sweep_config: {}
+config: {'use_wandb': True, 'entity_name': 'singfor7012', 'project_name': 'checker-v0', 'env_name': 'ma_gym:Checkers-v0', 'experiment_name': 'ppo', 'max_episodes': 60000, 'max_step': 100, 'step_cost': -0.01, 'use_render': False, 'sleep_second': 0.0, 'use_cuda': False, 'n_training_threads': 12, 'seed': 42, 'fix_seed': True, 'algorithm_name': 'rmappo', 'share_policy': True, 'use_centralized_V': True, 'use_linear_lr_decay': False, 'log_interval': 5, 'use_eval': False, 'save_interval': 1, 'use_feature_normalization': True, 'use_ReLU': True, 'stacked_frames': 1, 'layer_N': 1, 'use_gae': True, 'use_proper_time_limits': False, 'hidden_size': 32, 'use_popart': False, 'recurrent_N': 1, 'gamma': 0.99, 'batch_size': 1, 'n_rollout_threads': 1, 'n_eval_rollout_threads': 1, 'n_render_rollout_threads': 1, 'actor_lr': 0.001, 'critic_lr': 0.0005, 'opti_eps': 1e-05, 'weight_decay': 0, 'gain': 0.01, 'use_orthogonal': True, 'use_recurrent_policy': True, 'use_naive_recurrent_policy': False, 'use_max_grad_norm': True, 'use_clipped_value_loss': True, 'use_huber_loss': True, 'use_policy_active_masks': False, 'use_value_active_masks': False, 'use_valuenorm': True, 'clip_param': 0.2, 'ppo_epoch': 15, 'num_mini_batch': 1, 'data_chunk_length': 10, 'value_loss_coef': 1, 'entropy_coef': 0.01, 'max_grad_norm': 10.0, 'huber_delta': 10.0, 'gae_lambda': 0.95, 'eval_interval': 10}
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_init.py:init():616] starting backend
+2024-03-20 18:48:35,372 INFO    MainThread:20892 [wandb_init.py:init():620] setting up manager
+2024-03-20 18:48:35,374 INFO    MainThread:20892 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-03-20 18:48:35,378 INFO    MainThread:20892 [wandb_init.py:init():628] backend started and connected
+2024-03-20 18:48:35,383 INFO    MainThread:20892 [wandb_init.py:init():720] updated telemetry
+2024-03-20 18:48:35,398 INFO    MainThread:20892 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-03-20 18:48:35,935 INFO    MainThread:20892 [wandb_run.py:_on_init():2262] communicating current version
+2024-03-20 18:48:36,046 INFO    MainThread:20892 [wandb_run.py:_on_init():2271] got version response 
+2024-03-20 18:48:36,046 INFO    MainThread:20892 [wandb_init.py:init():804] starting run threads in backend
+2024-03-20 18:48:37,876 INFO    MainThread:20892 [wandb_run.py:_console_start():2241] atexit reg
+2024-03-20 18:48:37,877 INFO    MainThread:20892 [wandb_run.py:_redirect():2096] redirect: wrap_raw
+2024-03-20 18:48:37,877 INFO    MainThread:20892 [wandb_run.py:_redirect():2161] Wrapping output streams.
+2024-03-20 18:48:37,877 INFO    MainThread:20892 [wandb_run.py:_redirect():2186] Redirects installed.
+2024-03-20 18:48:37,877 INFO    MainThread:20892 [wandb_init.py:init():847] run started, returning control to user process
+2024-03-20 18:48:46,339 WARNING MsgRouterThr:20892 [router.py:message_loop():77] message_loop has been closed

@@ -1,0 +1,49 @@
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Current SDK version is 0.16.4
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Configure stats pid to 164000
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Loading settings from /home/uosai/.config/wandb/settings
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Loading settings from /home/uosai/바탕화면/mini-marl/vdn/wandb/settings
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'vdn/main.py', 'program_abspath': '/home/uosai/바탕화면/mini-marl/vdn/main.py', 'program': '/home/uosai/바탕화면/mini-marl/vdn/main.py'}
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_init.py:_log_setup():526] Logging user logs to /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240319_125051-433o239n/logs/debug.log
+2024-03-19 12:50:51,523 INFO    MainThread:164000 [wandb_init.py:_log_setup():527] Logging internal logs to /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240319_125051-433o239n/logs/debug-internal.log
+2024-03-19 12:50:51,524 INFO    MainThread:164000 [wandb_init.py:init():566] calling init triggers
+2024-03-19 12:50:51,524 INFO    MainThread:164000 [wandb_init.py:init():573] wandb.init called with sweep_config: {}
+config: {'use_wandb': True, 'entity_name': 'singfor7012', 'project_name': 'checker-v0', 'env_name': 'ma_gym:Checkers-v0', 'experiment_name': 'vdn', 'use_cuda': False, 'n_training_threads': 12, 'use_render': False, 'use_time_sleep': False, 'sleep_second': 0.5, 'seed': 42, 'fix_seed': True, 'epsilon_anneal_episode': 15000, 'max_epsilon': 0.8, 'min_epsilon': 0.05, 'lr': 0.001, 'gamma': 0.99, 'batch_size': 32, 'max_episodes': 15000, 'max_step': 100, 'step_cost': -0.01, 'chunk_size': 10, 'update_iter': 10, 'update_target_interval': 20, 'grad_clip_norm': 5, 'decide_target': 'dqn', 'decide_network': 'q_net', 'use_recurrent': True, 'test_interval': 10, 'test_episodes': 20, 'buffer_limit': 10000, 'eps': 1e-06, 'alpha': 0.4, 'beta': 0.4, 'update_alpha_beta': True, 'use_step_weight': True, 'step_weight': 0.99}
+2024-03-19 12:50:51,524 INFO    MainThread:164000 [wandb_init.py:init():616] starting backend
+2024-03-19 12:50:51,524 INFO    MainThread:164000 [wandb_init.py:init():620] setting up manager
+2024-03-19 12:50:51,527 INFO    MainThread:164000 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-03-19 12:50:51,528 INFO    MainThread:164000 [wandb_init.py:init():628] backend started and connected
+2024-03-19 12:50:51,532 WARNING MainThread:164000 [wandb_init.py:init():1198] interrupted
+Traceback (most recent call last):
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_init.py", line 1176, in init
+    run = wi.init()
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_init.py", line 633, in init
+    run = Run(
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_run.py", line 566, in __init__
+    self._init(
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_run.py", line 661, in _init
+    tags=dict(self._settings),
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_settings.py", line 1464, in __getitem__
+    return item.value
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_settings.py", line 520, in value
+    _value = h(_value)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_settings.py", line 881, in <lambda>
+    run_url={"hook": lambda _: self._run_url(), "auto_hook": True},
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_settings.py", line 1282, in _run_url
+    query = self._get_url_query_string()
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/wandb_settings.py", line 1253, in _get_url_query_string
+    if Api().settings().get("anonymous") != "true":
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/apis/internal.py", line 98, in settings
+    return self.api.settings(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/apis/internal.py", line 39, in api
+    self._api = InternalApi(*self._api_args, **self._api_kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 268, in __init__
+    auth = ("api", self.api_key or "")
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/wandb/sdk/internal/internal_api.py", line 397, in api_key
+    auth = requests.utils.get_netrc_auth(self.api_url)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/requests/utils.py", line 240, in get_netrc_auth
+    _netrc = netrc(netrc_path).authenticators(host)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/netrc.py", line 30, in __init__
+    self._parse(file, fp, default_netrc)
+KeyboardInterrupt

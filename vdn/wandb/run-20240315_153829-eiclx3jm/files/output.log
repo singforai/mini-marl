@@ -1,0 +1,14 @@
+C:\Users\USER\anaconda3\envs\torch\lib\site-packages\gym\logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+Traceback (most recent call last):
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 214, in <module>
+    main(sys.argv[1:])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 94, in main
+    target_q, next_target_hidden = target_network(torch.tensor(
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_network.py", line 77, in forward
+    q_values[agent_i] = self.action_net[agent_i](
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\module.py", line 1189, in _call_impl
+    forward_call = (self._slow_forward if torch._C._get_tracing_state() else self.forward)
+KeyboardInterrupt

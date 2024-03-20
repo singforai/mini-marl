@@ -1,0 +1,237 @@
+2024-03-18 21:25:59,583 INFO    StreamThr :129999 [internal.py:wandb_internal():86] W&B internal server running at pid: 129999, started at: 2024-03-18 21:25:59.582883
+2024-03-18 21:25:59,584 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: status
+2024-03-18 21:25:59,588 INFO    WriterThread:129999 [datastore.py:open_for_write():87] open: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/run-9g40hpff.wandb
+2024-03-18 21:25:59,588 DEBUG   SenderThread:129999 [sender.py:send():378] send: header
+2024-03-18 21:25:59,603 DEBUG   SenderThread:129999 [sender.py:send():378] send: run
+2024-03-18 21:26:00,076 INFO    SenderThread:129999 [dir_watcher.py:__init__():211] watching files in: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files
+2024-03-18 21:26:00,076 INFO    SenderThread:129999 [sender.py:_start_run_threads():1099] run started: 9g40hpff with start time 1710764759.582802
+2024-03-18 21:26:00,085 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: check_version
+2024-03-18 21:26:00,085 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: check_version
+2024-03-18 21:26:00,142 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: run_start
+2024-03-18 21:26:00,154 DEBUG   HandlerThread:129999 [system_info.py:__init__():26] System info init
+2024-03-18 21:26:00,154 DEBUG   HandlerThread:129999 [system_info.py:__init__():41] System info init done
+2024-03-18 21:26:00,154 INFO    HandlerThread:129999 [system_monitor.py:start():194] Starting system monitor
+2024-03-18 21:26:00,154 INFO    SystemMonitor:129999 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-03-18 21:26:00,154 INFO    HandlerThread:129999 [system_monitor.py:probe():214] Collecting system info
+2024-03-18 21:26:00,155 INFO    SystemMonitor:129999 [interfaces.py:start():190] Started cpu monitoring
+2024-03-18 21:26:00,156 INFO    SystemMonitor:129999 [interfaces.py:start():190] Started disk monitoring
+2024-03-18 21:26:00,156 INFO    SystemMonitor:129999 [interfaces.py:start():190] Started gpu monitoring
+2024-03-18 21:26:00,157 INFO    SystemMonitor:129999 [interfaces.py:start():190] Started memory monitoring
+2024-03-18 21:26:00,157 INFO    SystemMonitor:129999 [interfaces.py:start():190] Started network monitoring
+2024-03-18 21:26:00,171 DEBUG   HandlerThread:129999 [system_info.py:probe():150] Probing system
+2024-03-18 21:26:00,178 DEBUG   HandlerThread:129999 [system_info.py:_probe_git():135] Probing git
+2024-03-18 21:26:00,191 DEBUG   HandlerThread:129999 [system_info.py:_probe_git():143] Probing git done
+2024-03-18 21:26:00,192 DEBUG   HandlerThread:129999 [system_info.py:probe():198] Probing system done
+2024-03-18 21:26:00,192 DEBUG   HandlerThread:129999 [system_monitor.py:probe():223] {'os': 'Linux-6.5.0-25-generic-x86_64-with-glibc2.35', 'python': '3.9.18', 'heartbeatAt': '2024-03-18T12:26:00.171916', 'startedAt': '2024-03-18T12:25:59.576490', 'docker': None, 'cuda': None, 'args': ('--buffer_limit', '1000', '--use_wandb', 'False'), 'state': 'running', 'program': '/home/uosai/바탕화면/mini-marl/vdn/main.py', 'codePathLocal': 'main.py', 'codePath': 'vdn/main.py', 'git': {'remote': 'https://github.com/singforai/mini-marl.git', 'commit': 'a8a6b055b52b59211f15021a7195aad66f4d99f9'}, 'email': 'singfor7012@gmail.com', 'root': '/home/uosai/바탕화면/mini-marl', 'host': 'uos-desktop', 'username': 'uosai', 'executable': '/home/uosai/바탕화면/miniconda3/envs/simplenv/bin/python', 'cpu_count': 12, 'cpu_count_logical': 24, 'cpu_freq': {'current': 2925.461708333333, 'min': 2200.0, 'max': 3700.0}, 'cpu_freq_per_core': [{'current': 3744.433, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 3114.799, 'min': 2200.0, 'max': 3700.0}, {'current': 3795.136, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 2445.433, 'min': 2200.0, 'max': 3700.0}, {'current': 2875.065, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 2200.0, 'min': 2200.0, 'max': 3700.0}, {'current': 3789.131, 'min': 2200.0, 'max': 3700.0}, {'current': 4592.541, 'min': 2200.0, 'max': 3700.0}, {'current': 3597.372, 'min': 2200.0, 'max': 3700.0}, {'current': 3700.0, 'min': 2200.0, 'max': 3700.0}, {'current': 3640.722, 'min': 2200.0, 'max': 3700.0}, {'current': 4503.223, 'min': 2200.0, 'max': 3700.0}, {'current': 2576.049, 'min': 2200.0, 'max': 3700.0}, {'current': 2927.043, 'min': 2200.0, 'max': 3700.0}, {'current': 3598.454, 'min': 2200.0, 'max': 3700.0}, {'current': 3785.425, 'min': 2200.0, 'max': 3700.0}, {'current': 2657.071, 'min': 2200.0, 'max': 3700.0}, {'current': 4787.341, 'min': 2200.0, 'max': 3700.0}], 'disk': {'/': {'total': 233.17998886108398, 'used': 175.89683151245117}}, 'gpu': 'NVIDIA GeForce RTX 3080', 'gpu_count': 2, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3080', 'memory_total': 10737418240}, {'name': 'NVIDIA GeForce RTX 3080', 'memory_total': 10737418240}], 'memory': {'total': 62.70905685424805}}
+2024-03-18 21:26:00,192 INFO    HandlerThread:129999 [system_monitor.py:probe():224] Finished collecting system info
+2024-03-18 21:26:00,192 INFO    HandlerThread:129999 [system_monitor.py:probe():227] Publishing system info
+2024-03-18 21:26:00,192 DEBUG   HandlerThread:129999 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-03-18 21:26:01,078 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_created():271] file/dir created: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/conda-environment.yaml
+2024-03-18 21:26:01,696 DEBUG   HandlerThread:129999 [system_info.py:_save_conda():219] Saving conda packages done
+2024-03-18 21:26:01,697 INFO    HandlerThread:129999 [system_monitor.py:probe():229] Finished publishing system info
+2024-03-18 21:26:01,699 DEBUG   SenderThread:129999 [sender.py:send():378] send: files
+2024-03-18 21:26:01,699 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-metadata.json with policy now
+2024-03-18 21:26:01,758 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: python_packages
+2024-03-18 21:26:01,758 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: python_packages
+2024-03-18 21:26:01,758 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-18 21:26:01,758 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: stop_status
+2024-03-18 21:26:01,760 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-18 21:26:02,077 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/conda-environment.yaml
+2024-03-18 21:26:02,078 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_created():271] file/dir created: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/requirements.txt
+2024-03-18 21:26:02,078 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_created():271] file/dir created: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-metadata.json
+2024-03-18 21:26:02,084 DEBUG   SenderThread:129999 [sender.py:send():378] send: telemetry
+2024-03-18 21:26:02,589 INFO    wandb-upload_0:129999 [upload_job.py:push():131] Uploaded file /tmp/tmpdfxoqpi5wandb/unevk8qv-wandb-metadata.json
+2024-03-18 21:26:03,078 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_created():271] file/dir created: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:04,612 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: status_report
+2024-03-18 21:26:05,078 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:07,078 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:08,844 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:08,845 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:08,845 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:08,845 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:09,079 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:09,079 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_created():271] file/dir created: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-summary.json
+2024-03-18 21:26:09,122 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:09,123 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:09,123 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:09,123 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:09,397 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:09,398 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:09,398 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:09,398 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:09,657 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:09,658 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:09,658 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:09,658 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: status_report
+2024-03-18 21:26:09,658 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:09,932 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:09,933 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:09,933 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:09,933 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:10,079 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-summary.json
+2024-03-18 21:26:10,207 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:10,207 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:10,208 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:10,208 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:10,473 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:10,474 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:10,474 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:10,475 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:10,740 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:10,741 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:10,741 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:10,741 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:11,015 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-18 21:26:11,016 DEBUG   SenderThread:129999 [sender.py:send():378] send: history
+2024-03-18 21:26:11,016 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: summary_record
+2024-03-18 21:26:11,016 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:11,079 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-summary.json
+2024-03-18 21:26:11,079 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:11,272 DEBUG   SenderThread:129999 [sender.py:send():378] send: exit
+2024-03-18 21:26:11,272 INFO    SenderThread:129999 [sender.py:send_exit():585] handling exit code: 1
+2024-03-18 21:26:11,272 INFO    SenderThread:129999 [sender.py:send_exit():587] handling runtime: 11
+2024-03-18 21:26:11,273 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:11,273 INFO    SenderThread:129999 [sender.py:send_exit():593] send defer
+2024-03-18 21:26:11,273 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,273 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 0
+2024-03-18 21:26:11,273 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,273 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-03-18 21:26:11,273 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 1
+2024-03-18 21:26:11,273 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,273 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 1
+2024-03-18 21:26:11,273 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,273 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-03-18 21:26:11,273 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 2
+2024-03-18 21:26:11,273 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,273 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 2
+2024-03-18 21:26:11,273 INFO    HandlerThread:129999 [system_monitor.py:finish():203] Stopping system monitor
+2024-03-18 21:26:11,273 INFO    HandlerThread:129999 [interfaces.py:finish():202] Joined cpu monitor
+2024-03-18 21:26:11,274 INFO    HandlerThread:129999 [interfaces.py:finish():202] Joined disk monitor
+2024-03-18 21:26:11,274 DEBUG   SystemMonitor:129999 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-03-18 21:26:11,274 DEBUG   SystemMonitor:129999 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-03-18 21:26:11,274 DEBUG   SystemMonitor:129999 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-03-18 21:26:11,412 INFO    HandlerThread:129999 [interfaces.py:finish():202] Joined gpu monitor
+2024-03-18 21:26:11,412 INFO    HandlerThread:129999 [interfaces.py:finish():202] Joined memory monitor
+2024-03-18 21:26:11,413 INFO    HandlerThread:129999 [interfaces.py:finish():202] Joined network monitor
+2024-03-18 21:26:11,413 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,413 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-03-18 21:26:11,413 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 3
+2024-03-18 21:26:11,413 DEBUG   SenderThread:129999 [sender.py:send():378] send: stats
+2024-03-18 21:26:11,413 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,413 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 3
+2024-03-18 21:26:11,413 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,413 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-03-18 21:26:11,413 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 4
+2024-03-18 21:26:11,413 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,413 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 4
+2024-03-18 21:26:11,414 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,414 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-03-18 21:26:11,414 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 5
+2024-03-18 21:26:11,414 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,414 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 5
+2024-03-18 21:26:11,414 DEBUG   SenderThread:129999 [sender.py:send():378] send: summary
+2024-03-18 21:26:11,414 INFO    SenderThread:129999 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-18 21:26:11,414 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,414 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-03-18 21:26:11,414 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 6
+2024-03-18 21:26:11,414 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,414 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 6
+2024-03-18 21:26:11,414 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,415 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-03-18 21:26:11,417 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: status_report
+2024-03-18 21:26:11,621 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 7
+2024-03-18 21:26:11,621 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:11,621 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 7
+2024-03-18 21:26:11,621 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:11,621 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-03-18 21:26:12,080 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-summary.json
+2024-03-18 21:26:12,080 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/config.yaml
+2024-03-18 21:26:12,272 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-18 21:26:13,080 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:13,271 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 8
+2024-03-18 21:26:13,271 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: poll_exit
+2024-03-18 21:26:13,271 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:13,272 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 8
+2024-03-18 21:26:13,272 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:13,272 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-03-18 21:26:13,272 INFO    SenderThread:129999 [job_builder.py:build():298] Attempting to build job artifact
+2024-03-18 21:26:13,273 INFO    SenderThread:129999 [job_builder.py:_get_source_type():428] is repo sourced job
+2024-03-18 21:26:13,278 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-18 21:26:13,289 INFO    SenderThread:129999 [job_builder.py:build():404] adding wandb-job metadata file
+2024-03-18 21:26:13,300 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 9
+2024-03-18 21:26:13,301 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: poll_exit
+2024-03-18 21:26:13,301 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:13,301 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 9
+2024-03-18 21:26:13,301 DEBUG   SenderThread:129999 [sender.py:send():378] send: artifact
+2024-03-18 21:26:14,081 INFO    Thread-13 :129999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:14,280 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-18 21:26:14,326 INFO    SenderThread:129999 [sender.py:send_artifact():1443] sent artifact job-https___github.com_singforai_mini-marl.git_vdn_main.py - {'id': 'QXJ0aWZhY3Q6NzYxMDc5NDYz', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE0OTMxNTA4Mw==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NzYxMDc5NDYz', 'versionIndex': 9}}}
+2024-03-18 21:26:14,326 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:14,326 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-03-18 21:26:14,326 INFO    SenderThread:129999 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-03-18 21:26:15,082 INFO    SenderThread:129999 [dir_watcher.py:finish():388] scan: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files
+2024-03-18 21:26:15,082 INFO    SenderThread:129999 [dir_watcher.py:finish():402] scan save: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/conda-environment.yaml conda-environment.yaml
+2024-03-18 21:26:15,082 INFO    SenderThread:129999 [dir_watcher.py:finish():402] scan save: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/requirements.txt requirements.txt
+2024-03-18 21:26:15,085 INFO    SenderThread:129999 [dir_watcher.py:finish():402] scan save: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/config.yaml config.yaml
+2024-03-18 21:26:15,085 INFO    SenderThread:129999 [dir_watcher.py:finish():402] scan save: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-metadata.json wandb-metadata.json
+2024-03-18 21:26:15,085 INFO    SenderThread:129999 [dir_watcher.py:finish():402] scan save: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log output.log
+2024-03-18 21:26:15,087 INFO    SenderThread:129999 [dir_watcher.py:finish():402] scan save: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-summary.json wandb-summary.json
+2024-03-18 21:26:15,089 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 10
+2024-03-18 21:26:15,090 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: poll_exit
+2024-03-18 21:26:15,091 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:15,091 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 10
+2024-03-18 21:26:15,092 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:15,092 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-03-18 21:26:15,092 INFO    SenderThread:129999 [file_pusher.py:finish():172] shutting down file pusher
+2024-03-18 21:26:15,282 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-18 21:26:15,282 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: poll_exit
+2024-03-18 21:26:15,591 INFO    wandb-upload_0:129999 [upload_job.py:push():131] Uploaded file /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/conda-environment.yaml
+2024-03-18 21:26:15,745 INFO    wandb-upload_2:129999 [upload_job.py:push():131] Uploaded file /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/config.yaml
+2024-03-18 21:26:15,759 INFO    wandb-upload_1:129999 [upload_job.py:push():131] Uploaded file /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/requirements.txt
+2024-03-18 21:26:15,775 INFO    wandb-upload_4:129999 [upload_job.py:push():131] Uploaded file /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/wandb-summary.json
+2024-03-18 21:26:15,796 INFO    wandb-upload_3:129999 [upload_job.py:push():131] Uploaded file /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/files/output.log
+2024-03-18 21:26:15,996 INFO    Thread-12 :129999 [sender.py:transition_state():613] send defer: 11
+2024-03-18 21:26:15,996 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:15,996 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 11
+2024-03-18 21:26:15,997 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:15,997 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-03-18 21:26:15,997 INFO    SenderThread:129999 [file_pusher.py:join():178] waiting for file pusher
+2024-03-18 21:26:15,997 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 12
+2024-03-18 21:26:15,997 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:15,997 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 12
+2024-03-18 21:26:15,997 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:15,998 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-03-18 21:26:15,998 INFO    SenderThread:129999 [file_stream.py:finish():595] file stream finish called
+2024-03-18 21:26:16,197 INFO    SenderThread:129999 [file_stream.py:finish():599] file stream finish is done
+2024-03-18 21:26:16,197 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 13
+2024-03-18 21:26:16,197 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:16,198 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 13
+2024-03-18 21:26:16,198 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:16,198 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-03-18 21:26:16,198 INFO    SenderThread:129999 [sender.py:transition_state():613] send defer: 14
+2024-03-18 21:26:16,198 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: defer
+2024-03-18 21:26:16,198 INFO    HandlerThread:129999 [handler.py:handle_request_defer():172] handle defer: 14
+2024-03-18 21:26:16,199 DEBUG   SenderThread:129999 [sender.py:send():378] send: final
+2024-03-18 21:26:16,199 DEBUG   SenderThread:129999 [sender.py:send():378] send: footer
+2024-03-18 21:26:16,199 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: defer
+2024-03-18 21:26:16,199 INFO    SenderThread:129999 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-03-18 21:26:16,199 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-18 21:26:16,200 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: poll_exit
+2024-03-18 21:26:16,200 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: poll_exit
+2024-03-18 21:26:16,201 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: poll_exit
+2024-03-18 21:26:16,201 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: server_info
+2024-03-18 21:26:16,201 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: server_info
+2024-03-18 21:26:16,203 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: get_summary
+2024-03-18 21:26:16,203 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: sampled_history
+2024-03-18 21:26:16,204 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-18 21:26:16,204 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: job_info
+2024-03-18 21:26:16,393 DEBUG   SenderThread:129999 [sender.py:send_request():405] send_request: job_info
+2024-03-18 21:26:16,393 INFO    MainThread:129999 [wandb_run.py:_footer_history_summary_info():3851] rendering history
+2024-03-18 21:26:16,394 INFO    MainThread:129999 [wandb_run.py:_footer_history_summary_info():3883] rendering summary
+2024-03-18 21:26:16,394 INFO    MainThread:129999 [wandb_run.py:_footer_sync_info():3810] logging synced files
+2024-03-18 21:26:16,394 DEBUG   HandlerThread:129999 [handler.py:handle_request():146] handle_request: shutdown
+2024-03-18 21:26:16,394 INFO    HandlerThread:129999 [handler.py:finish():869] shutting down handler
+2024-03-18 21:26:17,205 INFO    WriterThread:129999 [datastore.py:close():296] close: /home/uosai/바탕화면/mini-marl/vdn/wandb/run-20240318_212559-9g40hpff/run-9g40hpff.wandb
+2024-03-18 21:26:17,393 INFO    SenderThread:129999 [sender.py:finish():1521] shutting down sender
+2024-03-18 21:26:17,394 INFO    SenderThread:129999 [file_pusher.py:finish():172] shutting down file pusher
+2024-03-18 21:26:17,394 INFO    SenderThread:129999 [file_pusher.py:join():178] waiting for file pusher

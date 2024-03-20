@@ -1,0 +1,99 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+Algo rmappo Exp ppo updates 0/60000 episodes, Accumulated Rewards 0.7999935150146484
+Algo rmappo Exp ppo updates 5/60000 episodes, Accumulated Rewards -2.0000152587890625
+Algo rmappo Exp ppo updates 10/60000 episodes, Accumulated Rewards 19.99999237060547
+Algo rmappo Exp ppo updates 15/60000 episodes, Accumulated Rewards 10.999987602233887
+Algo rmappo Exp ppo updates 20/60000 episodes, Accumulated Rewards -2.0000104904174805
+Algo rmappo Exp ppo updates 25/60000 episodes, Accumulated Rewards -1.0000064373016357
+Algo rmappo Exp ppo updates 30/60000 episodes, Accumulated Rewards -1.0000102519989014
+Algo rmappo Exp ppo updates 35/60000 episodes, Accumulated Rewards -2.0000085830688477
+Algo rmappo Exp ppo updates 40/60000 episodes, Accumulated Rewards -2.0000064373016357
+Algo rmappo Exp ppo updates 45/60000 episodes, Accumulated Rewards -3.000006675720215
+Algo rmappo Exp ppo updates 50/60000 episodes, Accumulated Rewards 7.999995231628418
+Algo rmappo Exp ppo updates 55/60000 episodes, Accumulated Rewards -2.000004529953003
+Algo rmappo Exp ppo updates 60/60000 episodes, Accumulated Rewards -2.000006675720215
+Algo rmappo Exp ppo updates 65/60000 episodes, Accumulated Rewards -12.000001907348633
+Algo rmappo Exp ppo updates 70/60000 episodes, Accumulated Rewards -2.0000030994415283
+Algo rmappo Exp ppo updates 75/60000 episodes, Accumulated Rewards -0.9999996423721313
+Algo rmappo Exp ppo updates 80/60000 episodes, Accumulated Rewards -21.0
+Algo rmappo Exp ppo updates 85/60000 episodes, Accumulated Rewards -11.00000286102295
+Algo rmappo Exp ppo updates 90/60000 episodes, Accumulated Rewards -1.9999994039535522
+Algo rmappo Exp ppo updates 95/60000 episodes, Accumulated Rewards 1.1920928955078125e-06
+Algo rmappo Exp ppo updates 100/60000 episodes, Accumulated Rewards -2.000002384185791
+Algo rmappo Exp ppo updates 105/60000 episodes, Accumulated Rewards -3.000004768371582
+Algo rmappo Exp ppo updates 110/60000 episodes, Accumulated Rewards -0.9999995231628418
+Algo rmappo Exp ppo updates 115/60000 episodes, Accumulated Rewards -12.000008583068848
+Algo rmappo Exp ppo updates 120/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 125/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 130/60000 episodes, Accumulated Rewards -1.9999996423721313
+Algo rmappo Exp ppo updates 135/60000 episodes, Accumulated Rewards -12.000006675720215
+Algo rmappo Exp ppo updates 140/60000 episodes, Accumulated Rewards -2.999999523162842
+Algo rmappo Exp ppo updates 145/60000 episodes, Accumulated Rewards -2.999999523162842
+Algo rmappo Exp ppo updates 150/60000 episodes, Accumulated Rewards -1.9999995231628418
+Algo rmappo Exp ppo updates 155/60000 episodes, Accumulated Rewards -0.9999996423721313
+Algo rmappo Exp ppo updates 160/60000 episodes, Accumulated Rewards -2.999999761581421
+Algo rmappo Exp ppo updates 165/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 170/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 175/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 180/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 185/60000 episodes, Accumulated Rewards -12.000003814697266
+Algo rmappo Exp ppo updates 190/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 195/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 200/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 205/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 210/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 215/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 220/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 225/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 230/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 235/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 240/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 245/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 250/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 255/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 260/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 265/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 270/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 275/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 280/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 285/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 290/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 295/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 300/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 305/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 310/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 315/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 320/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 325/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 330/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 335/60000 episodes, Accumulated Rewards -2.0000009536743164
+Algo rmappo Exp ppo updates 340/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 345/60000 episodes, Accumulated Rewards -2.0000061988830566
+Algo rmappo Exp ppo updates 350/60000 episodes, Accumulated Rewards -1.9999995231628418
+Algo rmappo Exp ppo updates 355/60000 episodes, Accumulated Rewards -2.0000011920928955
+Algo rmappo Exp ppo updates 360/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 365/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 370/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 375/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 380/60000 episodes, Accumulated Rewards -1.999999761581421
+Algo rmappo Exp ppo updates 385/60000 episodes, Accumulated Rewards -0.9999996423721313
+Algo rmappo Exp ppo updates 390/60000 episodes, Accumulated Rewards -1.999999761581421
+Traceback (most recent call last):
+  File "/home/uosai/바탕화면/mini-marl/mappo/main.py", line 75, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/mappo/main.py", line 68, in main
+    runner.run()
+  File "/home/uosai/바탕화면/mini-marl/mappo/runner/shared/magym_runner.py", line 54, in run
+    train_infos = self.train()
+  File "/home/uosai/바탕화면/mini-marl/mappo/runner/shared/base_runner.py", line 131, in train
+    train_infos = self.trainer.train(self.buffer)
+  File "/home/uosai/바탕화면/mini-marl/mappo/algorithms/ramppo_network.py", line 208, in train
+    = self.ppo_update(sample, update_actor)
+  File "/home/uosai/바탕화면/mini-marl/mappo/algorithms/ramppo_network.py", line 140, in ppo_update
+    (policy_loss - dist_entropy * self.entropy_coef).backward()
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/_tensor.py", line 522, in backward
+    torch.autograd.backward(
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/autograd/__init__.py", line 266, in backward
+    Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

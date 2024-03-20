@@ -36,21 +36,15 @@ class SumTree():
         return self.priority_tree[0]
 
     def add(self, priority, sample):
-        priority_idx = self.n_data + self.capacity - 1
+        # priority_idx = self.n_data + self.capacity - 1
 
         if self.n_data < self.capacity:
             priority_idx = self.n_data + self.capacity - 1
             self.buffer[self.n_data] = sample
         else:
-            index: int = 0
-            while True:
-                priority_idx = np.argsort(self.priority_tree)[index]
-                if priority_idx >= self.capacity-1:
-                    break
-                else:
-                    index += 1
-
-            self.buffer[priority_idx - self.capacity + 1] = sample
+            data_idx = np.argsort(self.priority_tree[self.capacity-1:])[0]
+            priority_idx = data_idx + self.capacity - 1
+            self.buffer[data_idx] = sample
 
         self.update(priority_idx, priority)
 

@@ -1,0 +1,109 @@
+C:\Users\USER\anaconda3\lib\site-packages\gym\logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+warm up: 100%|█████████████████▉| 9990/10000 [01:10<00:00, 135.48it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):09/100000 [01:59<5:41:34,  4.86it/s]
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 201, in <module>
+    main(sys.argv[1:])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 132, in train
+    self.replay_buffer.update(idx, new_td_error[index])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\replay_buffer\per.py", line 80, in update
+    priority = self._get_priority(new_td_error)
+  File "C:\Users\USER\Desktop\mini-marl\vdn\replay_buffer\per.py", line 29, in _get_priority
+    return (td_error + self.eps) ** self.alpha
+  File "C:\Users\USER\anaconda3\lib\site-packages\torch\_tensor.py", line 40, in wrapped
+    return f(*args, **kwargs)
+KeyboardInterrupt

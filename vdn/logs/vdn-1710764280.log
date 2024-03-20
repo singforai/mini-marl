@@ -1,0 +1,50 @@
+2024-03-18 21:18:00,767 - INFO - ============================================================
+2024-03-18 21:18:00,767 - INFO - use_wandb                     | True
+2024-03-18 21:18:00,767 - INFO - entity_name                   | singfor7012
+2024-03-18 21:18:00,767 - INFO - project_name                  | checker-v0
+2024-03-18 21:18:00,767 - INFO - env_name                      | ma_gym:Checkers-v0
+2024-03-18 21:18:00,767 - INFO - experiment_name               | vdn
+2024-03-18 21:18:00,767 - INFO - use_cuda                      | False
+2024-03-18 21:18:00,767 - INFO - n_training_threads            | 12
+2024-03-18 21:18:00,767 - INFO - use_render                    | False
+2024-03-18 21:18:00,767 - INFO - use_time_sleep                | False
+2024-03-18 21:18:00,767 - INFO - sleep_second                  | 0.5
+2024-03-18 21:18:00,767 - INFO - seed                          | 42
+2024-03-18 21:18:00,767 - INFO - fix_seed                      | True
+2024-03-18 21:18:00,767 - INFO - epsilon_anneal_episode        | 15000
+2024-03-18 21:18:00,767 - INFO - max_epsilon                   | 0.8
+2024-03-18 21:18:00,767 - INFO - min_epsilon                   | 0.05
+2024-03-18 21:18:00,767 - INFO - lr                            | 0.001
+2024-03-18 21:18:00,767 - INFO - gamma                         | 0.99
+2024-03-18 21:18:00,767 - INFO - batch_size                    | 32
+2024-03-18 21:18:00,767 - INFO - max_episodes                  | 15000
+2024-03-18 21:18:00,767 - INFO - max_step                      | 100
+2024-03-18 21:18:00,767 - INFO - step_cost                     | -0.01
+2024-03-18 21:18:00,767 - INFO - chunk_size                    | 10
+2024-03-18 21:18:00,767 - INFO - update_iter                   | 10
+2024-03-18 21:18:00,767 - INFO - update_target_interval        | 20
+2024-03-18 21:18:00,767 - INFO - grad_clip_norm                | 5
+2024-03-18 21:18:00,767 - INFO - decide_target                 | dqn
+2024-03-18 21:18:00,767 - INFO - decide_network                | q_net
+2024-03-18 21:18:00,767 - INFO - use_recurrent                 | True
+2024-03-18 21:18:00,767 - INFO - test_interval                 | 10
+2024-03-18 21:18:00,767 - INFO - test_episodes                 | 20
+2024-03-18 21:18:00,767 - INFO - buffer_limit                  | 1000
+2024-03-18 21:18:00,767 - INFO - eps                           | 1e-06
+2024-03-18 21:18:00,767 - INFO - alpha                         | 0.4
+2024-03-18 21:18:00,767 - INFO - beta                          | 0.4
+2024-03-18 21:18:00,767 - INFO - update_alpha_beta             | True
+2024-03-18 21:18:00,768 - INFO - use_step_weight               | True
+2024-03-18 21:18:00,768 - INFO - step_weight                   | 0.99
+2024-03-18 21:18:00,768 - INFO - Device: cpu
+2024-03-18 21:18:00,768 - INFO - ============================================================
+2024-03-18 21:18:08,190 - INFO - 1       /15000      episodes | train score: -2.00  | train loss: 41.28   | eps: 0.8000 | alpha: 0.4000 | beta: 0.4000
+2024-03-18 21:18:08,470 - INFO - 2       /15000      episodes | train score: -12.00 | train loss: 28.95   | eps: 0.8000 | alpha: 0.4001 | beta: 0.4001
+2024-03-18 21:18:08,764 - INFO - 3       /15000      episodes | train score: 7.00   | train loss: 34.48   | eps: 0.7999 | alpha: 0.4001 | beta: 0.4001
+2024-03-18 21:18:09,033 - INFO - 4       /15000      episodes | train score: 8.54   | train loss: 37.09   | eps: 0.7999 | alpha: 0.4002 | beta: 0.4002
+2024-03-18 21:18:09,320 - INFO - 5       /15000      episodes | train score: 7.00   | train loss: 29.38   | eps: 0.7998 | alpha: 0.4002 | beta: 0.4002
+2024-03-18 21:18:09,609 - INFO - 6       /15000      episodes | train score: 17.00  | train loss: 30.32   | eps: 0.7998 | alpha: 0.4002 | beta: 0.4002
+2024-03-18 21:18:09,883 - INFO - 7       /15000      episodes | train score: 8.28   | train loss: 25.04   | eps: 0.7997 | alpha: 0.4003 | beta: 0.4003
+2024-03-18 21:18:10,149 - INFO - 8       /15000      episodes | train score: 17.36  | train loss: 21.18   | eps: 0.7997 | alpha: 0.4003 | beta: 0.4003
+2024-03-18 21:18:10,428 - INFO - 9       /15000      episodes | train score: -12.00 | train loss: 20.18   | eps: 0.7996 | alpha: 0.4004 | beta: 0.4004
+2024-03-18 21:18:10,682 - INFO - 10      /15000      episodes | train score: 7.76   | train loss: 18.45   | eps: 0.7996 | alpha: 0.4004 | beta: 0.4004

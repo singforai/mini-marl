@@ -1,0 +1,15 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+warm up: 100%|███████████████████| 1000/1000 [00:06<00:00, 156.26it/s]
+Traceback (most recent call last):| 9/15000 [00:02<1:09:31,  3.59it/s]
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 204, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 188, in main
+    test_score, test_loss = test.execute(behavior_network=behavior_network, target_network = target_network)
+  File "/home/uosai/바탕화면/mini-marl/vdn/_test.py", line 33, in execute
+    sum_max_behavior_q = behavior_q.gather(dim=2, index=action.to(torch.int64)).squeeze(dim=-1).sum(dim=1, keepdims=True)
+RuntimeError: Index tensor must have the same number of dimensions as input tensor
+tensor([[[-1.3435, -3.3116, -0.6670, -0.4548, -0.0080],
+         [-0.0037, -0.1105, -0.0677, -0.0903, -0.1254]]])

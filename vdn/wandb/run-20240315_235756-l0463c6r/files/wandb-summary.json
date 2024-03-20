@@ -1,0 +1,1 @@
+{"episode": 21999, "train loss": 1.4690864086151123, "train score": 28.000000000000043, "epsilon": 0.05, "alpha": 1.0, "beta": 1.0, "_timestamp": 1710539650.483392, "_runtime": 24973.96240592003, "_step": 24199, "test-score": 7.999999999999849, "_wandb": {"runtime": 24974}}

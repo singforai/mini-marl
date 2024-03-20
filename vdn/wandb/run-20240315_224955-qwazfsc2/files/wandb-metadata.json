@@ -1,0 +1,58 @@
+{
+    "os": "Windows-10-10.0.22631-SP0",
+    "python": "3.9.16",
+    "heartbeatAt": "2024-03-15T13:49:56.836098",
+    "startedAt": "2024-03-15T13:49:55.156618",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--use_wandb",
+        "True",
+        "--experiment_name",
+        "use_step_weight"
+    ],
+    "state": "running",
+    "program": "C:\\Users\\USER\\Desktop\\mini-marl\\vdn\\main.py",
+    "codePathLocal": "main.py",
+    "codePath": "vdn\\main.py",
+    "git": {
+        "remote": "https://github.com/singforai/mini-marl.git",
+        "commit": "a8a6b055b52b59211f15021a7195aad66f4d99f9"
+    },
+    "email": "singfor7012@gmail.com",
+    "root": "C:/Users/USER/Desktop/mini-marl",
+    "host": "LAPTOP-FP8FOEQU",
+    "username": "USER",
+    "executable": "C:\\Users\\USER\\anaconda3\\envs\\torch\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2803.0,
+        "min": 0.0,
+        "max": 2803.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2803.0,
+            "min": 0.0,
+            "max": 2803.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 459.74316024780273,
+            "used": 411.51708221435547
+        }
+    },
+    "gpu": "NVIDIA GeForce MX450",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce MX450",
+            "memory_total": 2147483648
+        }
+    ],
+    "memory": {
+        "total": 15.729598999023438
+    }
+}

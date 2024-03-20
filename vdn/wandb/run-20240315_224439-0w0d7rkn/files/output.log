@@ -1,0 +1,145 @@
+C:\Users\USER\anaconda3\envs\torch\lib\site-packages\gym\logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+training:   0%|                            | 0/100000 [00:00<?, ?it/s]
+Traceback (most recent call last):         | 0/100000 [00:00<?, ?it/s]
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 204, in <module>
+    main(sys.argv[1:])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 178, in main
+    train_loss = train_module.train(
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 107, in train
+    states, actions, rewards, next_states, dones, priority_idx, is_weight = super().sample_chunk(batch_size=self.batch_size,
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 22, in sample_chunk
+    states, actions, rewards, next_states, dones, priority_idx, is_weight = self.replay_buffer.sample(
+  File "C:\Users\USER\Desktop\mini-marl\vdn\replay_buffer\per.py", line 72, in sample
+    if self.alphause_step_weight:
+AttributeError: 'Prioritized_Experience_Replay' object has no attribute 'alphause_step_weight'

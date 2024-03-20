@@ -1,0 +1,7 @@
+2024-03-19 12:50:51,529 INFO    StreamThr :164019 [internal.py:wandb_internal():86] W&B internal server running at pid: 164019, started at: 2024-03-19 12:50:51.528659
+2024-03-19 12:50:51,530 DEBUG   HandlerThread:164019 [handler.py:handle_request():146] handle_request: status
+2024-03-19 12:50:51,538 DEBUG   HandlerThread:164019 [handler.py:handle_request():146] handle_request: shutdown
+2024-03-19 12:50:51,538 INFO    HandlerThread:164019 [handler.py:finish():869] shutting down handler
+2024-03-19 12:50:52,531 WARNING StreamThr :164019 [internal.py:is_dead():414] Internal process exiting, parent pid 164000 disappeared
+2024-03-19 12:50:52,531 ERROR   StreamThr :164019 [internal.py:wandb_internal():152] Internal process shutdown.
+2024-03-19 12:50:52,531 INFO    SenderThread:164019 [sender.py:finish():1521] shutting down sender

@@ -1,0 +1,14 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+warm up:   1%|▏                  | 213/20000 [00:01<02:59, 110.52it/s]Traceback (most recent call last):
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 204, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/vdn/main.py", line 92, in main
+    next_state, reward, done, info = train_env.step(action[0])
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/ma_gym/envs/checkers/checkers.py", line 220, in step
+    return self.get_agent_obs(), rewards, self._agent_dones, {'food_count': self._food_count}
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/ma_gym/envs/checkers/checkers.py", line 114, in get_agent_obs
+    if self.is_valid((r, c)):
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/ma_gym/envs/checkers/checkers.py", line 149, in is_valid
+    return (0 <= pos[0] < self._grid_shape[0]) and (0 <= pos[1] < self._grid_shape[1])
+KeyboardInterrupt

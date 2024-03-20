@@ -1,0 +1,138 @@
+wandb_version: 1
+
+use_wandb:
+  desc: null
+  value: true
+entity_name:
+  desc: null
+  value: singfor7012
+project_name:
+  desc: null
+  value: checker-v0
+env_name:
+  desc: null
+  value: ma_gym:Checkers-v0
+experiment_name:
+  desc: null
+  value: vdn
+use_cuda:
+  desc: null
+  value: false
+n_training_threads:
+  desc: null
+  value: 12
+use_render:
+  desc: null
+  value: false
+use_time_sleep:
+  desc: null
+  value: false
+sleep_second:
+  desc: null
+  value: 0.5
+seed:
+  desc: null
+  value: 42
+fix_seed:
+  desc: null
+  value: true
+epsilon_anneal_episode:
+  desc: null
+  value: 15000
+max_epsilon:
+  desc: null
+  value: 0.8
+min_epsilon:
+  desc: null
+  value: 0.05
+lr:
+  desc: null
+  value: 0.001
+gamma:
+  desc: null
+  value: 0.99
+batch_size:
+  desc: null
+  value: 32
+max_episodes:
+  desc: null
+  value: 15000
+max_step:
+  desc: null
+  value: 100
+step_cost:
+  desc: null
+  value: -0.01
+chunk_size:
+  desc: null
+  value: 10
+update_iter:
+  desc: null
+  value: 10
+update_target_interval:
+  desc: null
+  value: 20
+grad_clip_norm:
+  desc: null
+  value: 5
+decide_target:
+  desc: null
+  value: dqn
+decide_network:
+  desc: null
+  value: q_net
+use_recurrent:
+  desc: null
+  value: true
+test_interval:
+  desc: null
+  value: 10
+test_episodes:
+  desc: null
+  value: 20
+buffer_limit:
+  desc: null
+  value: 1000
+eps:
+  desc: null
+  value: 1.0e-06
+alpha:
+  desc: null
+  value: 0.4
+beta:
+  desc: null
+  value: 0.4
+update_alpha_beta:
+  desc: null
+  value: true
+use_step_weight:
+  desc: null
+  value: true
+step_weight:
+  desc: null
+  value: 0.99
+_wandb:
+  desc: null
+  value:
+    python_version: 3.9.18
+    cli_version: 0.16.4
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1710764565.0
+    t:
+      1:
+      - 1
+      - 55
+      2:
+      - 1
+      - 55
+      3:
+      - 13
+      - 16
+      - 23
+      4: 3.9.18
+      5: 0.16.4
+      8:
+      - 5
+      13: linux-x86_64

@@ -12,7 +12,7 @@ from _utils import *
 from _config import get_config
 
 from _test import Test
-from replay_buffer.per import Prioritized_Experience_Replay
+from replay_buffer.buffer import Prioritized_Experience_Replay
 
 
 def main(args):
@@ -43,7 +43,7 @@ def main(args):
     if use_wandb:
         import wandb
         wandb.init(entity=args.entity_name,
-                   project=environment.split(":")[1],
+                   project=args.project_name,
                    name=f"{experiment_name}-{int(time.time())}",
                    config=args, reinit=True)
 
@@ -59,18 +59,19 @@ def main(args):
     fix_random_seed(args.seed) if args.fix_seed else None
 
     train_env = gym.make(
-        id=environment, max_steps=args.max_step, step_cost=args.step_cost)
+        id=environment, full_observable = True,  max_steps=args.max_step, step_cost=args.step_cost)
     test_env = gym.make(
-        id=environment, max_steps=args.max_step, step_cost=args.step_cost)
+        id=environment, full_observable = True,  max_steps=args.max_step, step_cost=args.step_cost)
 
     Replay_buffer = Prioritized_Experience_Replay(args=args)
 
-    target_network, behavior_network = decide_network( args, train_env, device)
+    target_network, behavior_network = decide_network(args, train_env, device)
     target_network.load_state_dict(state_dict=behavior_network.state_dict())
 
     optimizer = optim.Adam(params=behavior_network.parameters(), lr=args.lr)
 
-    train_module = decide_target(Replay_buffer, behavior_network, target_network, args=args, device=device)
+    train_module = decide_target(
+        Replay_buffer, behavior_network, target_network, args=args, device=device)
 
     test = Test(test_env, args, device)
 
@@ -86,6 +87,7 @@ def main(args):
             hidden = behavior_network.init_hidden().to(device)
             target_hidden = target_network.init_hidden().to(device)
             while not all(done):
+
                 action, next_hidden, behavior_q = behavior_network.sample_action(
                     obs=torch.Tensor(state).unsqueeze(dim=0).to(device), hidden=hidden, epsilon=epsilon)
                 next_state, reward, done, info = train_env.step(action[0])
@@ -174,16 +176,18 @@ def main(args):
                     if use_time_sleep:
                         time.sleep(sleep_second)
 
-        train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+        train_loss = train_module.train(
+            target_network=target_network, optimizer=optimizer, epsilon=epsilon)
 
         logging.info(f"{(episode+1):<8}/{max_episodes:<10} episodes | train score: {train_score:<6.2f} | train loss: {train_loss:<7.2f} | eps: {epsilon:<5.4f} | alpha: {Replay_buffer.alpha:<6.4f} | beta: {Replay_buffer.beta:<6.4f}")
 
         if episode % update_target_interval == 0:
-            target_network.load_state_dict(state_dict=behavior_network.state_dict())
+            target_network.load_state_dict(
+                state_dict=behavior_network.state_dict())
 
         if (episode + 1) % test_interval == 0:
-            test_score: float = test.execute(behavior_network=behavior_network)
-            logging.info(f"avg test score: {test_score:<6.2f}")
+            test_score, test_loss = test.execute(behavior_network=behavior_network, target_network = target_network)
+            logging.info(f"avg test score: {test_score:<6.2f} | avg test loss: {test_loss:<6.2f}")
             if use_wandb:
                 wandb.log({'test-score': test_score})
 

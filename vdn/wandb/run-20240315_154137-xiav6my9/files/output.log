@@ -1,0 +1,13 @@
+C:\Users\USER\anaconda3\envs\torch\lib\site-packages\gym\logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+============================================================
+Traceback (most recent call last):
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 214, in <module>
+    main(sys.argv[1:])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 151, in main
+    next_state, reward, done, info = train_env.step(action[0])
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\ma_gym\envs\checkers\checkers.py", line 187, in step
+    for agent_i, action in enumerate(agents_action):
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\_tensor.py", line 926, in __iter__
+    return iter(self.unbind(0))
+KeyboardInterrupt

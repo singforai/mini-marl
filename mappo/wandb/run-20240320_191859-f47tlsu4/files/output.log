@@ -1,0 +1,63 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+You are calling 'step()' even though this environment has already returned all(dones) = True for all agents. You should always call 'reset()' once you receive 'all(dones) = True' -- any further steps are undefined behavior.
+Algo rmappo Exp ppo updates 0/60000 episodes, Accumulated Rewards 0.7999935150146484
+Algo rmappo Exp ppo updates 5/60000 episodes, Accumulated Rewards -1.000014305114746
+Algo rmappo Exp ppo updates 10/60000 episodes, Accumulated Rewards 6.999990940093994
+You are calling 'step()' even though this environment has already returned all(dones) = True for all agents. You should always call 'reset()' once you receive 'all(dones) = True' -- any further steps are undefined behavior.
+Algo rmappo Exp ppo updates 15/60000 episodes, Accumulated Rewards -2.000002861022949
+You are calling 'step()' even though this environment has already returned all(dones) = True for all agents. You should always call 'reset()' once you receive 'all(dones) = True' -- any further steps are undefined behavior.
+Algo rmappo Exp ppo updates 20/60000 episodes, Accumulated Rewards 7.999991416931152
+Algo rmappo Exp ppo updates 25/60000 episodes, Accumulated Rewards 7.999992847442627
+You are calling 'step()' even though this environment has already returned all(dones) = True for all agents. You should always call 'reset()' once you receive 'all(dones) = True' -- any further steps are undefined behavior.
+Algo rmappo Exp ppo updates 30/60000 episodes, Accumulated Rewards -10.000003814697266
+Algo rmappo Exp ppo updates 35/60000 episodes, Accumulated Rewards 7.999995231628418
+Algo rmappo Exp ppo updates 40/60000 episodes, Accumulated Rewards 7.0
+You are calling 'step()' even though this environment has already returned all(dones) = True for all agents. You should always call 'reset()' once you receive 'all(dones) = True' -- any further steps are undefined behavior.
+Algo rmappo Exp ppo updates 45/60000 episodes, Accumulated Rewards -11.000006675720215
+You are calling 'step()' even though this environment has already returned all(dones) = True for all agents. You should always call 'reset()' once you receive 'all(dones) = True' -- any further steps are undefined behavior.
+Traceback (most recent call last):
+  File "/home/uosai/바탕화면/mini-marl/mappo/main.py", line 75, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/mappo/main.py", line 68, in main
+    runner.run()
+  File "/home/uosai/바탕화면/mini-marl/mappo/runner/shared/magym_runner.py", line 35, in run
+    values, actions, action_log_probs, rnn_states, rnn_states_critic = self.collect(step = step)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/mappo/runner/shared/magym_runner.py", line 105, in collect
+    = self.trainer.policy.get_actions(obs = np.concatenate(self.buffer.obs[step]),
+  File "/home/uosai/바탕화면/mini-marl/mappo/algorithms/policys/rmappo_policy.py", line 77, in get_actions
+    values, rnn_states_critic = self.critic(cent_obs, rnn_states_critic, masks)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/mappo/algorithms/policys/r_actor_critic.py", line 175, in forward
+    critic_features = self.base(cent_obs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/mappo/algorithms/utils/mlp.py", line 54, in forward
+    x = self.mlp(x)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/mini-marl/mappo/algorithms/utils/mlp.py", line 25, in forward
+    x = self.fc1(x)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 116, in forward
+    return F.linear(input, self.weight, self.bias)
+KeyboardInterrupt
+Algo rmappo Exp ppo updates 50/60000 episodes, Accumulated Rewards -21.00000762939453

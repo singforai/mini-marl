@@ -1,0 +1,10 @@
+/home/uosai/바탕화면/miniconda3/envs/simplenv/lib/python3.9/site-packages/gym/logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+Traceback (most recent call last):
+  File "/home/uosai/바탕화면/mini-marl/mappo/main.py", line 75, in <module>
+    main(sys.argv[1:])
+  File "/home/uosai/바탕화면/mini-marl/mappo/main.py", line 68, in main
+    runner.run()
+  File "/home/uosai/바탕화면/mini-marl/mappo/runner/shared/magym_runner.py", line 64, in run
+    self.log_train(train_infos = train_infos, eval_results = eval_results)
+UnboundLocalError: local variable 'eval_results' referenced before assignment

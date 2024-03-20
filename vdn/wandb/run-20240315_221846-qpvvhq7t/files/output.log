@@ -1,0 +1,25 @@
+C:\Users\USER\anaconda3\envs\torch\lib\site-packages\gym\logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+============================================================
+Traceback (most recent call last):
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 214, in <module>
+    main(sys.argv[1:])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 188, in main
+    train_loss = train_module.train(
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 118, in train
+    sum_max_behavior_q, next_hidden = super().sum_behavior_value(state=state.to(self.device),
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 42, in sum_behavior_value
+    behavior_q, next_hidden = self.behavior_network(
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_network.py", line 77, in forward
+    q_values[agent_i] = self.action_net[agent_i](
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\container.py", line 204, in forward
+    input = module(input)
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "C:\Users\USER\anaconda3\envs\torch\lib\site-packages\torch\nn\modules\linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+KeyboardInterrupt

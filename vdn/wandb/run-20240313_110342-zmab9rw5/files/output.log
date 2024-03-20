@@ -1,0 +1,137 @@
+C:\Users\USER\anaconda3\lib\site-packages\gym\logger.py:34: UserWarning: [33mWARN: Box bound precision lowered by casting to float32
+  warnings.warn(colorize("%s: %s" % ("WARN", msg % args), "yellow"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+warm up: 100%|██████████████████▉| 9993/10000 [02:03<00:00, 71.39it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):4/100000 [01:56<11:38:34,  2.38it/s]
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 201, in <module>
+    main(sys.argv[1:])
+  File "C:\Users\USER\Desktop\mini-marl\vdn\main.py", line 177, in main
+    train_loss = train_module.train(target_network=target_network, optimizer=optimizer, epsilon=epsilon)
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 104, in train
+    sum_max_behavior_q, next_hidden = super().sum_behavior_value(state = state.to(self.device),
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_train.py", line 37, in sum_behavior_value
+    behavior_q, next_hidden = self.behavior_network(obs = state.to(self.device), hidden = hidden)
+  File "C:\Users\USER\anaconda3\lib\site-packages\torch\nn\modules\module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\USER\Desktop\mini-marl\vdn\_network.py", line 73, in forward
+    feature = self.gru_net[agent_i](feature, hidden[:, agent_i, :])
+  File "C:\Users\USER\anaconda3\lib\site-packages\torch\nn\modules\module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\USER\anaconda3\lib\site-packages\torch\nn\modules\rnn.py", line 1327, in forward
+    ret = _VF.gru_cell(
+KeyboardInterrupt

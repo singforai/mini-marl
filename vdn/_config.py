@@ -7,9 +7,10 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param('--use_wandb', type=bool, default=False, help="Whether to use wandb")
+    param('--use_wandb', type=bool, default = False, help="Whether to use wandb")
     param('--entity_name', type=str, default='singfor7012', help="wandb_name")
-
+    param('--project_name', type =str, default = "checker-v0",
+          help = "wandb project category name")
     # experiment base setting parameters
     param('--env_name', type=str, default='ma_gym:Checkers-v0',
           help="Built-in environment settings for ma_gym")
@@ -35,9 +36,9 @@ def get_config() -> argparse.ArgumentParser:
           help="Should I fix the seed during training?")
 
     # epsilon control parameters
-    param('--epsilon_anneal_episode', type=int, default=60000,
+    param('--epsilon_anneal_episode', type=int, default=15000,
           help="Episode where epsilon starts to reach minimum")
-    param('--max_epsilon', type=float, default=0.9,
+    param('--max_epsilon', type=float, default=0.8,
           help="Epsilon set at the beginning of learning")
     param('--min_epsilon', type=float, default=0.05,
           help="Epsilon applied after epsilon_anneal_episode")
@@ -49,19 +50,19 @@ def get_config() -> argparse.ArgumentParser:
           help="Discount factor used to calculate TD error")
     param('--batch_size', type=int, default=32,
           help="Number of samples used for one training")
-    param('--max_episodes', type=int, default=100000,
+    param('--max_episodes', type=int, default=15000,
           help="Number of episodes trained")
     param('--max_step', type=int, default=100,
           help="Maximum support step per episode")
-    param('--step_cost', type=float, default=-
-          0.01, help="Rewards given per step")
+    param('--step_cost', type=float, default=-0.01, 
+          help="Rewards given per step")
     param('--chunk_size', type=int, default=10,
           help="Number of past steps input(trajectory): It must be a divisor of max_episode")
     param('--update_iter', type=int, default=10,
           help="Decide how many times to train on sampled data")
     param('--update_target_interval', type=int, default=20,
           help="Episode interval at which the target network copies the parameters of the behavioral network")
-    param('--grad_clip_norm', type=int, default=0.01,
+    param('--grad_clip_norm', type=int, default = 5,
           help="Limit the maximum value of gradient's L2 norm")
 
     # Architecture parameters
@@ -75,19 +76,23 @@ def get_config() -> argparse.ArgumentParser:
     # test parameters
     param('--test_interval', type=int, default=10,
           help="Intervals at which tests are performed and results are displayed during training")
-    param('--test_episodes', type=int, default=10,
+    param('--test_episodes', type=int, default=20,
           help="Number of tested episodes")
 
     # Replay_buffer parameters
-    param('--buffer_limit', type=int, default=50000,
+    param('--buffer_limit', type=int, default=10000,
           help="It determines the capacity of Replay buffer and warm up chunk step")
     param('--eps', type=int, default=1e-6,
           help="small positive constant that reacts when TD-error is zero")
-    param('--alpha', type=float, default=0.8,
+    param('--alpha', type=float, default=0.4,
           help="How much priority to reflect(alpha=0: uniform distribution ~ alpha=1: prioritized_distribution")
-    param('--beta', type=float, default=0.2,
+    param('--beta', type=float, default=0.4,
           help="beta=0: Not use importance sampling ~ beta=1: fully compensate importance sampling correction")
     param('--update_alpha_beta', type=bool, default=True,
           help="Update alpha and beta values linearly")
+    param('--use_step_weight', type=bool, default=True,
+          help="Whether to assign a weight of 1 or less to the old priority collectively at each step")
+    param('--step_weight', type=float, default=0.99,
+          help="step weight value")
 
     return parser
