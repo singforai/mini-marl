@@ -8469,3 +8469,1428 @@
 2024-03-20 20:33:26,107 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
 2024-03-20 20:33:26,107 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
 2024-03-20 20:33:26,107 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:26,403 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:26,403 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:26,403 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:26,404 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:26,490 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:26,693 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:26,694 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:26,694 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:26,694 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:26,985 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:26,985 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:26,986 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:26,986 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:27,271 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:27,271 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:27,272 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:27,272 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:27,490 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:27,490 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:27,557 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:27,557 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:27,558 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:27,558 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:27,843 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:27,843 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:27,844 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:27,844 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:28,490 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:28,690 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:28,691 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:28,691 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:28,691 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:28,908 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:28,908 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:28,909 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:28,909 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:29,124 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:29,124 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:29,124 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:29,124 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:29,339 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:29,339 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:29,339 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:29,339 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:29,491 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:29,491 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:29,552 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:29,552 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:29,553 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:29,553 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:29,765 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:29,766 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:29,766 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:29,766 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:29,975 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:29,976 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:29,976 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:29,976 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:30,186 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:30,186 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:30,186 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:30,186 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:30,396 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:30,396 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:30,397 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:30,397 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:30,491 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:30,605 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:30,606 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:30,606 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:30,606 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:33:30,606 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:31,268 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:31,268 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:31,268 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:31,268 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:31,477 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:31,477 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:31,477 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:31,478 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:31,491 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:31,491 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:31,688 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:31,689 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:31,689 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:31,689 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:31,900 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:31,901 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:31,901 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:31,901 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:32,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-20 20:33:32,072 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: stop_status
+2024-03-20 20:33:32,073 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-20 20:33:32,112 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:32,322 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:32,431 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:32,431 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:32,432 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:32,432 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:32,432 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:32,434 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:32,491 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:32,538 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:32,539 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:32,539 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:32,539 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:32,748 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:32,749 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:32,749 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:32,749 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:32,960 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:32,960 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:32,960 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:32,961 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:33,170 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:33,171 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:33,171 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:33,171 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:33,492 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:33,492 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:33,841 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:33,842 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:33,842 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:33,842 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:34,059 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:34,059 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:34,059 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:34,060 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:34,273 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:34,273 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:34,273 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:34,274 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:34,485 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:34,486 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:34,486 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:34,486 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:34,492 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:34,700 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:34,712 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:34,713 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:34,713 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:34,915 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:34,915 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:34,915 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:34,916 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:35,130 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:35,130 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:35,130 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:35,131 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:35,341 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:35,342 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:35,342 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:35,342 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:35,492 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:35,492 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:35,552 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:35,553 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:35,553 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:35,553 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:35,764 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:35,764 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:35,764 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:35,764 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:33:35,765 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:36,441 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:36,441 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:36,441 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:36,442 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:36,493 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:36,658 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:36,659 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:36,659 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:36,659 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:36,871 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:36,872 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:36,872 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:36,872 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:37,086 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:37,087 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:37,087 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:37,087 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:37,301 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:37,302 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:37,302 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:37,302 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:37,493 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:37,493 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:37,514 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:37,515 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:37,515 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:37,515 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:37,728 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:37,729 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:37,729 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:37,729 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:37,942 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:37,942 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:37,943 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:37,943 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:38,156 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:38,156 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:38,157 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:38,157 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:38,371 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:38,372 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:38,372 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:38,372 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:38,493 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:39,045 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:39,046 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:39,046 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:39,046 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:39,263 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:39,264 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:39,264 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:39,264 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:39,475 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:39,475 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:39,475 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:39,476 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:39,493 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:39,494 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:39,686 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:39,687 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:39,687 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:39,687 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:39,898 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:39,899 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:39,901 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:39,902 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:40,111 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:40,111 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:40,111 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:40,111 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:40,323 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:40,323 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:40,323 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:40,324 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:40,494 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:40,532 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:40,533 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:40,533 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:40,533 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:40,745 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:40,745 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:40,746 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:40,746 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:40,957 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:40,958 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:40,958 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:40,958 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:33:40,958 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:41,494 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:41,494 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:41,623 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:41,624 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:41,624 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:41,624 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:41,836 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:41,836 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:41,836 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:41,837 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:42,054 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:42,054 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:42,054 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:42,055 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:42,268 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:42,269 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:42,269 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:42,269 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:42,481 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:42,481 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:42,482 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:42,482 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:42,494 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:42,692 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:42,693 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:42,693 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:42,693 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:42,904 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:42,905 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:42,905 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:42,905 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:43,115 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:43,115 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:43,115 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:43,115 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:43,328 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:43,328 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:43,328 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:43,329 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:43,494 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:43,495 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:43,539 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:43,539 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:43,539 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:43,540 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:44,206 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:44,207 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:44,207 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:44,207 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:44,420 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:44,420 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:44,421 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:44,421 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:44,495 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:44,632 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:44,633 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:44,633 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:44,634 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:44,843 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:44,844 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:44,844 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:44,844 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:45,058 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:45,059 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:45,059 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:45,059 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:45,272 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:45,273 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:45,273 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:45,273 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:45,439 DEBUG   SenderThread:46080 [sender.py:send():378] send: stats
+2024-03-20 20:33:45,491 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:45,491 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:45,491 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:45,492 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:45,495 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:45,495 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:45,703 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:45,704 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:45,704 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:45,704 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:45,916 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:45,917 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:45,917 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:45,917 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:46,129 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:46,129 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:46,129 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:46,130 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:33:46,130 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:46,495 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:46,804 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:46,804 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:46,804 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:46,805 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:47,020 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:47,021 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:47,021 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:47,021 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:47,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-20 20:33:47,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-20 20:33:47,073 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: stop_status
+2024-03-20 20:33:47,235 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:47,388 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:47,388 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:47,389 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:47,447 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:47,448 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:47,448 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:47,448 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:47,495 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:47,496 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:47,662 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:47,662 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:47,662 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:47,663 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:47,878 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:47,879 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:47,879 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:47,879 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:48,095 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:48,095 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:48,095 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:48,096 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:48,310 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:48,311 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:48,311 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:48,311 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:48,496 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:48,526 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:48,527 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:48,527 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:48,527 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:48,740 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:48,741 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:48,741 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:48,741 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:49,413 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:49,414 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:49,414 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:49,414 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:49,496 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:49,496 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:49,626 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:49,626 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:49,627 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:49,627 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:49,838 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:49,839 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:49,839 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:49,839 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:50,051 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:50,052 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:50,052 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:50,052 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:50,263 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:50,263 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:50,263 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:50,263 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:50,476 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:50,476 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:50,477 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:50,477 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:50,496 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:50,694 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:50,695 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:50,695 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:50,695 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:50,906 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:50,907 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:50,907 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:50,907 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:51,119 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:51,119 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:51,119 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:51,120 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:51,329 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:51,329 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:51,329 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:51,329 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:33:51,330 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:51,497 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:51,497 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:52,002 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:52,003 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:52,003 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:52,003 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:52,212 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:52,213 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:52,213 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:52,213 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:52,427 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:52,428 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:52,428 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:52,428 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:52,497 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:52,642 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:52,642 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:52,642 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:52,643 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:52,853 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:52,853 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:52,854 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:52,854 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:53,065 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:53,066 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:53,066 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:53,066 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:53,280 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:53,281 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:53,281 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:53,281 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:53,492 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:53,492 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:53,492 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:53,493 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:53,497 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:53,497 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:53,701 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:53,713 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:53,713 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:53,714 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:53,913 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:53,914 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:53,914 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:53,914 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:54,497 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:54,589 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:54,590 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:54,590 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:54,590 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:54,804 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:54,804 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:54,805 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:54,805 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:55,017 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:55,018 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:55,018 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:55,018 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:55,230 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:55,231 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:55,231 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:55,231 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:55,442 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:55,443 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:55,443 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:55,443 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:55,498 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:55,498 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:55,657 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:55,658 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:55,658 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:55,658 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:55,876 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:55,876 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:55,877 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:55,877 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:56,090 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:56,091 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:56,091 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:56,091 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:56,303 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:56,304 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:56,304 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:56,304 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:56,498 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:56,521 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:56,522 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:56,522 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:56,522 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:33:56,522 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:57,201 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:57,201 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:57,202 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:57,202 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:57,416 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:57,416 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:57,416 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:57,417 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:57,498 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:57,498 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:57,631 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:57,632 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:57,632 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:57,632 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:57,845 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:57,846 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:57,846 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:57,846 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:58,059 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:58,060 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:58,060 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:58,060 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:58,275 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:58,276 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:58,276 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:58,276 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:58,489 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:58,490 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:58,490 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:58,490 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:58,498 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:58,701 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:58,702 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:58,702 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:58,702 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:58,913 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:58,914 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:58,917 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:58,917 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:59,125 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:59,126 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:59,126 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:59,126 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:33:59,499 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:33:59,499 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:33:59,808 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:33:59,808 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:33:59,809 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:33:59,809 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:00,021 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:00,022 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:00,022 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:00,022 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:00,231 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:00,232 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:00,232 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:00,232 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:00,443 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:00,443 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:00,444 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:00,444 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:00,499 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:00,655 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:00,655 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:00,655 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:00,655 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:00,863 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:00,863 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:00,863 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:00,864 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:01,075 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:01,075 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:01,075 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:01,076 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:01,286 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:01,286 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:01,286 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:01,286 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:01,496 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:01,496 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:01,496 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:01,497 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:01,499 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:01,499 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:01,709 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:01,710 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:01,710 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:01,710 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:01,710 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:02,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-20 20:34:02,072 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: stop_status
+2024-03-20 20:34:02,074 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-20 20:34:02,427 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:02,427 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:02,428 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:02,428 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:02,499 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:02,606 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:02,607 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:02,607 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:02,607 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:02,823 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:02,823 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:02,823 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:02,824 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:03,034 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:03,034 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:03,035 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:03,035 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:03,246 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:03,246 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:03,246 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:03,246 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:03,456 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:03,457 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:03,457 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:03,457 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:03,500 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:03,500 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:03,668 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:03,669 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:03,669 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:03,669 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:03,879 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:03,879 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:03,879 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:03,879 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:04,088 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:04,089 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:04,089 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:04,089 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:04,300 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:04,301 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:04,301 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:04,301 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:04,500 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:04,974 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:04,974 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:04,974 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:04,974 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:05,187 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:05,188 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:05,188 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:05,188 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:05,400 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:05,400 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:05,400 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:05,401 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:05,500 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:05,500 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:05,612 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:05,613 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:05,613 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:05,613 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:05,824 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:05,825 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:05,827 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:05,828 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:06,036 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:06,036 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:06,036 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:06,037 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:06,248 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:06,248 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:06,249 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:06,249 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:06,458 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:06,459 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:06,459 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:06,459 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:06,500 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:06,671 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:06,672 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:06,672 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:06,672 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:06,882 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:06,882 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:06,883 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:06,883 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:06,883 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:07,501 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:07,501 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:07,552 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:07,553 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:07,553 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:07,553 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:07,765 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:07,766 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:07,766 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:07,766 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:07,978 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:07,978 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:07,979 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:07,979 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:08,188 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:08,189 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:08,189 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:08,189 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:08,400 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:08,401 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:08,401 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:08,401 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:08,501 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:08,613 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:08,613 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:08,613 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:08,614 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:08,833 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:08,833 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:08,833 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:08,834 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:09,044 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:09,045 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:09,045 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:09,045 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:09,255 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:09,255 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:09,256 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:09,256 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:09,464 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:09,465 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:09,465 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:09,465 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:09,501 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:09,501 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:10,121 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:10,122 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:10,122 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:10,122 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:10,334 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:10,334 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:10,334 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:10,335 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:10,501 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:10,545 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:10,545 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:10,546 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:10,546 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:10,757 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:10,758 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:10,758 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:10,758 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:10,966 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:10,967 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:10,969 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:10,969 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:11,178 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:11,179 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:11,179 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:11,179 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:11,392 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:11,393 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:11,393 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:11,393 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:11,502 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:11,502 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:11,606 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:11,606 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:11,606 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:11,607 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:11,818 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:11,818 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:11,819 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:11,819 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:12,031 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:12,031 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:12,031 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:12,031 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:12,032 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:12,502 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:12,699 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:12,699 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:12,699 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:12,700 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:12,911 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:12,912 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:12,912 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:12,912 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:13,125 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:13,125 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:13,125 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:13,126 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:13,342 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:13,342 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:13,342 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:13,343 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:13,502 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:13,503 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:13,552 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:13,553 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:13,553 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:13,554 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:13,763 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:13,764 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:13,764 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:13,764 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:13,981 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:13,992 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:13,992 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:13,993 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:14,201 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:14,202 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:14,202 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:14,202 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:14,413 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:14,413 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:14,414 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:14,414 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:14,503 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:14,624 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:14,625 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:14,625 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:14,625 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:15,310 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:15,311 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:15,311 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:15,311 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:15,439 DEBUG   SenderThread:46080 [sender.py:send():378] send: stats
+2024-03-20 20:34:15,503 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:15,503 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:15,527 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:15,527 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:15,528 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:15,528 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:15,738 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:15,739 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:15,739 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:15,739 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:15,951 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:15,952 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:15,952 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:15,952 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:16,163 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:16,163 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:16,163 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:16,164 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:16,376 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:16,377 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:16,377 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:16,377 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:16,503 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:16,595 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:16,595 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:16,596 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:16,596 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:16,809 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:16,810 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:16,810 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:16,810 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:17,021 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:17,022 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:17,022 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:17,022 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:17,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-20 20:34:17,072 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: stop_status
+2024-03-20 20:34:17,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-20 20:34:17,241 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:17,311 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:17,311 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:17,311 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:17,312 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:17,503 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:17,504 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:17,914 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:17,915 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:17,915 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:17,915 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:18,123 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:18,124 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:18,124 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:18,124 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:18,346 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:18,347 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:18,347 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:18,347 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:18,504 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:18,557 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:18,558 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:18,558 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:18,558 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:18,766 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:18,767 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:18,767 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:18,767 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:18,978 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:18,978 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:18,978 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:18,979 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:19,190 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:19,191 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:19,191 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:19,191 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:19,401 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:19,402 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:19,402 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:19,402 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:19,504 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:19,504 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:19,610 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:19,611 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:19,611 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:19,611 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:19,820 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:19,821 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:19,821 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:19,821 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:20,487 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:20,488 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:20,488 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:20,488 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:20,504 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:20,699 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:20,699 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:20,699 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:20,700 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:20,910 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:20,911 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:20,911 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:20,911 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:21,119 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:21,119 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:21,120 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:21,120 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:21,331 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:21,332 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:21,332 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:21,332 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:21,504 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:21,505 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:21,545 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:21,545 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:21,546 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:21,546 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:21,755 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:21,755 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:21,755 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:21,756 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:21,965 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:21,965 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:21,965 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:21,966 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:22,175 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:22,176 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:22,176 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:22,176 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:22,387 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:22,387 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:22,387 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:22,388 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:22,388 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:22,505 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:23,051 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:23,052 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:23,052 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:23,052 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:23,262 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:23,263 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:23,263 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:23,263 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:23,473 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:23,473 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:23,473 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:23,473 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:23,505 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:23,505 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:23,681 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:23,681 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:23,681 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:23,681 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:23,893 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:23,893 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:23,893 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:23,894 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:24,105 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:24,105 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:24,105 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:24,106 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:24,316 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:24,317 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:24,317 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:24,317 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:24,505 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:24,529 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:24,530 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:24,530 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:24,530 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:24,743 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:24,744 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:24,744 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:24,744 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:24,955 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:24,955 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:24,955 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:24,956 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:25,505 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:25,506 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:25,621 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:25,621 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:25,622 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:25,624 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:25,833 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:25,833 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:25,833 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:25,834 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:26,044 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:26,045 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:26,045 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:26,045 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:26,253 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:26,254 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:26,254 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:26,254 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:26,465 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:26,466 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:26,466 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:26,466 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:26,506 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:26,679 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:26,680 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:26,680 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:26,680 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:26,890 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:26,890 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:26,890 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:26,891 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:27,100 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:27,101 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:27,101 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:27,101 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:27,310 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:27,311 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:27,311 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:27,311 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:27,506 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:27,506 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:27,524 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:27,524 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:27,524 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:27,524 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:27,525 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:28,193 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:28,194 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:28,194 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:28,194 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:28,406 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:28,406 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:28,406 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:28,407 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:28,506 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:28,617 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:28,618 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:28,618 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:28,618 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:28,834 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:28,835 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:28,835 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:28,835 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:29,046 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:29,046 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:29,046 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:29,047 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:29,257 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:29,257 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:29,257 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:29,258 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:29,471 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:29,471 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:29,471 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:29,472 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:29,506 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:29,507 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:29,683 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:29,684 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:29,684 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:29,684 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:29,894 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:29,895 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:29,895 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:29,895 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:30,103 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:30,103 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:30,104 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:30,104 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:30,507 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:30,783 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:30,783 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:30,783 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:30,784 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:31,052 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:31,052 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:31,052 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:31,053 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:31,320 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:31,321 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:31,321 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:31,321 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:31,507 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:31,507 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:31,588 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:31,589 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:31,589 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:31,589 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:31,802 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:31,802 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:31,802 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:31,802 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:32,009 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:32,010 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:32,010 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:32,010 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:32,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-20 20:34:32,073 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: stop_status
+2024-03-20 20:34:32,073 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-20 20:34:32,219 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:32,290 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:32,290 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:32,290 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:32,428 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:32,428 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:32,428 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:32,428 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:32,507 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:32,639 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:32,640 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:32,640 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:32,640 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:32,640 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:32,853 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:32,854 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:32,854 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:32,854 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:33,507 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:33,508 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:33,515 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:33,527 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:33,527 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:33,527 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:33,730 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:33,730 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:33,731 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:33,731 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:33,945 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:33,945 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:33,945 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:33,946 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:34,159 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:34,160 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:34,160 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:34,160 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:34,373 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:34,373 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:34,374 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:34,374 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:34,508 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:34,588 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:34,588 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:34,589 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:34,589 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:34,802 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:34,802 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:34,803 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:34,803 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:35,019 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:35,019 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:35,019 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:35,020 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:35,236 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:35,237 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:35,237 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:35,237 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:35,454 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:35,454 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:35,454 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:35,455 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:35,508 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:35,508 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:36,131 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:36,132 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:36,132 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:36,132 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:36,346 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:36,347 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:36,347 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:36,347 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:36,508 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:36,564 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:36,565 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:36,565 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:36,565 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:36,780 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:36,780 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:36,781 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:36,781 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:36,994 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:36,995 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:36,995 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:36,995 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:37,208 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:37,209 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:37,209 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:37,209 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:37,422 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:37,422 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:37,423 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:37,423 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:37,508 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:37,509 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:37,635 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:37,635 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:37,635 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:37,636 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:37,846 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:37,847 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:37,847 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:37,847 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:37,848 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:38,059 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:38,059 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:38,060 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:38,060 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:38,509 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:38,735 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:38,736 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:38,736 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:38,736 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:38,950 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:38,951 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:38,951 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:38,951 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:39,159 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:39,160 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:39,160 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:39,160 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:39,368 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:39,369 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:39,369 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:39,369 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:39,509 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:39,509 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:39,578 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:39,578 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:39,579 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:39,579 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:39,788 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:39,789 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:39,789 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:39,789 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:39,999 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:39,999 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:39,999 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:39,999 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:40,210 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:40,211 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:40,211 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:40,211 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:40,420 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:40,421 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:40,421 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:40,421 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:40,509 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:40,630 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:40,631 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:40,631 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:40,631 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:41,291 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:41,292 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:41,292 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:41,292 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:41,502 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:41,503 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:41,503 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:41,503 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:41,509 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:41,510 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:41,715 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:41,716 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:41,716 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:41,716 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:41,926 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:41,927 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:41,927 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:41,927 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:42,144 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:42,145 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:42,145 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:42,145 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:42,358 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:42,359 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:42,359 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:42,359 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:42,510 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:42,570 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:42,571 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:42,571 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:42,571 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:42,786 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:42,787 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:42,787 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:42,787 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:42,999 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:42,999 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:42,999 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:43,000 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:43,000 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:43,213 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:43,214 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:43,214 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:43,214 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:43,510 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:43,510 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:43,884 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:43,885 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:43,885 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:43,885 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:44,096 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:44,097 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:44,097 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:44,097 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:44,308 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:44,309 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:44,309 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:44,309 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:44,510 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:44,519 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:44,519 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:44,519 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:44,519 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:44,731 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:44,731 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:44,731 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:44,732 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:44,943 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:44,944 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:44,944 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:44,944 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:45,153 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:45,154 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:45,154 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:45,154 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:45,364 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:45,365 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:45,365 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:45,365 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:45,440 DEBUG   SenderThread:46080 [sender.py:send():378] send: stats
+2024-03-20 20:34:45,510 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:45,511 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:45,577 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:45,578 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:45,578 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:45,578 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:45,790 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:45,791 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:45,791 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:45,792 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:46,465 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:46,465 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:46,466 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:46,466 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:46,511 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:46,678 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:46,678 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:46,678 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:46,679 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:46,894 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:46,895 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:46,895 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:46,895 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:47,072 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: stop_status
+2024-03-20 20:34:47,072 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: stop_status
+2024-03-20 20:34:47,074 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: internal_messages
+2024-03-20 20:34:47,113 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:47,333 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:47,342 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:47,342 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:47,342 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:47,343 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:47,343 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:47,345 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:47,511 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/output.log
+2024-03-20 20:34:47,511 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
+2024-03-20 20:34:47,595 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:47,595 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:47,595 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:47,596 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:47,771 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:47,772 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:47,772 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:47,772 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:47,990 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:47,991 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:47,991 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:47,991 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:48,210 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:48,210 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:48,210 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:48,210 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: status_report
+2024-03-20 20:34:48,211 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:48,427 DEBUG   HandlerThread:46080 [handler.py:handle_request():146] handle_request: partial_history
+2024-03-20 20:34:48,428 DEBUG   SenderThread:46080 [sender.py:send():378] send: history
+2024-03-20 20:34:48,428 DEBUG   SenderThread:46080 [sender.py:send_request():405] send_request: summary_record
+2024-03-20 20:34:48,428 INFO    SenderThread:46080 [sender.py:_save_file():1365] saving file wandb-summary.json with policy end
+2024-03-20 20:34:48,511 INFO    Thread-13 :46080 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/uosai/바탕화면/mini-marl/mappo/wandb/run-20240320_202514-a9p5zy4e/files/wandb-summary.json
