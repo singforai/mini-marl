@@ -1,5 +1,6 @@
 import torch
 
+
 class Test:
     def __init__(self, test_env, args, device):
 
@@ -24,7 +25,10 @@ class Test:
                 hidden = behavior_network.init_hidden().to(self.device)
                 while not all(done):
                     action, next_hidden, _ = behavior_network.sample_action(
-                        torch.tensor(state).unsqueeze(0).to(self.device), hidden, epsilon=0)
+                        torch.tensor(state).unsqueeze(0).to(self.device),
+                        hidden,
+                        epsilon=0,
+                    )
                     next_state, reward, done, info = self.test_env.step(action[0])
                     score += sum(reward)
                     state = next_state

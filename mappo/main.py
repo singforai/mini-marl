@@ -6,8 +6,6 @@ import torch
 import logging
 import torch.optim as optim
 
-from tqdm import tqdm
-
 from _utils import *
 from _config import get_config
 
@@ -75,7 +73,7 @@ def main(args):
     if args.share_policy:
         from runner.shared.magym_runner import MAGYM_Runner as Runner
     else:
-        from runner.seperated.magym_runner import MAGYM_Runner as Runner
+        from runner.separated.magym_runner import MAGYM_Runner as Runner
 
     runner = Runner(config)
     runner.run()
