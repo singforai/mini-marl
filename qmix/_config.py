@@ -6,14 +6,14 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", type=bool, default=False, help="Whether to use wandb")
-    param("--entity_name", type=str, default="singfor7012", help="wandb_name")
+    param("--use_wandb", type=bool, default=True, help="Whether to use wandb")
+    param("--entity_name", type=str, default="sangkiko", help="wandb_name")
 
     # experiment base setting parameters
     param(
         "--env_name",
         type=str,
-        default="ma_gym:Checkers-v0",
+        default="ma_gym:Switch2-v0",
         help="Built-in environment settings for ma_gym",
     )
     param(
@@ -150,7 +150,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--buffer_limit",
         type=int,
-        default=50000,
+        default=1000,
         help="It determines the capacity of Replay buffer and warm up chunk step",
     )
     param(

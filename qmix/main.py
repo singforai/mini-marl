@@ -256,7 +256,7 @@ def main(args):
             target_q_net.load_state_dict(state_dict=behavior_q_net.state_dict())
 
         if (episode + 1) % test_interval == 0:
-            test_score: float = test.execute(behavior_q_net=behavior_q_net)
+            test_score: float = test.execute(behavior_network=behavior_q_net)
             train_score: float = score / test_interval
 
             logging.info(

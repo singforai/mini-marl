@@ -173,7 +173,7 @@ class Mix_Net(nn.Module):
     def __init__(self, observation_space, args):
         super().__init__()
         hidden_dim = 32
-        hx_size = 64
+        hx_size = 32
         state_size = sum([_.shape[0] for _ in observation_space])
         self.hidden_dim = hidden_dim
         self.hx_size = hx_size

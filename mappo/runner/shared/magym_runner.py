@@ -247,8 +247,8 @@ class MAGYM_Runner(Runner):
                     np.split(_t2n(eval_rnn_states), self.n_eval_rollout_threads)
                 )
 
-                eval_next_obs, eval_rewards, eval_dones, eval_infos = (
-                    self.eval_env.step(eval_actions[0])
+                eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(
+                    eval_actions[0]
                 )
 
                 eval_episode_rewards += sum(eval_rewards)

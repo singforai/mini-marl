@@ -93,6 +93,7 @@ class Train_dqn:
                 mix_hiddens[step + 1][~done_mask] = next_mix_hidden[~done_mask].to(
                     self.device
                 )
+
                 mix_hiddens[step + 1][done_mask] = behavior_mix_net.init_hidden(
                     len(next_mix_hidden[step][done_mask])
                 ).to(self.device)
