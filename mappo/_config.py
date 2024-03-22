@@ -7,7 +7,7 @@ def get_config() -> argparse.ArgumentParser:
 
     # wandb setting
     param("--use_wandb", type=bool, default=True, help="Whether to use wandb")
-    param("--entity_name", type=str, default="sangkiko", help="wandb_name")
+    param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--project_name",
         type=str,

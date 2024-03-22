@@ -70,8 +70,6 @@ class MAGYM_Runner(Runner):
             self.compute()
             train_infos = self.train()
 
-            # total_num_steps = (episode + 1) * self.episode_length * self.n_rollout_threads
-
             self.train_env.reset()
 
             # eval

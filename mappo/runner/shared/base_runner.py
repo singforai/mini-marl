@@ -1,10 +1,9 @@
-import os
 import wandb
 import torch
 import numpy as np
 
 from gym import spaces
-from ma_gym.envs.checkers.checkers import Checkers
+
 from replay_buffer.shared_buffer import SharedReplayBuffer
 from runner.shared.observation_space import MultiAgentObservationSpace
 
@@ -45,11 +44,9 @@ class Runner(object):
         self.use_render: bool = self.args.use_render
         self.use_centralized_V: bool = self.args.use_centralized_V
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
-        # self.use_obs_instead_of_state: bool = self.args.use_obs_instead_of_state
 
         # parameters
         self.max_episodes: int = self.args.max_episodes
-        self.num_env_steps: int = self.args.max_episodes * self.args.max_step
         self.episode_length: int = self.args.max_step
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
