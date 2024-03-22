@@ -10,6 +10,8 @@ from gym import spaces
 from replay_buffer.separated_buffer import SeparatedReplayBuffer
 from runner.shared.observation_space import MultiAgentObservationSpace
 
+from algorithms.ramppo_network import R_MAPPO as TrainAlgo
+from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
 
 def _t2n(x):
     return x.detach().cpu().numpy()
@@ -18,8 +20,8 @@ class Runner(object):
     def __init__(self, config):
 
         self.args = config['args']
-        self.envs = config['train_env']
-        self.eval_envs = config['eval_env']
+        self.train_env = config['train_env']
+        self.eval_env = config['eval_env']
         self.device = config['device']
         self.num_agents = config['num_agents']
 
@@ -56,48 +58,53 @@ class Runner(object):
         # render time
         self.sleep_second: float = self.args.sleep_second
 
+        self.observation_space = self.train_env.observation_space
+        if self.use_centralized_V:
+            self._obs_high = np.tile(self.train_env._obs_high, self.num_agents)
+            self._obs_low = np.tile(self.train_env._obs_low, self.num_agents)
+            self.share_observation_space = MultiAgentObservationSpace(
+                [
+                    spaces.Box(self._obs_low, self._obs_high)
+                    for _ in range(self.num_agents)
+                ]
+            )
+        else:
+            self.share_observation_space = self.observation_space
 
 
-        from algorithms.ramppo_network import R_MAPPO as TrainAlgo
-        from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
-
+        """
+        policy를 생성하는 for문과 trainer, buffer를 생성하는 for문을 하나로 통합함. 
+        """
 
         self.policy = []
-        for agent_id in range(self.num_agents):
-            self.observation_space = self.train_env.observation_space
-            if self.use_centralized_V:
-                self._obs_high = np.tile(self.train_env._obs_high, self.num_agents)
-                self._obs_low = np.tile(self.train_env._obs_low, self.num_agents)
-                self.share_observation_space = MultiAgentObservationSpace(
-                    [
-                        spaces.Box(self._obs_low, self._obs_high)
-                        for _ in range(self.num_agents)
-                    ]
-                )
-            # policy network
-            po = Policy(self.args,
-                        self.envs.observation_space[agent_id],
-                        share_observation_space[agent_id],
-                        self.envs.action_space[agent_id],
-                        device = self.device)
-            self.policy.append(po)
-
-        if self.model_dir is not None:
-            self.restore()
-
         self.trainer = []
         self.buffer = []
-        for agent_id in range(self.num_agents):
-            # algorithm
+        for agent_id in range(self.num_agents): 
+
+            po = Policy(self.args,
+                        self.train_env.observation_space[agent_id],
+                        self.share_observation_space[agent_id],
+                        self.train_env.action_space[agent_id],
+                        device = self.device)
+            
+            self.policy.append(po)
+
             tr = TrainAlgo(self.args, self.policy[agent_id], device = self.device)
-            # buffer
-            share_observation_space = self.envs.observation_space[agent_id] if self.use_centralized_V else self.envs.observation_space[agent_id]
+            
             bu = SeparatedReplayBuffer(self.args,
-                                       self.envs.observation_space[agent_id],
-                                       share_observation_space,
-                                       self.envs.action_space[agent_id])
-            self.buffer.append(bu)
+                                       self.train_env.observation_space[agent_id],
+                                       self.share_observation_space[agent_id],
+                                       self.train_env.action_space[agent_id])
+            
+            
             self.trainer.append(tr)
+            self.buffer.append(bu)
+
+        print(self.policy)
+        print(self.buffer)
+        print(self.trainer)
+
+
             
     def run(self):
         raise NotImplementedError

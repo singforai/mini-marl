@@ -6,7 +6,7 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", type=bool, default=True, help="Whether to use wandb")
+    param("--use_wandb", type=bool, default=False, help="Whether to use wandb")
     param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--project_name",
@@ -70,7 +70,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--share_policy",
         type=bool,
-        default=True,  # in mappo default = True
+        default=False,  # in mappo default = True
         help="Determining if agents want to share the same network with same parameters",
     )
     param(

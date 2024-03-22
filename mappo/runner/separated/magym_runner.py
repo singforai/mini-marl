@@ -5,8 +5,7 @@ import numpy as np
 from itertools import chain
 import torch
 
-from mappo.runner.shared.base_runner import Runner
-
+from runner.separated.base_runner import Runner
 
 def _t2n(x):
     return x.detach().cpu().numpy()

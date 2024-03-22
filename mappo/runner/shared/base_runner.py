@@ -7,6 +7,8 @@ from gym import spaces
 from replay_buffer.shared_buffer import SharedReplayBuffer
 from runner.shared.observation_space import MultiAgentObservationSpace
 
+from algorithms.ramppo_network import R_MAPPO as TrainAlgo
+from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
 
 def _t2n(x):
     """Convert torch tensor to a numpy array."""
@@ -72,12 +74,8 @@ class Runner(object):
                     for _ in range(self.num_agents)
                 ]
             )
-
         else:
             self.share_observation_space = self.observation_space
-
-        from algorithms.ramppo_network import R_MAPPO as TrainAlgo
-        from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
 
         # policy network
         self.policy = Policy(
