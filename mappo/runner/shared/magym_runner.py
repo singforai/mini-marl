@@ -45,6 +45,7 @@ class MAGYM_Runner(Runner):
                 )  # 일단은 batch_size를 1인 상태에서만 돌아가도록 설정해놓았음
 
                 share_obs = self.obs_sharing(obs=next_obs, n_agents=self.num_agents)
+
                 rewards = self.convert_rewards(rewards)
 
                 data = (
@@ -59,6 +60,8 @@ class MAGYM_Runner(Runner):
                     rnn_states,
                     rnn_states_critic,
                 )
+
+                # print(np.array(next_obs).shape, np.array(share_obs).shape)
 
                 # insert data into buffer
                 self.insert(data)
@@ -98,6 +101,7 @@ class MAGYM_Runner(Runner):
         return share_obs
 
     def convert_rewards(self, rewards):
+        # rewards = [sum(rewards) for reward in rewards]
         converted_rewards = [[reward] for reward in rewards]
         return converted_rewards
 
@@ -193,8 +197,8 @@ class MAGYM_Runner(Runner):
             share_obs = obs
 
         self.buffer.insert(
-            share_obs,
             obs,
+            share_obs,
             rnn_states,
             rnn_states_critic,
             actions,

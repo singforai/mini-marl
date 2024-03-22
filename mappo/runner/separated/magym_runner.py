@@ -5,7 +5,7 @@ import numpy as np
 from itertools import chain
 import torch
 
-from mappo.runner.shared.base_runner import Runner
+from runner.separated.base_runner import Runner
 
 
 def _t2n(x):
@@ -41,12 +41,15 @@ class MAGYM_Runner(Runner):
                 ) = self.collect(step)
 
                 # Obser reward and next obs
-                obs, rewards, dones, infos = self.envs.step(actions_env)
+                obs, rewards, dones, infos = self.envs.step(actions[0])
+
+                shared_obs = obs
 
                 data = (
                     obs,
+                    shared_obs,
                     rewards,
-                    dones,
+                    np.array([dones]),
                     infos,
                     values,
                     actions,
@@ -75,8 +78,7 @@ class MAGYM_Runner(Runner):
             if episode % self.log_interval == 0:
                 end = time.time()
                 print(
-                    "Scenario {} Algo {} Exp {} updates {}/{} episodes, total num timesteps {}/{}, FPS {}.\n".format(
-                        self.all_args.scenario_name,
+                    "Algo {} Exp {} updates {}/{} episodes, total num timesteps {}/{}, FPS {}.\n".format(
                         self.algorithm_name,
                         self.experiment_name,
                         episode,
@@ -86,30 +88,6 @@ class MAGYM_Runner(Runner):
                         int(total_num_steps / (end - start)),
                     )
                 )
-
-                if self.env_name == "ma_gym:Checkers-v0":
-                    for agent_id in range(self.num_agents):
-                        idv_rews = []
-                        for info in infos:
-                            for count, info in enumerate(infos):
-                                if "individual_reward" in infos[count][agent_id].keys():
-                                    idv_rews.append(
-                                        infos[count][agent_id].get(
-                                            "individual_reward", 0
-                                        )
-                                    )
-                        train_infos[agent_id].update(
-                            {"individual_rewards": np.mean(idv_rews)}
-                        )
-                        train_infos[agent_id].update(
-                            {
-                                "average_episode_rewards": np.mean(
-                                    self.buffer[agent_id].rewards
-                                )
-                                * self.episode_length
-                            }
-                        )
-                self.log_train(train_infos, total_num_steps)
 
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
@@ -121,14 +99,15 @@ class MAGYM_Runner(Runner):
 
         share_obs = []
         for o in obs:
-            share_obs.append(list(chain(*o)))
-        share_obs = np.array(share_obs)
+            share_obs.append(o)
+        share_obs = np.array(share_obs).reshape(1, -1)
 
         for agent_id in range(self.num_agents):
             if not self.use_centralized_V:
                 share_obs = np.array(list(obs[:, agent_id]))
+
             self.buffer[agent_id].share_obs[0] = share_obs.copy()
-            self.buffer[agent_id].obs[0] = np.array(list(obs[:, agent_id])).copy()
+            self.buffer[agent_id].obs[0] = np.array(list(obs[agent_id])).copy()
 
     @torch.no_grad()
     def collect(self, step):
@@ -144,8 +123,8 @@ class MAGYM_Runner(Runner):
             value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[
                 agent_id
             ].policy.get_actions(
-                self.buffer[agent_id].share_obs[step],
                 self.buffer[agent_id].obs[step],
+                self.buffer[agent_id].share_obs[step],
                 self.buffer[agent_id].rnn_states[step],
                 self.buffer[agent_id].rnn_states_critic[step],
                 self.buffer[agent_id].masks[step],
@@ -202,6 +181,7 @@ class MAGYM_Runner(Runner):
     def insert(self, data):
         (
             obs,
+            shared_obs,
             rewards,
             dones,
             infos,
@@ -212,35 +192,49 @@ class MAGYM_Runner(Runner):
             rnn_states_critic,
         ) = data
 
-        rnn_states[dones == True] = np.zeros(
-            ((dones == True).sum(), self.recurrent_N, self.hidden_size),
+        dones_env = np.all(dones, axis=1)
+
+        rnn_states[dones_env == True] = np.zeros(
+            (
+                (dones_env == True).sum(),
+                self.num_agents,
+                self.recurrent_N,
+                self.hidden_size,
+            ),
             dtype=np.float32,
         )
-        rnn_states_critic[dones == True] = np.zeros(
-            ((dones == True).sum(), self.recurrent_N, self.hidden_size),
+        rnn_states_critic[dones_env == True] = np.zeros(
+            (
+                (dones_env == True).sum(),
+                self.num_agents,
+                self.recurrent_N,
+                self.hidden_size,
+            ),
             dtype=np.float32,
         )
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
-        masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
+        masks[dones_env == True] = np.zeros(
+            ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
+        )
 
         share_obs = []
         for o in obs:
-            share_obs.append(list(chain(*o)))
-        share_obs = np.array(share_obs)
+            share_obs.append(o)
+        share_obs = np.array(share_obs).reshape(1, -1)
 
         for agent_id in range(self.num_agents):
             if not self.use_centralized_V:
-                share_obs = np.array(list(obs[:, agent_id]))
+                share_obs = np.array(list(obs[agent_id]))
 
             self.buffer[agent_id].insert(
+                np.array(obs[agent_id]),
                 share_obs,
-                np.array(list(obs[:, agent_id])),
                 rnn_states[:, agent_id],
                 rnn_states_critic[:, agent_id],
                 actions[:, agent_id],
                 action_log_probs[:, agent_id],
                 values[:, agent_id],
-                rewards[:, agent_id],
+                rewards[agent_id],
                 masks[:, agent_id],
             )
 
@@ -267,7 +261,7 @@ class MAGYM_Runner(Runner):
             for agent_id in range(self.num_agents):
                 self.trainer[agent_id].prep_rollout()
                 eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
-                    np.array(list(eval_obs[:, agent_id])),
+                    np.array([eval_obs[agent_id]]),
                     eval_rnn_states[:, agent_id],
                     eval_masks[:, agent_id],
                     deterministic=True,
@@ -312,7 +306,7 @@ class MAGYM_Runner(Runner):
 
             # Obser reward and next obs
             eval_obs, eval_rewards, eval_dones, eval_infos = self.eval_envs.step(
-                eval_actions_env
+                eval_actions_env[0]
             )
             eval_episode_rewards.append(eval_rewards)
 
@@ -347,10 +341,10 @@ class MAGYM_Runner(Runner):
     @torch.no_grad()
     def render(self):
         all_frames = []
-        for episode in range(self.all_args.render_episodes):
+        for episode in range(self.args.render_episodes):
             episode_rewards = []
             obs = self.envs.reset()
-            if self.all_args.save_gifs:
+            if self.args.save_gifs:
                 image = self.envs.render("rgb_array")[0][0]
                 all_frames.append(image)
 
@@ -434,13 +428,13 @@ class MAGYM_Runner(Runner):
                     ((dones == True).sum(), 1), dtype=np.float32
                 )
 
-                if self.all_args.save_gifs:
+                if self.args.save_gifs:
                     image = self.envs.render("rgb_array")[0][0]
                     all_frames.append(image)
                     calc_end = time.time()
                     elapsed = calc_end - calc_start
-                    if elapsed < self.all_args.ifi:
-                        time.sleep(self.all_args.ifi - elapsed)
+                    if elapsed < self.args.ifi:
+                        time.sleep(self.args.ifi - elapsed)
 
             episode_rewards = np.array(episode_rewards)
             for agent_id in range(self.num_agents):

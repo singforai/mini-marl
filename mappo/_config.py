@@ -6,7 +6,7 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", type=bool, default=True, help="Whether to use wandb")
+    param("--use_wandb", type=bool, default=False, help="Whether to use wandb")
     param("--entity_name", type=str, default="sangkiko", help="wandb_name")
     param(
         "--project_name",
@@ -28,7 +28,7 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     # env setting
-    param("--max_episodes", type=int, default=10000, help="Number of episodes trained")
+    param("--max_episodes", type=int, default=100000, help="Number of episodes trained")
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
     param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
 
@@ -88,7 +88,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--log_interval",
         type=int,
-        default=5,
+        default=10,
         help="time duration between contiunous twice log printing.",
     )
     param(
@@ -109,7 +109,7 @@ def get_config() -> argparse.ArgumentParser:
         default=True,
         help="Whether to apply layernorm to the inputs",
     )
-    param("--use_ReLU", action="store_false", default=True, help="Whether to use ReLU")
+    param("--use_ReLU", action="store_false", default=False, help="Whether to use ReLU")
     param(
         "--stacked_frames",
         type=int,
@@ -155,7 +155,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.99,
         help="Discount factor used to calculate TD error",
     )
-    param("--batch_size", type=int, default=32, help="batch_size")
+    param("--batch_size", type=int, default=64, help="batch_size")
 
     # rollout threads
     param(
@@ -179,9 +179,9 @@ def get_config() -> argparse.ArgumentParser:
 
     # optimizer hyperparameter
     param(
-        "--actor_lr", type=float, default=1e-4, help="Learning rate of optimizer Adam"
+        "--actor_lr", type=float, default=1e-5, help="Learning rate of optimizer Adam"
     )
-    param("--critic_lr", type=float, default=5e-5, help="critic learning rate")
+    param("--critic_lr", type=float, default=1e-5, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
         "--weight_decay",
@@ -238,13 +238,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_policy_active_masks",
         action="store_false",
-        default=False,
+        default=True,
         help="by default True, whether to mask useless data in policy loss.",
     )
     param(
         "--use_value_active_masks",
         action="store_false",
-        default=False,
+        default=True,
         help="by default True, whether to mask useless data in value loss.",
     )
     param(
@@ -278,19 +278,19 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--value_loss_coef",
         type=float,
-        default=1,
+        default=0.5,
         help="value loss coefficient (default: 0.5)",
     )
     param(
         "--entropy_coef",
         type=float,
-        default=0.01,
+        default=0.1,
         help="entropy term coefficient (default: 0.01)",
     )
     param(
         "--max_grad_norm",
         type=float,
-        default=10.0,
+        default=10,
         help="max norm of gradients (default: 0.5)",
     )
     param(
