@@ -18,17 +18,23 @@ class MAGYM_Runner(Runner):
     def run(self):
         self.warmup()
 
+        print("warm_up..")
+
         start = time.time()
-        episodes = (
-            int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
-        )
+        episodes = self.episode_length // self.n_rollout_threads
 
         for episode in range(episodes):
+
+            self.train_env.render() if self.use_render else None
+
             if self.use_linear_lr_decay:
                 for agent_id in range(self.num_agents):
                     self.trainer[agent_id].policy.lr_decay(episode, episodes)
+            
+            step: int = 0
+            dones: list = [False for _ in range(self.num_agents)]
 
-            for step in range(self.episode_length):
+            while not all(dones):
                 # Sample actions
                 (
                     values,
@@ -39,8 +45,10 @@ class MAGYM_Runner(Runner):
                     actions_env,
                 ) = self.collect(step)
 
+                print(actions_env)
+
                 # Obser reward and next obs
-                obs, rewards, dones, infos = self.envs.step(actions_env)
+                obs, rewards, dones, infos = self.train_env.step(actions_env)
 
                 data = (
                     obs,
@@ -114,20 +122,22 @@ class MAGYM_Runner(Runner):
             if episode % self.eval_interval == 0 and self.use_eval:
                 self.eval(total_num_steps)
 
+    def obs_sharing(self, obs):
+        share_obs = np.array(obs).reshape(1, -1)
+        return share_obs
+
     def warmup(self):
         # reset env
-        obs = self.envs.reset()
-
-        share_obs = []
-        for o in obs:
-            share_obs.append(list(chain(*o)))
-        share_obs = np.array(share_obs)
+        
+        obs = self.train_env.reset()
+        if self.use_centralized_V:
+            share_obs_list = np.array([ self.obs_sharing(obs) for _ in range(self.num_agents)])
+        else:
+            share_obs_list = np.array([obs for _ in range(self.num_agents)])
 
         for agent_id in range(self.num_agents):
-            if not self.use_centralized_V:
-                share_obs = np.array(list(obs[:, agent_id]))
-            self.buffer[agent_id].share_obs[0] = share_obs.copy()
-            self.buffer[agent_id].obs[0] = np.array(list(obs[:, agent_id])).copy()
+            self.buffer[agent_id].share_obs[0] = share_obs_list[agent_id].copy()
+            self.buffer[agent_id].obs[0] = obs[agent_id].copy()
 
     @torch.no_grad()
     def collect(self, step):
@@ -153,18 +163,18 @@ class MAGYM_Runner(Runner):
             values.append(_t2n(value))
             action = _t2n(action)
             # rearrange action
-            if self.envs.action_space[agent_id].__class__.__name__ == "MultiDiscrete":
-                for i in range(self.envs.action_space[agent_id].shape):
+            if self.train_env.action_space[agent_id].__class__.__name__ == "MultiDiscrete":
+                for i in range(self.train_env.action_space[agent_id].shape):
                     uc_action_env = np.eye(
-                        self.envs.action_space[agent_id].high[i] + 1
+                        self.train_env.action_space[agent_id].high[i] + 1
                     )[action[:, i]]
                     if i == 0:
                         action_env = uc_action_env
                     else:
                         action_env = np.concatenate((action_env, uc_action_env), axis=1)
-            elif self.envs.action_space[agent_id].__class__.__name__ == "Discrete":
+            elif self.train_env.action_space[agent_id].__class__.__name__ == "Discrete":
                 action_env = np.squeeze(
-                    np.eye(self.envs.action_space[agent_id].n)[action], 1
+                    np.eye(self.train_env.action_space[agent_id].n)[action], 1
                 )
             else:
                 raise NotImplementedError
@@ -348,9 +358,9 @@ class MAGYM_Runner(Runner):
         all_frames = []
         for episode in range(self.all_args.render_episodes):
             episode_rewards = []
-            obs = self.envs.reset()
+            obs = self.train_env.reset()
             if self.all_args.save_gifs:
-                image = self.envs.render("rgb_array")[0][0]
+                image = self.train_env.render("rgb_array")[0][0]
                 all_frames.append(image)
 
             rnn_states = np.zeros(
@@ -384,12 +394,12 @@ class MAGYM_Runner(Runner):
                     action = action.detach().cpu().numpy()
                     # rearrange action
                     if (
-                        self.envs.action_space[agent_id].__class__.__name__
+                        self.train_env.action_space[agent_id].__class__.__name__
                         == "MultiDiscrete"
                     ):
-                        for i in range(self.envs.action_space[agent_id].shape):
+                        for i in range(self.train_env.action_space[agent_id].shape):
                             uc_action_env = np.eye(
-                                self.envs.action_space[agent_id].high[i] + 1
+                                self.train_env.action_space[agent_id].high[i] + 1
                             )[action[:, i]]
                             if i == 0:
                                 action_env = uc_action_env
@@ -398,11 +408,11 @@ class MAGYM_Runner(Runner):
                                     (action_env, uc_action_env), axis=1
                                 )
                     elif (
-                        self.envs.action_space[agent_id].__class__.__name__
+                        self.train_env.action_space[agent_id].__class__.__name__
                         == "Discrete"
                     ):
                         action_env = np.squeeze(
-                            np.eye(self.envs.action_space[agent_id].n)[action], 1
+                            np.eye(self.train_env.action_space[agent_id].n)[action], 1
                         )
                     else:
                         raise NotImplementedError
@@ -419,7 +429,7 @@ class MAGYM_Runner(Runner):
                     actions_env.append(one_hot_action_env)
 
                 # Obser reward and next obs
-                obs, rewards, dones, infos = self.envs.step(actions_env)
+                obs, rewards, dones, infos = self.train_env.step(actions_env)
                 episode_rewards.append(rewards)
 
                 rnn_states[dones == True] = np.zeros(
@@ -434,7 +444,7 @@ class MAGYM_Runner(Runner):
                 )
 
                 if self.all_args.save_gifs:
-                    image = self.envs.render("rgb_array")[0][0]
+                    image = self.train_env.render("rgb_array")[0][0]
                     all_frames.append(image)
                     calc_end = time.time()
                     elapsed = calc_end - calc_start

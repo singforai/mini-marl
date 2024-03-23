@@ -33,10 +33,13 @@ class MAGYM_Runner(Runner):
             dones: list = [False for _ in range(self.num_agents)]
 
             while not all(dones):
-
-                values, actions, action_log_probs, rnn_states, rnn_states_critic = (
-                    self.collect(step=step)
-                )
+                (
+                values, 
+                actions, 
+                action_log_probs, 
+                rnn_states, 
+                rnn_states_critic
+                ) = self.collect(step=step)
 
                 step += 1
 
@@ -108,6 +111,8 @@ class MAGYM_Runner(Runner):
             share_obs = self.obs_sharing(obs=obs, n_agents=self.num_agents)
         else:
             share_obs = obs
+        
+        print(np.array(share_obs).shape)
 
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()

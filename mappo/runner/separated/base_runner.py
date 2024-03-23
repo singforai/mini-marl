@@ -1,5 +1,5 @@
    
-import os
+import os                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 import time
 import wandb
 import torch
@@ -99,11 +99,6 @@ class Runner(object):
             
             self.trainer.append(tr)
             self.buffer.append(bu)
-
-        print(self.policy)
-        print(self.buffer)
-        print(self.trainer)
-
 
             
     def run(self):
