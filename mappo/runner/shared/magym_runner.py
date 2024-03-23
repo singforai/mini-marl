@@ -254,6 +254,7 @@ class MAGYM_Runner(Runner):
 
                 eval_episode_rewards += sum(eval_rewards)
                 eval_obs = eval_next_obs
+                eval_rnn_states = eval_rnn_states
 
             eval_total_rewards.append(eval_episode_rewards)
 
