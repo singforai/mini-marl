@@ -40,7 +40,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_cuda",
         type=bool,
-        default=True,
+        default=False,
         help="Decide whether to use GPU during training ",
     )
     param(
