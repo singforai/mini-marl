@@ -15,17 +15,29 @@ def main(args):
     args = parser.parse_known_args(args)[0]
 
     if args.algorithm_name == "rmappo":
-        print("You are choosing to use rmappo, we set use_recurrent_policy to be True")
-        args.use_recurrent_policy = True
-        args.use_naive_recurrent_policy = False
+        print(
+            "You are choosing to use rmappo, we set use_recurrent_policy to be True"
+        )
+        if args.use_recurrent_policy ^ args.use_naive_recurrent_policy:
+            print(
+                "You are choosing to use rmappo"
+        )
+        else:
+            raise Exception(
+                "(args.use_recurrent_policy ^ args.use_naive_recurrent_policy) must be set to True."
+                )
+
     elif args.algorithm_name == "mappo":
         print(
             "You are choosing to use mappo, we set use_recurrent_policy & use_naive_recurrent_policy to be False"
         )
         args.use_recurrent_policy = False
         args.use_naive_recurrent_policy = False
+
     elif args.algorithm_name == "ippo":
-        print("You are choosing to use ippo, we set use_centralized_V to be False")
+        print(
+            "You are choosing to use ippo, we set use_centralized_V to be False"
+            )
         args.use_centralized_V = False
     else:
         raise NotImplementedError
@@ -34,7 +46,6 @@ def main(args):
         import wandb
 
         project_name = args.env_name.split(":")[1] # 기존 args.project_name을 env_name에 종속되도록 변경 
-
         wandb.init(
             entity=args.entity_name,
             project=project_name,
@@ -52,7 +63,7 @@ def main(args):
     # set_logging(experiment_name=args.experiment_name)
     # log_hyperparameter(args=args, device=device)
 
-    fix_random_seed(args.seed) if args.fix_seed else None
+    fix_random_seed(seed = args.seed) if args.fix_seed else None
 
     train_env = gym.make(
         id=args.env_name,
@@ -61,7 +72,10 @@ def main(args):
         step_cost=args.step_cost,
     )
     eval_env = gym.make(
-        id=args.env_name, max_steps=args.max_step, step_cost=args.step_cost
+        id=args.env_name, 
+        full_observable=False,
+        max_steps=args.max_step, 
+        step_cost=args.step_cost
     )
 
     config = {

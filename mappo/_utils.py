@@ -10,7 +10,7 @@ import torch.nn as nn
 from typing import Callable, Dict, Any
 
 
-def fix_random_seed(seed):
+def fix_random_seed(seed: int):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
