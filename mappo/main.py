@@ -33,9 +33,11 @@ def main(args):
     if args.use_wandb:
         import wandb
 
+        project_name = args.env_name.split(":")[1] # 기존 args.project_name을 env_name에 종속되도록 변경 
+
         wandb.init(
             entity=args.entity_name,
-            project=args.project_name,
+            project=project_name,
             name=f"{args.experiment_name}-{int(time.time())}",
             config=args,
             reinit=True,

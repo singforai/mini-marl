@@ -124,11 +124,12 @@ class MAGYM_Runner(Runner):
         return np.array(obs)
 
     def obs_sharing(self, obs):
-        share_obs = np.array(obs).reshape(1, -1)
+        
         if self.use_centralized_V:
+            share_obs = np.array(obs).reshape(1, -1)
             share_obs_list = np.array([share_obs for _ in range(self.num_agents)])
         else:
-            share_obs_list = np.array([obs for _ in range(self.num_agents)])
+            share_obs_list = np.array(obs)
         return share_obs_list
 
     
