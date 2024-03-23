@@ -29,7 +29,11 @@ class R_MAPPOPolicy:
         self.share_obs_space = cent_obs_space
         self.act_space = act_space
 
-        self.actor = R_Actor(args, self.obs_space, self.act_space, self.device)
+        self.actor = R_Actor(args = args, 
+                             obs_space = self.obs_space, 
+                             action_space = self.act_space, 
+                             device = self.device)
+        
         self.critic = R_Critic(args, self.share_obs_space, self.device)
 
         self.actor_optimizer = torch.optim.Adam(self.actor.parameters(),
@@ -68,13 +72,17 @@ class R_MAPPOPolicy:
         :return rnn_states_actor: (torch.Tensor) updated actor network RNN states.
         :return rnn_states_critic: (torch.Tensor) updated critic network RNN states.
         """
-        actions, action_log_probs, rnn_states_actor = self.actor(obs,
-                                                                 rnn_states_actor,
-                                                                 masks,
-                                                                 available_actions = None,
-                                                                 deterministic = False)
+        actions, action_log_probs, rnn_states_actor = self.actor(
+            obs = obs,
+            rnn_states = rnn_states_actor,
+            masks = masks
+            )
 
-        values, rnn_states_critic = self.critic(cent_obs, rnn_states_critic, masks)
+        values, rnn_states_critic = self.critic(
+            cent_obs = cent_obs,
+            rnn_states = rnn_states_critic, 
+            masks = masks
+            )
         return values, actions, action_log_probs, rnn_states_actor, rnn_states_critic
 
     def get_values(self, cent_obs, rnn_states_critic, masks):

@@ -44,7 +44,8 @@ class MAGYM_Runner(Runner):
                     rnn_states_critic,
                     actions_env,
                 ) = self.collect(step)
-
+                
+                print(actions)
                 print(actions_env)
 
                 # Obser reward and next obs
@@ -143,22 +144,24 @@ class MAGYM_Runner(Runner):
     def collect(self, step):
         values = []
         actions = []
-        temp_actions_env = []
-        action_log_probs = []
+
         rnn_states = []
         rnn_states_critic = []
 
+        temp_actions_env = []
+        action_log_probs = []
+
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
-            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[
-                agent_id
-            ].policy.get_actions(
-                self.buffer[agent_id].share_obs[step],
-                self.buffer[agent_id].obs[step],
-                self.buffer[agent_id].rnn_states[step],
-                self.buffer[agent_id].rnn_states_critic[step],
-                self.buffer[agent_id].masks[step],
+            
+            value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(
+                obs = self.buffer[agent_id].obs[step],
+                cent_obs = self.buffer[agent_id].share_obs[step],
+                rnn_states_actor = self.buffer[agent_id].rnn_states[step],
+                rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
+                masks = self.buffer[agent_id].masks[step],
             )
+
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)

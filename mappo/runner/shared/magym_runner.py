@@ -111,8 +111,6 @@ class MAGYM_Runner(Runner):
             share_obs = self.obs_sharing(obs=obs, n_agents=self.num_agents)
         else:
             share_obs = obs
-        
-        print(np.array(share_obs).shape)
 
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()
