@@ -45,9 +45,9 @@ class MAGYM_Runner(Runner):
 
                 next_obs, rewards, dones, infos = self.train_env.step(
                     actions[0]
-                )  # 일단은 batch_size를 1인 상태에서만 돌아가도록 설정해놓았음
+                )
 
-                share_obs = self.obs_sharing(obs=next_obs, n_agents=self.num_agents)
+                share_obs = self.obs_sharing(obs=next_obs)
                 rewards = self.convert_rewards(rewards)
 
                 data = (
@@ -93,9 +93,12 @@ class MAGYM_Runner(Runner):
             if self.use_wandb:
                 wandb.log(train_infos)
 
-    def obs_sharing(self, obs, n_agents):
-        obs = sum(obs, [])
-        share_obs = [obs for _ in range(n_agents)]
+    def obs_sharing(self, obs):
+        sum_obs = sum(obs, [])
+        if self.use_centralized_V:
+            share_obs = [sum_obs for _ in range(self.num_agents)]
+        else:
+            share_obs = obs
         return share_obs
 
     def convert_rewards(self, rewards):
@@ -107,10 +110,7 @@ class MAGYM_Runner(Runner):
         # obs, share_obs, available_actions = self.train_env.reset()
         obs = self.train_env.reset()
         # replay buffer
-        if self.use_centralized_V:
-            share_obs = self.obs_sharing(obs=obs, n_agents=self.num_agents)
-        else:
-            share_obs = obs
+        share_obs = self.obs_sharing(obs=obs)
 
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()

@@ -35,26 +35,32 @@ class MAGYM_Runner(Runner):
             dones: list = [False for _ in range(self.num_agents)]
 
             while not all(dones):
-                # Sample actions
                 (
                     values,
                     actions,
                     action_log_probs,
                     rnn_states,
                     rnn_states_critic,
-                    actions_env,
-                ) = self.collect(step)
+                    actions_env
+                ) = self.collect(step=step)
                 
                 print(actions)
-                print(actions_env)
 
                 # Obser reward and next obs
-                obs, rewards, dones, infos = self.train_env.step(actions_env)
+                next_obs, rewards, dones, infos = self.train_env.step(
+                    actions[0]
+                    )
+                
+
+                next_obs = self.numpy_obs(next_obs)
+                rewards = self.convert_rewards(rewards)
+                next_share_obs = self.obs_sharing(next_obs)
 
                 data = (
-                    obs,
+                    next_obs,
+                    next_share_obs,
                     rewards,
-                    dones,
+                    np.array([dones]),
                     infos,
                     values,
                     actions,
@@ -123,16 +129,24 @@ class MAGYM_Runner(Runner):
             if episode % self.eval_interval == 0 and self.use_eval:
                 self.eval(total_num_steps)
 
+    def numpy_obs(self, obs):
+        return np.array(obs)
+
     def obs_sharing(self, obs):
         share_obs = np.array(obs).reshape(1, -1)
-        return share_obs
+        share_obs_list = np.array([share_obs for _ in range(self.num_agents)])
+        return share_obs_list
+    
+    def convert_rewards(self, rewards):
+        converted_rewards = [[reward] for reward in rewards]
+        return converted_rewards
 
     def warmup(self):
         # reset env
         
-        obs = self.train_env.reset()
+        obs = self.numpy_obs(self.train_env.reset())
         if self.use_centralized_V:
-            share_obs_list = np.array([ self.obs_sharing(obs) for _ in range(self.num_agents)])
+            share_obs_list = self.obs_sharing(obs)
         else:
             share_obs_list = np.array([obs for _ in range(self.num_agents)])
 
@@ -213,7 +227,8 @@ class MAGYM_Runner(Runner):
 
     def insert(self, data):
         (
-            obs,
+            next_obs,
+            next_share_obs,
             rewards,
             dones,
             infos,
@@ -235,18 +250,13 @@ class MAGYM_Runner(Runner):
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
         masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
 
-        share_obs = []
-        for o in obs:
-            share_obs.append(list(chain(*o)))
-        share_obs = np.array(share_obs)
-
         for agent_id in range(self.num_agents):
             if not self.use_centralized_V:
-                share_obs = np.array(list(obs[:, agent_id]))
+                next_share_obs = next_obs[agent_id]
 
             self.buffer[agent_id].insert(
-                share_obs,
-                np.array(list(obs[:, agent_id])),
+                next_share_obs[agent_id],
+                next_obs[agent_id],
                 rnn_states[:, agent_id],
                 rnn_states_critic[:, agent_id],
                 actions[:, agent_id],
