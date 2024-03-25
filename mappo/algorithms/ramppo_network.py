@@ -237,7 +237,7 @@ class R_MAPPO:
         train_info["actor_grad_norm"] = 0
         train_info["critic_grad_norm"] = 0
         train_info["ratio"] = 0
-
+        
         for _ in range(self.ppo_epoch):
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(
@@ -274,6 +274,8 @@ class R_MAPPO:
 
         for k in train_info.keys():
             train_info[k] /= num_updates
+
+        train_info["sampling_score"] = buffer.rewards.sum()
 
         return train_info
 

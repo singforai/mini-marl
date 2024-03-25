@@ -7,6 +7,7 @@ import torch
 import numpy as np
 
 from gym import spaces
+from typing import Callable, Dict, List
 from replay_buffer.separated_buffer import SeparatedReplayBuffer
 from runner.shared.observation_space import MultiAgentObservationSpace
 
@@ -59,6 +60,7 @@ class Runner(object):
         self.sleep_second: float = self.args.sleep_second
 
         self.observation_space = self.train_env.observation_space
+        
         if self.use_centralized_V:
             self._obs_high = np.tile(self.train_env._obs_high, self.num_agents)
             self._obs_low = np.tile(self.train_env._obs_low, self.num_agents)
@@ -71,16 +73,18 @@ class Runner(object):
         else:
             self.share_observation_space = self.observation_space
 
+        process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
+        self.process_obs_type: Callable[[bool], object] = process_obs.get(self.args.use_centralized_V)
 
         """
         policy를 생성하는 for문과 trainer, buffer를 생성하는 for문을 하나로 통합함. 
         """
 
-        self.policy = []
-        self.trainer = []
-        self.buffer = []
-        for agent_id in range(self.num_agents): 
+        self.policy: List[object] = []
+        self.trainer: List[object] = []
+        self.buffer: List[object] = []
 
+        for agent_id in range(self.num_agents): 
             po = Policy(self.args,
                         self.train_env.observation_space[agent_id],
                         self.share_observation_space[agent_id],
@@ -95,7 +99,6 @@ class Runner(object):
                                        self.train_env.observation_space[agent_id],
                                        self.share_observation_space[agent_id],
                                        self.train_env.action_space[agent_id])
-            
             
             self.trainer.append(tr)
             self.buffer.append(bu)
@@ -127,45 +130,30 @@ class Runner(object):
         train_infos = []
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_training()
-            train_info = self.trainer[agent_id].train(self.buffer[agent_id])
-            train_infos.append(train_info)       
+            train_info = self.trainer[agent_id].train(buffer = self.buffer[agent_id])
+            train_infos.append(train_info)
             self.buffer[agent_id].after_update()
-
         return train_infos
 
-    def save(self):
-        for agent_id in range(self.num_agents):
-            policy_actor = self.trainer[agent_id].policy.actor
-            torch.save(policy_actor.state_dict(), str(self.save_dir) + "/actor_agent" + str(agent_id) + ".pt")
-            policy_critic = self.trainer[agent_id].policy.critic
-            torch.save(policy_critic.state_dict(), str(self.save_dir) + "/critic_agent" + str(agent_id) + ".pt")
-            if self.trainer[agent_id]._use_valuenorm:
-                policy_vnrom = self.trainer[agent_id].value_normalizer
-                torch.save(policy_vnrom.state_dict(), str(self.save_dir) + "/vnrom_agent" + str(agent_id) + ".pt")
+    def obs_sharing(self, obs: List[List]) -> np.array:
+        share_obs = np.array(obs).reshape(1, -1)
+        share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+        return share_obs_list
+    
+    def obs_isolated(self, obs: List[List]) -> np.array:
+        isolated_obs_list = np.array(obs)
+        return isolated_obs_list
+    
+    def log_train(self, train_infos, eval_result):
 
-    def restore(self):
-        for agent_id in range(self.num_agents):
-            policy_actor_state_dict = torch.load(str(self.model_dir) + '/actor_agent' + str(agent_id) + '.pt')
-            self.policy[agent_id].actor.load_state_dict(policy_actor_state_dict)
-            policy_critic_state_dict = torch.load(str(self.model_dir) + '/critic_agent' + str(agent_id) + '.pt')
-            self.policy[agent_id].critic.load_state_dict(policy_critic_state_dict)
-            if self.trainer[agent_id]._use_valuenorm:
-                policy_vnrom_state_dict = torch.load(str(self.model_dir) + '/vnrom_agent' + str(agent_id) + '.pt')
-                self.trainer[agent_id].value_normalizer.load_state_dict(policy_vnrom_state_dict)
+        total_train_infos = {key: 0.0 for key in train_infos[0]}
+        total_train_infos["eval_score"] = eval_result
 
-    def log_train(self, train_infos, total_num_steps): 
-        for agent_id in range(self.num_agents):
-            for k, v in train_infos[agent_id].items():
-                agent_k = "agent%i/" % agent_id + k
-                if self.use_wandb:
-                    wandb.log({agent_k: v}, step=total_num_steps)
-                else:
-                    self.writter.add_scalars(agent_k, {agent_k: v}, total_num_steps)
+        for agent_i in range(self.num_agents):
+            for key in train_infos[agent_i].keys():
+                total_train_infos[key] += train_infos[agent_i][key]
 
-    def log_env(self, env_infos, total_num_steps):
-        for k, v in env_infos.items():
-            if len(v) > 0:
-                if self.use_wandb:
-                    wandb.log({k: np.mean(v)}, step=total_num_steps)
-                else:
-                    self.writter.add_scalars(k, {k: np.mean(v)}, total_num_steps)
+        total_train_infos["ratio"] = total_train_infos["ratio"]/self.num_agents
+
+        if self.use_wandb:
+            wandb.log(total_train_infos)

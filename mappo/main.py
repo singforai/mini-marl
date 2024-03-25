@@ -15,16 +15,13 @@ def main(args):
     args = parser.parse_known_args(args)[0]
 
     if args.algorithm_name == "rmappo":
-        print(
-            "You are choosing to use rmappo, we set use_recurrent_policy to be True"
-        )
         if args.use_recurrent_policy ^ args.use_naive_recurrent_policy:
             print(
-                "You are choosing to use rmappo"
-        )
+                "You are choosing to use rmappo, we set use_recurrent_policy ^ use_naive_recurrent_policy to be True"
+            )
         else:
             raise Exception(
-                "(args.use_recurrent_policy ^ args.use_naive_recurrent_policy) must be set to True."
+                "use_recurrent_policy ^ use_naive_recurrent_policy must be set to True."
                 )
 
     elif args.algorithm_name == "mappo":

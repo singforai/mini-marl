@@ -1,10 +1,8 @@
 import time
 import wandb
-import os
-import numpy as np
-from itertools import chain
 import torch
-import pdb
+
+import numpy as np
 
 from runner.separated.base_runner import Runner
 
@@ -48,10 +46,8 @@ class MAGYM_Runner(Runner):
                     actions[0]
                     )
                 
-
-                next_obs = self.numpy_obs(next_obs)
                 rewards = self.convert_rewards(rewards)
-                next_share_obs = self.obs_sharing(next_obs)
+                next_share_obs = self.process_obs_type(obs = next_obs)
 
                 data = (
                     next_obs,
@@ -87,51 +83,13 @@ class MAGYM_Runner(Runner):
                     )
                 )
 
-                # if self.env_name == "ma_gym:Checkers-v0":
-                #     for agent_id in range(self.num_agents):
-                #         idv_rews = []
-                #         for info in infos:
-                #             for count, info in enumerate(infos):
-                #                 if "individual_reward" in infos[count][agent_id].keys():
-                #                     idv_rews.append(
-                #                         infos[count][agent_id].get(
-                #                             "individual_reward", 0
-                #                         )
-                #                     )
-                #         train_infos[agent_id].update(
-                #             {"individual_rewards": np.mean(idv_rews)}
-                #         )
-                #         train_infos[agent_id].update(
-                #             {
-                #                 "average_episode_rewards": np.mean(
-                #                     self.buffer[agent_id].rewards
-                #                 )
-                #                 * self.episode_length
-                #             }
-                #         )
-                # self.log_train(train_infos, total_num_steps)
-
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
-                eval_results = self.eval(episode = episode)
-                train_infos[0]["test_score"] = np.mean(eval_results)
+                eval_result: float = self.eval(episode = episode)
 
-            if self.use_wandb:
-                wandb.log(train_infos[0])
+            self.log_train(train_infos = train_infos, eval_result = eval_result)
+
             self.train_env.reset()
-
-    def numpy_obs(self, obs):
-        return np.array(obs)
-
-    def obs_sharing(self, obs):
-        
-        if self.use_centralized_V:
-            share_obs = np.array(obs).reshape(1, -1)
-            share_obs_list = np.array([share_obs for _ in range(self.num_agents)])
-        else:
-            share_obs_list = np.array(obs)
-        return share_obs_list
-
     
     def convert_rewards(self, rewards):
         converted_rewards = [[reward] for reward in rewards]
@@ -140,8 +98,8 @@ class MAGYM_Runner(Runner):
     def warmup(self):
         # reset env
         
-        obs = self.numpy_obs(self.train_env.reset())
-        share_obs_list = self.obs_sharing(obs)
+        obs = self.train_env.reset()
+        share_obs_list = self.process_obs_type(obs = obs)
       
 
         for agent_id in range(self.num_agents):
@@ -297,12 +255,6 @@ class MAGYM_Runner(Runner):
                     eval_agent_actions.append(eval_action)
                     eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
 
-                # eval_actions = np.array(
-                #     np.split(eval_action, self.n_eval_rollout_threads)
-                # )
-                # eval_rnn_states = np.array(
-                #     np.split(_t2n(eval_rnn_states), self.n_eval_rollout_threads)
-                # )
                 eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(np.array(eval_agent_actions))
 
                 eval_episode_rewards += sum(eval_rewards)
@@ -311,4 +263,4 @@ class MAGYM_Runner(Runner):
             eval_total_rewards.append(eval_episode_rewards)
 
             self.eval_env.reset()
-        return eval_total_rewards
+        return np.mean(np.array(eval_total_rewards))
