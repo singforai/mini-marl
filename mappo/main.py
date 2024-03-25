@@ -52,21 +52,18 @@ def main(args):
 
     fix_random_seed(args.seed) if args.fix_seed else None
 
-    train_env = gym.make(
+    env = gym.make(
         id=args.env_name,
         full_observable=False,
         max_steps=args.max_step,
         step_cost=args.step_cost,
     )
-    eval_env = gym.make(
-        id=args.env_name, max_steps=args.max_step, step_cost=args.step_cost
-    )
 
     config = {
         "args": args,
-        "train_env": train_env,
-        "eval_env": eval_env,
-        "num_agents": train_env.n_agents,
+        "train_env": env,
+        "eval_env": env,
+        "num_agents": env.n_agents,
         "device": device,
     }
 
@@ -78,9 +75,7 @@ def main(args):
     runner = Runner(config)
     runner.run()
 
-    train_env.close()
-    if args.use_eval and eval_env is not train_env:
-        eval_env.close()
+    env.close()
 
 
 if __name__ == "__main__":

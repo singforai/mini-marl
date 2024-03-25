@@ -10,6 +10,9 @@ from itertools import chain
 from replay_buffer.separated_buffer import SeparatedReplayBuffer
 from runner.separated.observation_space import MultiAgentObservationSpace
 
+from algorithms.ramppo_network import R_MAPPO as TrainAlgo
+from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
+
 
 def _t2n(x):
     return x.detach().cpu().numpy()
@@ -19,97 +22,87 @@ class Runner(object):
     def __init__(self, config):
 
         self.args = config["args"]
-        self.envs = config["train_env"]
-        self.eval_envs = config["eval_env"]
+        self.train_env = config["train_env"]
+        self.eval_env = config["eval_env"]
         self.device = config["device"]
         self.num_agents = config["num_agents"]
 
+        # name_parameter
+        self.env_name: str = self.args.env_name
+        self.algorithm_name: str = self.args.algorithm_name
+        self.experiment_name: str = self.args.experiment_name
+
+        # rollout_threads
+        self.n_rollout_threads: int = self.args.n_rollout_threads
+        self.n_eval_rollout_threads: int = self.args.n_eval_rollout_threads
+        self.n_render_rollout_threads: int = self.args.n_render_rollout_threads
+
+        # use_hyperparameter
+        self.use_eval: bool = self.args.use_eval
+        self.use_wandb: bool = self.args.use_wandb
+        self.use_render: bool = self.args.use_render
+        self.use_centralized_V: bool = self.args.use_centralized_V
+        self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
+
         # parameters
-        self.env_name = self.args.env_name
-        self.algorithm_name = self.args.algorithm_name
-        self.experiment_name = self.args.experiment_name
-        self.use_centralized_V = self.args.use_centralized_V
-        # self.use_obs_instead_of_state = self.args.use_obs_instead_of_state
-        self.num_env_steps: int = self.args.max_episodes * self.args.max_step
+        self.max_episodes: int = self.args.max_episodes
         self.episode_length: int = self.args.max_step
-        self.n_rollout_threads = self.args.n_rollout_threads
-        self.n_eval_rollout_threads = self.args.n_eval_rollout_threads
-        self.use_linear_lr_decay = self.args.use_linear_lr_decay
-        self.hidden_size = self.args.hidden_size
-        self.use_wandb = self.args.use_wandb
-        self.use_render = self.args.use_render
-        self.recurrent_N = self.args.recurrent_N
+        self.hidden_size: int = self.args.hidden_size
+        self.recurrent_N: int = self.args.recurrent_N
+        self.batch_size: int = self.args.batch_size
+        self.eval_episodes: int = self.args.eval_episodes
 
         # interval
-        self.save_interval = self.args.save_interval
-        self.use_eval = self.args.use_eval
-        self.eval_interval = self.args.eval_interval
-        self.log_interval = self.args.log_interval
+        self.log_interval: int = self.args.log_interval
+        self.save_interval: int = self.args.save_interval
+        self.eval_interval: int = self.args.eval_interval
 
-        # dir
-        # self.model_dir = self.args.model_dir
+        # render time
+        self.sleep_second: float = self.args.sleep_second
 
-        if self.use_wandb:
-            self.save_dir = str(wandb.run.dir)
+        self.observation_space = self.train_env.observation_space
+        if self.use_centralized_V:
+            self._obs_high = np.tile(self.train_env._obs_high, self.num_agents)
+            self._obs_low = np.tile(self.train_env._obs_low, self.num_agents)
+            self.share_observation_space = MultiAgentObservationSpace(
+                [
+                    spaces.Box(self._obs_low, self._obs_high)
+                    for _ in range(self.num_agents)
+                ]
+            )
         else:
-            self.save_dir = "./"
-        # else:
-        #     self.run_dir = config["run_dir"]
-        #     self.log_dir = str(self.run_dir / 'logs')
-        #     if not os.path.exists(self.log_dir):
-        #         os.makedirs(self.log_dir)
-        #     self.writter = SummaryWriter(self.log_dir)
-        #     self.save_dir = str(self.run_dir / 'models')
-        #     if not os.path.exists(self.save_dir):
-        #         os.makedirs(self.save_dir)
+            self.share_observation_space = self.observation_space
 
-        from algorithms.ramppo_network import R_MAPPO as TrainAlgo
-        from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
+        """
+        policy를 생성하는 for문과 trainer, buffer를 생성하는 for문을 하나로 통합함. 
+        """
 
         self.policy = []
-        for agent_id in range(self.num_agents):
-            self.observation_space = self.envs.observation_space
-            if self.use_centralized_V:
-                self._obs_high = np.tile(self.envs._obs_high, self.num_agents)
-                self._obs_low = np.tile(self.envs._obs_low, self.num_agents)
-                self.share_observation_space = MultiAgentObservationSpace(
-                    [
-                        spaces.Box(self._obs_low, self._obs_high)
-                        for _ in range(self.num_agents)
-                    ]
-                )
-            else:
-                self.share_observation_space = self.observation_space
-
-            # policy network
-            po = Policy(
-                self.args,
-                self.envs.observation_space[agent_id],
-                self.share_observation_space,
-                self.envs.action_space[agent_id],
-                device=self.device,
-            )
-            self.policy.append(po)
-
         self.trainer = []
         self.buffer = []
         for agent_id in range(self.num_agents):
-            # algorithm
-            tr = TrainAlgo(self.args, self.policy[agent_id], device=self.device)
-            # buffer
-            share_observation_space = (
-                self.share_observation_space
-                if self.use_centralized_V
-                else self.envs.observation_space[agent_id]
+
+            po = Policy(
+                self.args,
+                self.train_env.observation_space[agent_id],
+                self.share_observation_space[agent_id],
+                self.train_env.action_space[agent_id],
+                device=self.device,
             )
+
+            self.policy.append(po)
+
+            tr = TrainAlgo(self.args, self.policy[agent_id], device=self.device)
+
             bu = SeparatedReplayBuffer(
                 self.args,
-                self.envs.observation_space[agent_id],
-                share_observation_space,
-                self.envs.action_space[agent_id],
+                self.train_env.observation_space[agent_id],
+                self.share_observation_space[agent_id],
+                self.train_env.action_space[agent_id],
             )
-            self.buffer.append(bu)
+
             self.trainer.append(tr)
+            self.buffer.append(bu)
 
     def run(self):
         raise NotImplementedError

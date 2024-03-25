@@ -6,12 +6,12 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", type=bool, default=False, help="Whether to use wandb")
+    param("--use_wandb", type=bool, default=True, help="Whether to use wandb")
     param("--entity_name", type=str, default="sangkiko", help="wandb_name")
     param(
         "--project_name",
         type=str,
-        default="checker-v0",
+        default="checkers-v0",
         help="wandb project category name",
     )  # experiment base setting parameters
     param(
@@ -70,7 +70,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--share_policy",
         type=bool,
-        default=True,  # in mappo default = True
+        default=False,  # in mappo default = True
         help="Determining if agents want to share the same network with same parameters",
     )
     param(
@@ -82,7 +82,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_linear_lr_decay",
         action="store_true",
-        default=False,
+        default=True,
         help="use a linear schedule on the learning rate",
     )
     param(
@@ -155,7 +155,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.99,
         help="Discount factor used to calculate TD error",
     )
-    param("--batch_size", type=int, default=64, help="batch_size")
+    param("--batch_size", type=int, default=32, help="batch_size")
 
     # rollout threads
     param(
@@ -179,9 +179,9 @@ def get_config() -> argparse.ArgumentParser:
 
     # optimizer hyperparameter
     param(
-        "--actor_lr", type=float, default=1e-5, help="Learning rate of optimizer Adam"
+        "--actor_lr", type=float, default=5e-5, help="Learning rate of optimizer Adam"
     )
-    param("--critic_lr", type=float, default=1e-5, help="critic learning rate")
+    param("--critic_lr", type=float, default=5e-5, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
         "--weight_decay",
@@ -260,9 +260,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.2,
         help="ppo clip parameter (default: 0.2)",
     )
-    param(
-        "--ppo_epoch", type=int, default=15, help="number of ppo epochs (default: 15)"
-    )
+    param("--ppo_epoch", type=int, default=1, help="number of ppo epochs (default: 15)")
     param(
         "--num_mini_batch",
         type=int,
@@ -284,7 +282,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--entropy_coef",
         type=float,
-        default=0.1,
+        default=0.01,
         help="entropy term coefficient (default: 0.01)",
     )
     param(

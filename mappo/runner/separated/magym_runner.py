@@ -20,17 +20,20 @@ class MAGYM_Runner(Runner):
         self.warmup()
 
         start = time.time()
-        episodes = (
-            int(self.num_env_steps) // self.episode_length // self.n_rollout_threads
-        )
+        episodes = self.max_episodes // self.n_rollout_threads
 
         for episode in range(episodes):
+
+            self.train_env.render() if self.use_render else None
+
             if self.use_linear_lr_decay:
                 for agent_id in range(self.num_agents):
                     self.trainer[agent_id].policy.lr_decay(episode, episodes)
 
-            for step in range(self.episode_length):
-                # Sample actions
+            step: int = 0
+            dones: list = [False for _ in range(self.num_agents)]
+
+            while not all(dones):
                 (
                     values,
                     actions,
@@ -38,16 +41,18 @@ class MAGYM_Runner(Runner):
                     rnn_states,
                     rnn_states_critic,
                     actions_env,
-                ) = self.collect(step)
+                ) = self.collect(step=step)
 
                 # Obser reward and next obs
-                obs, rewards, dones, infos = self.envs.step(actions[0])
+                next_obs, rewards, dones, infos = self.train_env.step(actions[0])
 
-                shared_obs = obs
+                next_obs = self.numpy_obs(next_obs)
+                rewards = self.convert_rewards(rewards)
+                next_share_obs = self.obs_sharing(next_obs)
 
                 data = (
-                    obs,
-                    shared_obs,
+                    next_obs,
+                    next_share_obs,
                     rewards,
                     np.array([dones]),
                     infos,
@@ -65,86 +70,101 @@ class MAGYM_Runner(Runner):
             self.compute()
             train_infos = self.train()
 
-            # post process
-            total_num_steps = (
-                (episode + 1) * self.episode_length * self.n_rollout_threads
-            )
-
-            # save model
-            if episode % self.save_interval == 0 or episode == episodes - 1:
-                self.save()
-
             # log information
             if episode % self.log_interval == 0:
                 end = time.time()
-                print(
-                    "Algo {} Exp {} updates {}/{} episodes, total num timesteps {}/{}, FPS {}.\n".format(
-                        self.algorithm_name,
-                        self.experiment_name,
-                        episode,
-                        episodes,
-                        total_num_steps,
-                        self.num_env_steps,
-                        int(total_num_steps / (end - start)),
+
+                for agent_id in range(self.num_agents):
+                    train_infos[agent_id].update(
+                        {
+                            "average_episode_rewards": np.mean(
+                                self.buffer[agent_id].rewards
+                            )
+                            * self.episode_length
+                        }
                     )
+
+                print(
+                    f"Env {self.env_name} Algo {self.algorithm_name} Exp {self.experiment_name} updates {episode}/{episodes} episodes, Agent 1 Average Rewards {np.mean(train_infos[0]['average_episode_rewards']):.4f}, Agent 2 Average Rewards {np.mean(train_infos[1]['average_episode_rewards']):.4f}"
                 )
 
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
-                self.eval(total_num_steps)
+                eval_results = self.eval(episode=episode)
+                train_infos[0]["test_score"] = np.mean(eval_results)
+
+            if self.use_wandb:
+                wandb.log(train_infos[0])
+            self.train_env.reset()
+
+    def numpy_obs(self, obs):
+        return np.array(obs)
+
+    def obs_sharing(self, obs):
+        share_obs = np.array(obs).reshape(1, -1)
+        if self.use_centralized_V:
+            share_obs_list = np.array([share_obs for _ in range(self.num_agents)])
+        else:
+            share_obs_list = np.array([obs for _ in range(self.num_agents)])
+        return share_obs_list
+
+    def convert_rewards(self, rewards):
+        converted_rewards = [[reward] for reward in rewards]
+        return converted_rewards
 
     def warmup(self):
         # reset env
-        obs = self.envs.reset()
 
-        share_obs = []
-        for o in obs:
-            share_obs.append(o)
-        share_obs = np.array(share_obs).reshape(1, -1)
+        obs = self.numpy_obs(self.train_env.reset())
+        share_obs_list = self.obs_sharing(obs)
 
         for agent_id in range(self.num_agents):
-            if not self.use_centralized_V:
-                share_obs = np.array(list(obs[:, agent_id]))
-
-            self.buffer[agent_id].share_obs[0] = share_obs.copy()
-            self.buffer[agent_id].obs[0] = np.array(list(obs[agent_id])).copy()
+            self.buffer[agent_id].share_obs[0] = share_obs_list[agent_id].copy()
+            self.buffer[agent_id].obs[0] = obs[agent_id].copy()
 
     @torch.no_grad()
     def collect(self, step):
         values = []
         actions = []
-        temp_actions_env = []
-        action_log_probs = []
+
         rnn_states = []
         rnn_states_critic = []
 
+        temp_actions_env = []
+        action_log_probs = []
+
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
+
             value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[
                 agent_id
             ].policy.get_actions(
-                self.buffer[agent_id].obs[step],
-                self.buffer[agent_id].share_obs[step],
-                self.buffer[agent_id].rnn_states[step],
-                self.buffer[agent_id].rnn_states_critic[step],
-                self.buffer[agent_id].masks[step],
+                obs=self.buffer[agent_id].obs[step],
+                cent_obs=self.buffer[agent_id].share_obs[step],
+                rnn_states_actor=self.buffer[agent_id].rnn_states[step],
+                rnn_states_critic=self.buffer[agent_id].rnn_states_critic[step],
+                masks=self.buffer[agent_id].masks[step],
             )
+
             # [agents, envs, dim]
             values.append(_t2n(value))
             action = _t2n(action)
             # rearrange action
-            if self.envs.action_space[agent_id].__class__.__name__ == "MultiDiscrete":
-                for i in range(self.envs.action_space[agent_id].shape):
+            if (
+                self.train_env.action_space[agent_id].__class__.__name__
+                == "MultiDiscrete"
+            ):
+                for i in range(self.train_env.action_space[agent_id].shape):
                     uc_action_env = np.eye(
-                        self.envs.action_space[agent_id].high[i] + 1
+                        self.train_env.action_space[agent_id].high[i] + 1
                     )[action[:, i]]
                     if i == 0:
                         action_env = uc_action_env
                     else:
                         action_env = np.concatenate((action_env, uc_action_env), axis=1)
-            elif self.envs.action_space[agent_id].__class__.__name__ == "Discrete":
+            elif self.train_env.action_space[agent_id].__class__.__name__ == "Discrete":
                 action_env = np.squeeze(
-                    np.eye(self.envs.action_space[agent_id].n)[action], 1
+                    np.eye(self.train_env.action_space[agent_id].n)[action], 1
                 )
             else:
                 raise NotImplementedError
@@ -180,8 +200,8 @@ class MAGYM_Runner(Runner):
 
     def insert(self, data):
         (
-            obs,
-            shared_obs,
+            next_obs,
+            next_share_obs,
             rewards,
             dones,
             infos,
@@ -192,43 +212,24 @@ class MAGYM_Runner(Runner):
             rnn_states_critic,
         ) = data
 
-        dones_env = np.all(dones, axis=1)
-
-        rnn_states[dones_env == True] = np.zeros(
-            (
-                (dones_env == True).sum(),
-                self.num_agents,
-                self.recurrent_N,
-                self.hidden_size,
-            ),
+        rnn_states[dones == True] = np.zeros(
+            ((dones == True).sum(), self.recurrent_N, self.hidden_size),
             dtype=np.float32,
         )
-        rnn_states_critic[dones_env == True] = np.zeros(
-            (
-                (dones_env == True).sum(),
-                self.num_agents,
-                self.recurrent_N,
-                self.hidden_size,
-            ),
+        rnn_states_critic[dones == True] = np.zeros(
+            ((dones == True).sum(), self.recurrent_N, self.hidden_size),
             dtype=np.float32,
         )
         masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
-        masks[dones_env == True] = np.zeros(
-            ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
-        )
-
-        share_obs = []
-        for o in obs:
-            share_obs.append(o)
-        share_obs = np.array(share_obs).reshape(1, -1)
+        masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
 
         for agent_id in range(self.num_agents):
             if not self.use_centralized_V:
-                share_obs = np.array(list(obs[agent_id]))
+                next_share_obs = next_obs[agent_id]
 
             self.buffer[agent_id].insert(
-                np.array(obs[agent_id]),
-                share_obs,
+                next_share_obs[agent_id],
+                next_obs[agent_id],
                 rnn_states[:, agent_id],
                 rnn_states_critic[:, agent_id],
                 actions[:, agent_id],
@@ -239,209 +240,55 @@ class MAGYM_Runner(Runner):
             )
 
     @torch.no_grad()
-    def eval(self, total_num_steps):
-        eval_episode_rewards = []
-        eval_obs = self.eval_envs.reset()
+    def eval(self, episode):
+        eval_total_rewards = []
 
-        eval_rnn_states = np.zeros(
-            (
-                self.n_eval_rollout_threads,
-                self.num_agents,
-                self.recurrent_N,
-                self.hidden_size,
-            ),
-            dtype=np.float32,
-        )
-        eval_masks = np.ones(
-            (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
-        )
+        for test_number in range(self.eval_episodes):
 
-        for eval_step in range(self.episode_length):
-            eval_temp_actions_env = []
-            for agent_id in range(self.num_agents):
-                self.trainer[agent_id].prep_rollout()
-                eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
-                    np.array([eval_obs[agent_id]]),
-                    eval_rnn_states[:, agent_id],
-                    eval_masks[:, agent_id],
-                    deterministic=True,
-                )
-
-                eval_action = eval_action.detach().cpu().numpy()
-                # rearrange action
-                if (
-                    self.eval_envs.action_space[agent_id].__class__.__name__
-                    == "MultiDiscrete"
-                ):
-                    for i in range(self.eval_envs.action_space[agent_id].shape):
-                        eval_uc_action_env = np.eye(
-                            self.eval_envs.action_space[agent_id].high[i] + 1
-                        )[eval_action[:, i]]
-                        if i == 0:
-                            eval_action_env = eval_uc_action_env
-                        else:
-                            eval_action_env = np.concatenate(
-                                (eval_action_env, eval_uc_action_env), axis=1
-                            )
-                elif (
-                    self.eval_envs.action_space[agent_id].__class__.__name__
-                    == "Discrete"
-                ):
-                    eval_action_env = np.squeeze(
-                        np.eye(self.eval_envs.action_space[agent_id].n)[eval_action], 1
-                    )
-                else:
-                    raise NotImplementedError
-
-                eval_temp_actions_env.append(eval_action_env)
-                eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
-
-            # [envs, agents, dim]
-            eval_actions_env = []
-            for i in range(self.n_eval_rollout_threads):
-                eval_one_hot_action_env = []
-                for eval_temp_action_env in eval_temp_actions_env:
-                    eval_one_hot_action_env.append(eval_temp_action_env[i])
-                eval_actions_env.append(eval_one_hot_action_env)
-
-            # Obser reward and next obs
-            eval_obs, eval_rewards, eval_dones, eval_infos = self.eval_envs.step(
-                eval_actions_env[0]
-            )
-            eval_episode_rewards.append(eval_rewards)
-
-            eval_rnn_states[eval_dones == True] = np.zeros(
-                ((eval_dones == True).sum(), self.recurrent_N, self.hidden_size),
-                dtype=np.float32,
-            )
-            eval_masks = np.ones(
-                (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
-            )
-            eval_masks[eval_dones == True] = np.zeros(
-                ((eval_dones == True).sum(), 1), dtype=np.float32
-            )
-
-        eval_episode_rewards = np.array(eval_episode_rewards)
-
-        eval_train_infos = []
-        for agent_id in range(self.num_agents):
-            eval_average_episode_rewards = np.mean(
-                np.sum(eval_episode_rewards[:, :, agent_id], axis=0)
-            )
-            eval_train_infos.append(
-                {"eval_average_episode_rewards": eval_average_episode_rewards}
-            )
-            print(
-                "eval average episode rewards of agent%i: " % agent_id
-                + str(eval_average_episode_rewards)
-            )
-
-        self.log_train(eval_train_infos, total_num_steps)
-
-    @torch.no_grad()
-    def render(self):
-        all_frames = []
-        for episode in range(self.args.render_episodes):
-            episode_rewards = []
-            obs = self.envs.reset()
-            if self.args.save_gifs:
-                image = self.envs.render("rgb_array")[0][0]
-                all_frames.append(image)
-
-            rnn_states = np.zeros(
+            eval_obs = self.eval_env.reset()
+            eval_rnn_states = np.zeros(
                 (
-                    self.n_rollout_threads,
+                    self.n_eval_rollout_threads,
                     self.num_agents,
                     self.recurrent_N,
                     self.hidden_size,
                 ),
                 dtype=np.float32,
             )
-            masks = np.ones(
-                (self.n_rollout_threads, self.num_agents, 1), dtype=np.float32
+            eval_masks = np.ones(
+                (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
             )
+            eval_dones: list = [False for _ in range(self.num_agents)]
+            eval_episode_rewards: float = 0.0
 
-            for step in range(self.episode_length):
-                calc_start = time.time()
-
-                temp_actions_env = []
+            while not all(eval_dones):
+                eval_agent_actions: list = []
                 for agent_id in range(self.num_agents):
-                    if not self.use_centralized_V:
-                        share_obs = np.array(list(obs[:, agent_id]))
                     self.trainer[agent_id].prep_rollout()
-                    action, rnn_state = self.trainer[agent_id].policy.act(
-                        np.array(list(obs[:, agent_id])),
-                        rnn_states[:, agent_id],
-                        masks[:, agent_id],
-                        deterministic=True,
+                    eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
+                        obs=torch.tensor([eval_obs[agent_id]]),
+                        rnn_states_actor=eval_rnn_states[:, agent_id],
+                        masks=eval_masks[:, agent_id],
+                        deterministic=False,
                     )
+                    eval_action = eval_action[0].detach().cpu().tolist()
+                    eval_agent_actions.append(eval_action)
+                    eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
 
-                    action = action.detach().cpu().numpy()
-                    # rearrange action
-                    if (
-                        self.envs.action_space[agent_id].__class__.__name__
-                        == "MultiDiscrete"
-                    ):
-                        for i in range(self.envs.action_space[agent_id].shape):
-                            uc_action_env = np.eye(
-                                self.envs.action_space[agent_id].high[i] + 1
-                            )[action[:, i]]
-                            if i == 0:
-                                action_env = uc_action_env
-                            else:
-                                action_env = np.concatenate(
-                                    (action_env, uc_action_env), axis=1
-                                )
-                    elif (
-                        self.envs.action_space[agent_id].__class__.__name__
-                        == "Discrete"
-                    ):
-                        action_env = np.squeeze(
-                            np.eye(self.envs.action_space[agent_id].n)[action], 1
-                        )
-                    else:
-                        raise NotImplementedError
-
-                    temp_actions_env.append(action_env)
-                    rnn_states[:, agent_id] = _t2n(rnn_state)
-
-                # [envs, agents, dim]
-                actions_env = []
-                for i in range(self.n_rollout_threads):
-                    one_hot_action_env = []
-                    for temp_action_env in temp_actions_env:
-                        one_hot_action_env.append(temp_action_env[i])
-                    actions_env.append(one_hot_action_env)
-
-                # Obser reward and next obs
-                obs, rewards, dones, infos = self.envs.step(actions_env)
-                episode_rewards.append(rewards)
-
-                rnn_states[dones == True] = np.zeros(
-                    ((dones == True).sum(), self.recurrent_N, self.hidden_size),
-                    dtype=np.float32,
-                )
-                masks = np.ones(
-                    (self.n_rollout_threads, self.num_agents, 1), dtype=np.float32
-                )
-                masks[dones == True] = np.zeros(
-                    ((dones == True).sum(), 1), dtype=np.float32
+                # eval_actions = np.array(
+                #     np.split(eval_action, self.n_eval_rollout_threads)
+                # )
+                # eval_rnn_states = np.array(
+                #     np.split(_t2n(eval_rnn_states), self.n_eval_rollout_threads)
+                # )
+                eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(
+                    np.array(eval_agent_actions)
                 )
 
-                if self.args.save_gifs:
-                    image = self.envs.render("rgb_array")[0][0]
-                    all_frames.append(image)
-                    calc_end = time.time()
-                    elapsed = calc_end - calc_start
-                    if elapsed < self.args.ifi:
-                        time.sleep(self.args.ifi - elapsed)
+                eval_episode_rewards += sum(eval_rewards)
+                eval_obs = eval_next_obs
 
-            episode_rewards = np.array(episode_rewards)
-            for agent_id in range(self.num_agents):
-                average_episode_rewards = np.mean(
-                    np.sum(episode_rewards[:, :, agent_id], axis=0)
-                )
-                print(
-                    "eval average episode rewards of agent%i: " % agent_id
-                    + str(average_episode_rewards)
-                )
+            eval_total_rewards.append(eval_episode_rewards)
+
+            self.eval_env.reset()
+        return eval_total_rewards

@@ -15,16 +15,19 @@ def _cast(x):
 
 class SeparatedReplayBuffer(object):
     def __init__(self, args, obs_space, share_obs_space, act_space):
-        self.episode_length = args.max_step
-        self.n_rollout_threads = args.n_rollout_threads
-        self.rnn_hidden_size = args.hidden_size
-        self.recurrent_N = args.recurrent_N
-        self.gamma = args.gamma
-        self.gae_lambda = args.gae_lambda
-        self._use_gae = args.use_gae
-        self._use_popart = args.use_popart
-        self._use_valuenorm = args.use_valuenorm
-        self._use_proper_time_limits = args.use_proper_time_limits
+
+        self._use_gae: bool = args.use_gae
+        self._use_popart: bool = args.use_popart
+        self._use_valuenorm: bool = args.use_valuenorm
+        self._use_proper_time_limits: bool = args.use_proper_time_limits
+
+        self.hidden_size: int = args.hidden_size
+        self.recurrent_N: int = args.recurrent_N
+        self.episode_length: int = args.max_step
+        self.n_rollout_threads: int = args.n_rollout_threads
+
+        self.gamma: float = args.gamma
+        self.gae_lambda: float = args.gae_lambda
 
         obs_shape = get_shape_from_obs_space(obs_space)
         share_obs_shape = get_shape_from_obs_space(share_obs_space)
@@ -49,7 +52,7 @@ class SeparatedReplayBuffer(object):
                 self.episode_length + 1,
                 self.n_rollout_threads,
                 self.recurrent_N,
-                self.rnn_hidden_size,
+                self.hidden_size,
             ),
             dtype=np.float32,
         )
@@ -92,8 +95,8 @@ class SeparatedReplayBuffer(object):
 
     def insert(
         self,
-        obs,
         share_obs,
+        obs,
         rnn_states,
         rnn_states_critic,
         actions,
@@ -105,7 +108,6 @@ class SeparatedReplayBuffer(object):
         active_masks=None,
         available_actions=None,
     ):
-
         self.share_obs[self.step + 1] = share_obs.copy()
         self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states.copy()
@@ -113,7 +115,7 @@ class SeparatedReplayBuffer(object):
         self.actions[self.step] = actions.copy()
         self.action_log_probs[self.step] = action_log_probs.copy()
         self.value_preds[self.step] = value_preds.copy()
-        self.rewards[self.step] = np.array(rewards).copy()
+        self.rewards[self.step] = rewards.copy()
         self.masks[self.step + 1] = masks.copy()
         if bad_masks is not None:
             self.bad_masks[self.step + 1] = bad_masks.copy()
