@@ -6,7 +6,7 @@ import numpy as np
 from gym import spaces
 from ma_gym.envs.checkers.checkers import Checkers
 from replay_buffer.shared_buffer import SharedReplayBuffer
-from runner.shared.observation_space import MultiAgentObservationSpace
+from utils.observation_space import MultiAgentObservationSpace
 
 
 def _t2n(x):

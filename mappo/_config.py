@@ -70,13 +70,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--share_policy",
         type=bool,
-        default=False,  # in mappo default = True
+        default=True,  # in mappo default = True
         help="Determining if agents want to share the same network with same parameters",
     )
     param(
         "--use_centralized_V",
         type=bool,
-        default=True,  # in mappo default = True
+        default=False,  # in mappo default = True
         help="Whether to use centralized V function",
     )
     param(
@@ -260,7 +260,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.2,
         help="ppo clip parameter (default: 0.2)",
     )
-    param("--ppo_epoch", type=int, default=1, help="number of ppo epochs (default: 15)")
+    param("--ppo_epoch", type=int, default=5, help="number of ppo epochs (default: 15)")
     param(
         "--num_mini_batch",
         type=int,

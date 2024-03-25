@@ -214,9 +214,12 @@ class R_MAPPO:
 
         :return train_info: (dict) contains information regarding training update (e.g. loss, grad norms, etc).
         """
+
         if self._use_popart or self._use_valuenorm:
-            advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
-                buffer.value_preds[:-1]
+            advantages = np.repeat(
+                buffer.returns[:-1].mean(-2, keepdims=True), 2, 2
+            ) - self.value_normalizer.denormalize(
+                np.repeat(buffer.value_preds[:-1].mean(-2, keepdims=True), 2, 2)
             )
         else:
             advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
@@ -254,7 +257,6 @@ class R_MAPPO:
                 )
 
             for sample in data_generator:
-
                 (
                     value_loss,
                     critic_grad_norm,

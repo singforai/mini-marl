@@ -8,7 +8,7 @@ import numpy as np
 from gym import spaces
 from itertools import chain
 from replay_buffer.separated_buffer import SeparatedReplayBuffer
-from runner.separated.observation_space import MultiAgentObservationSpace
+from mappo.utils.observation_space import MultiAgentObservationSpace
 
 from algorithms.ramppo_network import R_MAPPO as TrainAlgo
 from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy

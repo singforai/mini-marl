@@ -511,7 +511,7 @@ class SharedReplayBuffer(object):
         """
         episode_length, n_rollout_threads, num_agents = self.rewards.shape[0:3]
 
-        # episode_length = 100, n_rollout_threads = 1, num_agents = 2
+        # episode_length = 100, n_rollout_threads = 1, num_agents = 2, data_chunk_length = 10, data_chunks = 20, mum_mini_batch = 1, mini_batch_size = 20
 
         batch_size = n_rollout_threads * episode_length * num_agents
         data_chunks = batch_size // data_chunk_length  # [C=r*T*M/L]

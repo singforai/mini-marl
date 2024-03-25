@@ -269,7 +269,7 @@ class MAGYM_Runner(Runner):
                         obs=torch.tensor([eval_obs[agent_id]]),
                         rnn_states_actor=eval_rnn_states[:, agent_id],
                         masks=eval_masks[:, agent_id],
-                        deterministic=False,
+                        deterministic=True,
                     )
                     eval_action = eval_action[0].detach().cpu().tolist()
                     eval_agent_actions.append(eval_action)

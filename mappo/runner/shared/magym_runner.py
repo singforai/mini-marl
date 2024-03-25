@@ -80,7 +80,7 @@ class MAGYM_Runner(Runner):
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
                 eval_results = self.eval(episode=episode)
-                train_infos["test_score"] = np.mean(eval_results)
+                train_infos["Test Average Rewards"] = np.mean(eval_results)
 
             self.log_train(train_infos=train_infos)
 
@@ -89,7 +89,7 @@ class MAGYM_Runner(Runner):
                 end = time.time()
                 accumulated_rewards = train_infos["episode_rewards"]
                 print(
-                    f"Algo {self.algorithm_name} Exp {self.experiment_name} updates {episode}/{episodes} episodes, Accumulated Rewards {accumulated_rewards}"
+                    f"Algo {self.algorithm_name} Exp {self.experiment_name} updates {episode}/{episodes} episodes, Accumulated Rewards {accumulated_rewards:.4f}"
                 )
 
             if self.use_wandb:
