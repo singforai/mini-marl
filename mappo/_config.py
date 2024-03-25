@@ -11,13 +11,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--project_name",
         type=str,
-        default="checkers-v0",
+        default="switch-v0",
         help="wandb project category name",
     )  # experiment base setting parameters
     param(
         "--env_name",
         type=str,
-        default="ma_gym:Checkers-v0",
+        default="ma_gym:Switch2-v0",
         help="Built-in environment settings for ma_gym",
     )
     param(
@@ -179,9 +179,9 @@ def get_config() -> argparse.ArgumentParser:
 
     # optimizer hyperparameter
     param(
-        "--actor_lr", type=float, default=5e-5, help="Learning rate of optimizer Adam"
+        "--actor_lr", type=float, default=2e-5, help="Learning rate of optimizer Adam"
     )
-    param("--critic_lr", type=float, default=5e-5, help="critic learning rate")
+    param("--critic_lr", type=float, default=2e-5, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
         "--weight_decay",
@@ -270,7 +270,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--data_chunk_length",
         type=int,
-        default=10,
+        default=5,
         help="Time length of chunks used to train a recurrent_policy",
     )
     param(
@@ -288,7 +288,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--max_grad_norm",
         type=float,
-        default=10,
+        default=0.5,
         help="max norm of gradients (default: 0.5)",
     )
     param(
