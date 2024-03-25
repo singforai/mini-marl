@@ -11,13 +11,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--project_name",
         type=str,
-        default="switch-v0",
+        default="checkers-v0",
         help="wandb project category name",
     )  # experiment base setting parameters
     param(
         "--env_name",
         type=str,
-        default="ma_gym:Switch2-v0",
+        default="ma_gym:Checkers-v0",
         help="Built-in environment settings for ma_gym",
     )
     param(
@@ -82,7 +82,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_linear_lr_decay",
         action="store_true",
-        default=True,
+        default=False,
         help="use a linear schedule on the learning rate",
     )
     param(
@@ -109,7 +109,7 @@ def get_config() -> argparse.ArgumentParser:
         default=True,
         help="Whether to apply layernorm to the inputs",
     )
-    param("--use_ReLU", action="store_false", default=False, help="Whether to use ReLU")
+    param("--use_ReLU", action="store_false", default=True, help="Whether to use ReLU")
     param(
         "--stacked_frames",
         type=int,
@@ -179,9 +179,9 @@ def get_config() -> argparse.ArgumentParser:
 
     # optimizer hyperparameter
     param(
-        "--actor_lr", type=float, default=2e-5, help="Learning rate of optimizer Adam"
+        "--actor_lr", type=float, default=1e-4, help="Learning rate of optimizer Adam"
     )
-    param("--critic_lr", type=float, default=2e-5, help="critic learning rate")
+    param("--critic_lr", type=float, default=1e-4, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
         "--weight_decay",
@@ -260,7 +260,9 @@ def get_config() -> argparse.ArgumentParser:
         default=0.2,
         help="ppo clip parameter (default: 0.2)",
     )
-    param("--ppo_epoch", type=int, default=5, help="number of ppo epochs (default: 15)")
+    param(
+        "--ppo_epoch", type=int, default=15, help="number of ppo epochs (default: 15)"
+    )
     param(
         "--num_mini_batch",
         type=int,
