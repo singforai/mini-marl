@@ -17,6 +17,7 @@ class R_MAPPO:
     def __init__(self, args, policy, device):
 
         self._use_popart: bool = args.use_popart
+        self.share_policy: bool = args.share_policy
         self._use_valuenorm: bool = args.use_valuenorm
         self._use_huber_loss: bool = args.use_huber_loss
         self._use_max_grad_norm: bool = args.use_max_grad_norm
@@ -67,6 +68,7 @@ class R_MAPPO:
         value_pred_clipped = value_preds_batch + (values - value_preds_batch).clamp(
             -self.clip_param, self.clip_param
         )
+
         if self._use_popart or self._use_valuenorm:
             self.value_normalizer.update(return_batch)
             error_clipped = (
@@ -215,9 +217,20 @@ class R_MAPPO:
         """
 
         if self._use_popart or self._use_valuenorm:
-            advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
+            '''
+            share_policy일 경우 두 에이전트는 같은 advantage 예측값을 출력함으로써 centralized한 action 가치를 부여한다. 
+            share_policy가 아닐 경우 각 agent는 각자의 advantage 예측값을 출력함으로써 decentralized한 action 가치를 부여한다. 
+            '''
+            if self.share_policy:
+                advantages = np.repeat(
+                    buffer.returns[:-1].mean(-2, keepdims=True), 2, 2
+                ) - self.value_normalizer.denormalize(
+                    np.repeat(buffer.value_preds[:-1].mean(-2, keepdims=True), 2, 2)
+                )
+            else:
+                advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
                 buffer.value_preds[:-1]
-            )
+                )
         else:
             advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
 
@@ -238,7 +251,7 @@ class R_MAPPO:
         train_info["actor_grad_norm"] = 0
         train_info["critic_grad_norm"] = 0
         train_info["ratio"] = 0
-        
+
         for _ in range(self.ppo_epoch):
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(
@@ -254,7 +267,6 @@ class R_MAPPO:
                 )
 
             for sample in data_generator:
-
                 (
                     value_loss,
                     critic_grad_norm,
@@ -275,8 +287,8 @@ class R_MAPPO:
 
         for k in train_info.keys():
             train_info[k] /= num_updates
-
-        train_info["sampling_score"] = buffer.rewards.sum()
+        
+        train_info["Sampling_Rewards"] = buffer.rewards.sum()
 
         return train_info
 

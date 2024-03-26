@@ -1,7 +1,6 @@
 import time
 import wandb
 import numpy as np
-from functools import reduce
 import torch
 
 
@@ -19,7 +18,6 @@ class MAGYM_Runner(Runner):
     def run(self):
         self.warmup()
 
-        start = time.time()
         episodes: int = self.max_episodes // self.n_rollout_threads
 
         for episode in range(episodes):
@@ -34,83 +32,72 @@ class MAGYM_Runner(Runner):
 
             while not all(dones):
                 (
-                values, 
+                action_values, 
                 actions, 
                 action_log_probs, 
-                rnn_states, 
+                rnn_states_actor, 
                 rnn_states_critic
                 ) = self.collect(step=step)
-
-                step += 1
 
                 next_obs, rewards, dones, infos = self.train_env.step(
                     actions[0]
                 )
 
-                share_obs = self.obs_sharing(obs=next_obs)
+                next_share_obs = self.process_obs_type(obs=next_obs)
                 rewards = self.convert_rewards(rewards)
 
                 data = (
                     next_obs,
-                    share_obs,
+                    next_share_obs,
                     rewards,
                     np.array([dones]),
                     infos,
-                    values,
+                    action_values,
                     actions,
                     action_log_probs,
-                    rnn_states,
+                    rnn_states_actor,
                     rnn_states_critic,
                 )
 
                 # insert data into buffer
-                self.insert(data)
+                self.insert(data = data)
 
                 if self.use_render:
                     self.train_env.render()
                     time.sleep(self.sleep_second)
 
+                
+
+                step += 1
+
+            #self.process_mask(step = step)
+
             self.compute()
             train_infos = self.train()
-
             self.train_env.reset()
-
             # eval
-            if episode % self.eval_interval == 0 and self.use_eval:
-                eval_results = self.eval(episode=episode)
-                train_infos["test_score"] = np.mean(eval_results)
-
-            self.log_train(train_infos=train_infos)
+            # if episode % self.eval_interval == 0 and self.use_eval:
+            #     eval_results = self.eval()
+            #     train_infos["Test_Rewards"] = eval_results
 
             # log information
             if episode % self.log_interval == 0:
-                end = time.time()
-                accumulated_rewards = train_infos["episode_rewards"]
                 print(
-                    f"Algo {self.algorithm_name} Exp {self.experiment_name} updates {episode}/{episodes} episodes, Accumulated Rewards {accumulated_rewards}"
+                    f"Algo {self.algorithm_name} Exp {self.experiment_name} updates {episode}/{episodes} episodes"
                 )
-
             if self.use_wandb:
                 wandb.log(train_infos)
 
-    def obs_sharing(self, obs):
-        sum_obs = sum(obs, [])
-        if self.use_centralized_V:
-            share_obs = [sum_obs for _ in range(self.num_agents)]
-        else:
-            share_obs = obs
-        return share_obs
+    def process_mask(self, step: int):
+        self.buffer.masks[step:] = 0.0
 
     def convert_rewards(self, rewards):
         converted_rewards = [[reward] for reward in rewards]
         return converted_rewards
 
     def warmup(self):
-        # reset env
-        # obs, share_obs, available_actions = self.train_env.reset()
         obs = self.train_env.reset()
-        # replay buffer
-        share_obs = self.obs_sharing(obs=obs)
+        share_obs = self.process_obs_type(obs=obs)
 
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()
@@ -128,7 +115,7 @@ class MAGYM_Runner(Runner):
             )
         )
 
-        values = np.array(np.split(_t2n(value), self.n_rollout_threads))
+        action_values = np.array(np.split(_t2n(value), self.n_rollout_threads))
         actions = np.array(np.split(_t2n(action), self.n_rollout_threads))
         action_log_probs = np.array(
             np.split(_t2n(action_log_prob), self.n_rollout_threads)
@@ -138,23 +125,25 @@ class MAGYM_Runner(Runner):
             np.split(_t2n(rnn_state_critic), self.n_rollout_threads)
         )
 
-        return values, actions, action_log_probs, rnn_states, rnn_states_critic
+        return action_values, actions, action_log_probs, rnn_states, rnn_states_critic
 
     def insert(self, data):
         (
-            obs,
-            share_obs,
+            next_obs,
+            next_share_obs,
             rewards,
             dones,
             infos,
-            values,
+            action_values,
             actions,
             action_log_probs,
-            rnn_states,
+            rnn_states_actor,
             rnn_states_critic,
         ) = data
+
         dones_env = np.all(dones, axis=1)
-        rnn_states[dones_env == True] = np.zeros(
+
+        rnn_states_actor[dones_env == True] = np.zeros(
             (
                 (dones_env == True).sum(),
                 self.num_agents,
@@ -172,7 +161,7 @@ class MAGYM_Runner(Runner):
             dtype=np.float32,
         )
 
-        masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
+        masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)        
         masks[dones_env == True] = np.zeros(
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
@@ -187,77 +176,60 @@ class MAGYM_Runner(Runner):
         active_masks[dones_env == True] = np.ones(
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
-
-        # bad_masks = np.array([[[0.0] if info[agent_id]['bad_transition'] else [1.0] for agent_id in range(self.num_agents)] for info in infos])
-
-        if not self.use_centralized_V:
-            share_obs = obs
-
         self.buffer.insert(
-            share_obs,
-            obs,
-            rnn_states,
-            rnn_states_critic,
-            actions,
-            action_log_probs,
-            values,
-            rewards,
-            masks,
-        ),  # active_mask
-
-    def log_train(self, train_infos):
-        train_infos["episode_rewards"] = np.sum(self.buffer.rewards)
+            share_obs = next_share_obs,
+            obs = next_obs,
+            rnn_states_actor = rnn_states_actor,
+            rnn_states_critic = rnn_states_critic,
+            actions = actions,
+            action_log_probs = action_log_probs,
+            value_preds = action_values,
+            rewards = rewards,
+            masks = masks
+        )
 
     @torch.no_grad()
-    def eval(self, episode):
-        eval_total_rewards = []
+    def eval(self):
+        eval_obs = self.eval_env.reset()
+        eval_rnn_states = np.zeros(
+            (
+                self.n_eval_rollout_threads,
+                self.num_agents,
+                self.recurrent_N,
+                self.hidden_size,
+            ),
+            dtype=np.float32,
+        )
+        eval_masks = np.ones(
+            (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
+        )
 
-        for test_number in range(self.eval_episodes):
+        self.trainer.prep_rollout()
 
-            eval_obs = self.eval_env.reset()
-            eval_rnn_states = np.zeros(
-                (
-                    self.n_eval_rollout_threads,
-                    self.num_agents,
-                    self.recurrent_N,
-                    self.hidden_size,
-                ),
-                dtype=np.float32,
+        eval_episode_rewards: float = 0.0
+        eval_dones: list = [False for _ in range(self.num_agents)]
+
+        while not all(eval_dones):
+            eval_actions, eval_rnn_states = self.trainer.policy.act(
+                obs=np.concatenate([eval_obs]),
+                rnn_states_actor=np.concatenate(eval_rnn_states),
+                masks=np.concatenate(eval_masks),
+                deterministic=True,
             )
-            eval_masks = np.ones(
-                (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
+            eval_actions = np.array(
+                np.split(_t2n(eval_actions), self.n_eval_rollout_threads)
+            )
+            eval_rnn_states = np.array(
+                np.split(_t2n(eval_rnn_states), self.n_eval_rollout_threads)
             )
 
-            self.trainer.prep_rollout()
+            eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(
+                eval_actions[0]
+            )
 
-            eval_episode_rewards: float = 0.0
-            eval_dones: list = [False for _ in range(self.num_agents)]
-            eval_step: int = 0
+            eval_episode_rewards += sum(eval_rewards)
+            eval_obs = eval_next_obs
 
-            while not all(eval_dones):
-                eval_actions, eval_rnn_states = self.trainer.policy.act(
-                    obs=np.concatenate([eval_obs]),
-                    rnn_states_actor=np.concatenate(eval_rnn_states),
-                    masks=np.concatenate(eval_masks),
-                    deterministic=True,
-                )
-                eval_actions = np.array(
-                    np.split(_t2n(eval_actions), self.n_eval_rollout_threads)
-                )
-                eval_rnn_states = np.array(
-                    np.split(_t2n(eval_rnn_states), self.n_eval_rollout_threads)
-                )
+        self.eval_env.reset()
 
-                eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(
-                    eval_actions[0]
-                )
-
-                eval_episode_rewards += sum(eval_rewards)
-                eval_obs = eval_next_obs
-
-
-            eval_total_rewards.append(eval_episode_rewards)
-
-            self.eval_env.reset()
-
-        return eval_total_rewards
+        return eval_episode_rewards

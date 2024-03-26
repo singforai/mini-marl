@@ -71,9 +71,9 @@ class Runner(object):
             )
         else:
             self.share_observation_space = self.observation_space
-
+        
         process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
-        self.process_obs_type: Callable[[bool], object] = process_obs.get(self.args.use_centralized_V)
+        self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
 
         self.policy: List[object] = []
         self.trainer: List[object] = []
@@ -142,7 +142,7 @@ class Runner(object):
     def log_train(self, train_infos, eval_result):
 
         total_train_infos = {key: 0.0 for key in train_infos[0]}
-        total_train_infos["eval_score"] = eval_result
+        total_train_infos["Test_Rewards"] = eval_result
 
         for agent_i in range(self.num_agents):
             for key in train_infos[agent_i].keys():

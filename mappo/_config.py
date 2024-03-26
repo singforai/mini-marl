@@ -6,53 +6,8 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param(
-        "--use_wandb", 
-          type=bool, 
-          default=False, 
-          help="Whether to use wandb"
-    )
-    param(
-        "--entity_name", 
-        type=str, 
-        default="singfor7012", 
-        help="wandb_name"
-    )
-
-    #network parameter
-    param(
-        "--algorithm_name",
-        type=str,
-        default="rmappo",
-        choices=["rmappo", "mappo", "ippo"],
-        help="Name of algorithm to apply",
-    )
-    param(
-        "--use_recurrent_policy",
-        type = bool,
-        default=True,
-        help="If True, learning is possible considering data_chunk_length hyperparameter",
-    )
-    param(
-        "--use_naive_recurrent_policy",
-        type = bool,
-        default=False,
-        help="If True, learn without considering data_chunk_length hyperparameter",
-    )
-    param(
-        "--use_centralized_V",
-        type=bool,
-        default=True,  
-        help="Whether to allow agents to share each other's observation information",
-    )
-    param(
-        "--share_policy",
-        type=bool,
-        default=False, 
-        help="Determining if agents want to share the same network with same parameters",
-    )
-
-    # experiment base setting parameters
+    param("--use_wandb", action='store_false', default=True, help="Whether to use wandb")
+    param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--env_name",
         type=str,
@@ -65,55 +20,9 @@ def get_config() -> argparse.ArgumentParser:
         default="ppo",
         help="Experiment title stored in Wandb",
     )
-    param(
-        "--use_cuda",
-        type=bool,
-        default=False,
-        help="Decide whether to use GPU during training ",
-    )
-    param(
-        "--n_training_threads",
-        type=int,
-        default=12,
-        help="Number of threads to use for CPU internal calculations",
-    )  
-    param(
-        "--fix_seed",
-        type=bool,
-        default=True,
-        help="Should I fix the seed during training?",
-    ) 
-    param(
-        "--seed", 
-        type=int, 
-        default=42, 
-        help="Choose training seed"
-        )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     # env setting
-    param("--max_episodes", type=int, default=10000, help="Number of episodes trained")
+    param("--max_episodes", type=int, default=100000, help="Number of episodes trained")
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
     param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
 
@@ -122,12 +31,48 @@ def get_config() -> argparse.ArgumentParser:
     param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
 
     #  cuda setting
- # epsilon control parameters
+    param(
+        "--use_cuda",
+        type=bool,
+        default=True,
+        help="Decide whether to use GPU during training ",
+    )
+    param(
+        "--n_training_threads",
+        type=int,
+        default=12,
+        help="Number of threads to use for CPU internal calculations",
+    )  # rendering parameters
+
+    # seed setting
+    param("--seed", type=int, default=42, help="Choose training seed")
+    param(
+        "--fix_seed",
+        type=bool,
+        default=True,
+        help="Should I fix the seed during training?",
+    )  # epsilon control parameters
 
     ## train parameters
-
-
-
+    param(
+        "--algorithm_name",
+        type=str,
+        default="rmappo",
+        choices=["rmappo", "mappo", "ippo"],
+        help="Name of algorithm to apply",
+    )
+    param(
+        "--share_policy",
+        action='store_true',
+        default=True,  
+        help="Determining if agents want to share the same network with same parameters",
+    )
+    param(
+        "--use_centralized_V",
+        type=bool,
+        default=False,  # in mappo default = True
+        help="Whether to use centralized V function",
+    )
     param(
         "--use_linear_lr_decay",
         action="store_true",
@@ -137,7 +82,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--log_interval",
         type=int,
-        default=5,
+        default=10,
         help="time duration between contiunous twice log printing.",
     )
     param(
@@ -230,7 +175,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--actor_lr", type=float, default=1e-4, help="Learning rate of optimizer Adam"
     )
-    param("--critic_lr", type=float, default=5e-5, help="critic learning rate")
+    param("--critic_lr", type=float, default=1e-4, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
         "--weight_decay",
@@ -254,8 +199,18 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     # network hyperparameter
-
-
+    param(
+        "--use_recurrent_policy",
+        action="store_false",
+        default=True,
+        help="use a recurrent policy",
+    )
+    param(
+        "--use_naive_recurrent_policy",
+        action="store_true",
+        default=False,
+        help="Whether to use a naive recurrent policy",
+    )
     param(
         "--use_max_grad_norm",
         action="store_false",
@@ -277,13 +232,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_policy_active_masks",
         action="store_false",
-        default=False,
+        default=True,
         help="by default True, whether to mask useless data in policy loss.",
     )
     param(
         "--use_value_active_masks",
         action="store_false",
-        default=False,
+        default=True,
         help="by default True, whether to mask useless data in value loss.",
     )
     param(
@@ -311,13 +266,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--data_chunk_length",
         type=int,
-        default=10,
-        help="Time length of chunks used to train a recurrent_policy, If using naive_recurrent_policy, this hyperparameter is not considered.",
+        default=5,
+        help="Time length of chunks used to train a recurrent_policy",
     )
     param(
         "--value_loss_coef",
         type=float,
-        default=1,
+        default=0.5,
         help="value loss coefficient (default: 0.5)",
     )
     param(
@@ -329,7 +284,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--max_grad_norm",
         type=float,
-        default=10.0,
+        default=0.5,
         help="max norm of gradients (default: 0.5)",
     )
     param(

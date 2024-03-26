@@ -13,9 +13,7 @@ def main(args):
 
     if args.algorithm_name == "rmappo":
         if args.use_recurrent_policy ^ args.use_naive_recurrent_policy:
-            print(
-                "You are choosing to use rmappo, we set (use_recurrent_policy xor use_naive_recurrent_policy) to be True"
-            )
+            print(f"You are choosing to use rmappo, with share_policy: {args.share_policy}!")
         else:
             raise Exception(
                 "use_recurrent_policy ^ use_naive_recurrent_policy must be set to True."
@@ -38,8 +36,7 @@ def main(args):
 
     if args.use_wandb:
         import wandb
-
-        project_name = args.env_name.split(":")[1] # 기존 args.project_name을 env_name에 종속되도록 변경 
+        project_name = args.env_name.split(":")[1] 
         wandb.init(
             entity=args.entity_name,
             project=project_name,
@@ -59,7 +56,7 @@ def main(args):
 
     fix_random_seed(seed = args.seed) if args.fix_seed else None
 
-    train_env = gym.make(
+    env = gym.make(
         id=args.env_name,
         full_observable=False,
         max_steps=args.max_step,
@@ -68,9 +65,9 @@ def main(args):
 
     config = {
         "args": args,
-        "train_env": train_env,
-        "eval_env": train_env,
-        "num_agents": train_env.n_agents,
+        "train_env": env,
+        "eval_env": env,
+        "num_agents": env.n_agents,
         "device": device,
     }
 
@@ -81,11 +78,7 @@ def main(args):
 
     runner = Runner(config)
     runner.run()
-
-    train_env.close()
-    if args.use_eval and eval_env is not train_env:
-        eval_env.close()
-
+    env.close()
 
 if __name__ == "__main__":
     main(sys.argv[1:])

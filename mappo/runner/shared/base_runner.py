@@ -4,6 +4,7 @@ import numpy as np
 
 from gym import spaces
 
+from typing import Callable, Dict, List
 from runner.shared.shared_buffer import SharedReplayBuffer
 from utils.observation_space import MultiAgentObservationSpace
 
@@ -51,8 +52,7 @@ class Runner(object):
         self.episode_length: int = self.args.max_step
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
-        self.batch_size: int = self.args.batch_size  # 현재는 1로 강제해야 함
-        self.eval_episodes: int = self.args.eval_episodes
+        self.batch_size: int = self.args.batch_size  
 
         # interval
         self.log_interval: int = self.args.log_interval
@@ -75,6 +75,9 @@ class Runner(object):
             )
         else:
             self.share_observation_space = self.observation_space
+
+        process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
+        self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
 
         # policy network
         self.policy = Policy(
@@ -134,28 +137,12 @@ class Runner(object):
         train_infos = self.trainer.train(self.buffer)
         self.buffer.after_update()
         return train_infos
+    
+    def obs_sharing(self, obs: List) -> np.array:
+        share_obs = np.array(obs).reshape(1, -1)
+        share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+        return share_obs_list
 
-    def log_train(self, train_infos, total_num_steps):
-        """
-        Log training info.
-        :param train_infos: (dict) information about training update.
-        :param total_num_steps: (int) total number of training env steps.
-        """
-        for k, v in train_infos.items():
-            if self.use_wandb:
-                wandb.log({k: v}, step=total_num_steps)
-            else:
-                self.writter.add_scalars(k, {k: v}, total_num_steps)
-
-    def log_env(self, env_infos, total_num_steps):
-        """
-        Log env info.
-        :param env_infos: (dict) information about env state.
-        :param total_num_steps: (int) total number of training env steps.
-        """
-        for k, v in env_infos.items():
-            if len(v) > 0:
-                if self.use_wandb:
-                    wandb.log({k: np.mean(v)}, step=total_num_steps)
-                else:
-                    self.writter.add_scalars(k, {k: np.mean(v)}, total_num_steps)
+    def obs_isolated(self, obs: List) -> np.array:
+        isolated_obs_list = np.array(obs)
+        return isolated_obs_list

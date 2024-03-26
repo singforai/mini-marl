@@ -33,10 +33,10 @@ class MAGYM_Runner(Runner):
 
             while not all(dones):
                 (
-                    values,
+                    action_values,
                     actions,
                     action_log_probs,
-                    rnn_states,
+                    rnn_states_actor,
                     rnn_states_critic,
                     actions_env
                 ) = self.collect(step=step)
@@ -55,15 +55,19 @@ class MAGYM_Runner(Runner):
                     rewards,
                     np.array([dones]),
                     infos,
-                    values,
+                    action_values,
                     actions,
                     action_log_probs,
-                    rnn_states,
+                    rnn_states_actor,
                     rnn_states_critic,
                 )
 
                 # insert data into buffer
                 self.insert(data)
+
+                if self.use_render:
+                    self.train_env.render()
+                    time.sleep(self.sleep_second)
 
             # compute return and update network
             self.compute()
@@ -108,7 +112,7 @@ class MAGYM_Runner(Runner):
 
     @torch.no_grad()
     def collect(self, step):
-        values = []
+        action_values = []
         actions = []
 
         rnn_states = []
@@ -127,9 +131,9 @@ class MAGYM_Runner(Runner):
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
                 masks = self.buffer[agent_id].masks[step],
             )
-
+            
             # [agents, envs, dim]
-            values.append(_t2n(value))
+            action_values.append(_t2n(value))
             action = _t2n(action)
             # rearrange action
             if self.train_env.action_space[agent_id].__class__.__name__ == "MultiDiscrete":
@@ -162,14 +166,14 @@ class MAGYM_Runner(Runner):
                 one_hot_action_env.append(temp_action_env[i])
             actions_env.append(one_hot_action_env)
 
-        values = np.array(values).transpose(1, 0, 2)
+        action_values = np.array(action_values).transpose(1, 0, 2)
         actions = np.array(actions).transpose(1, 0, 2)
         action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
         rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
 
         return (
-            values,
+            action_values,
             actions,
             action_log_probs,
             rnn_states,
@@ -184,14 +188,14 @@ class MAGYM_Runner(Runner):
             rewards,
             dones,
             infos,
-            values,
+            action_values,
             actions,
             action_log_probs,
-            rnn_states,
+            rnn_states_actor,
             rnn_states_critic,
         ) = data
 
-        rnn_states[dones == True] = np.zeros(
+        rnn_states_actor[dones == True] = np.zeros(
             ((dones == True).sum(), self.recurrent_N, self.hidden_size),
             dtype=np.float32,
         )
@@ -203,17 +207,14 @@ class MAGYM_Runner(Runner):
         masks[dones == True] = np.zeros(((dones == True).sum(), 1), dtype=np.float32)
 
         for agent_id in range(self.num_agents):
-            if not self.use_centralized_V:
-                next_share_obs = next_obs[agent_id]
-
             self.buffer[agent_id].insert(
                 next_share_obs[agent_id],
                 next_obs[agent_id],
-                rnn_states[:, agent_id],
+                rnn_states_actor[:, agent_id],
                 rnn_states_critic[:, agent_id],
                 actions[:, agent_id],
                 action_log_probs[:, agent_id],
-                values[:, agent_id],
+                action_values[:, agent_id],
                 rewards[agent_id],
                 masks[:, agent_id],
             )
