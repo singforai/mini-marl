@@ -2,7 +2,7 @@ import  gym
 import torch
 import numpy as np
 from utils.util import update_linear_schedule
-from algorithms.policys.r_actor_critic import R_Actor, R_Critic
+from algorithms.r_actor_critic import R_Actor, R_Critic
 
 class R_MAPPOPolicy:
     """

@@ -1,12 +1,9 @@
-import pdb
 import gym
 import sys
 import time
 import torch
-import logging
-import torch.optim as optim
 
-from _utils import *
+from utils.main_utils import *
 from _config import get_config
 
 
@@ -17,7 +14,7 @@ def main(args):
     if args.algorithm_name == "rmappo":
         if args.use_recurrent_policy ^ args.use_naive_recurrent_policy:
             print(
-                "You are choosing to use rmappo, we set use_recurrent_policy ^ use_naive_recurrent_policy to be True"
+                "You are choosing to use rmappo, we set (use_recurrent_policy xor use_naive_recurrent_policy) to be True"
             )
         else:
             raise Exception(
@@ -68,17 +65,11 @@ def main(args):
         max_steps=args.max_step,
         step_cost=args.step_cost,
     )
-    eval_env = gym.make(
-        id=args.env_name, 
-        full_observable=False,
-        max_steps=args.max_step, 
-        step_cost=args.step_cost
-    )
 
     config = {
         "args": args,
         "train_env": train_env,
-        "eval_env": eval_env,
+        "eval_env": train_env,
         "num_agents": train_env.n_agents,
         "device": device,
     }

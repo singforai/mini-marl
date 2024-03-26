@@ -85,7 +85,7 @@ class MAGYM_Runner(Runner):
 
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
-                eval_result: float = self.eval(episode = episode)
+                eval_result: float = self.eval()
 
             self.log_train(train_infos = train_infos, eval_result = eval_result)
 
@@ -219,48 +219,42 @@ class MAGYM_Runner(Runner):
             )
 
     @torch.no_grad()
-    def eval(self, episode):
-        eval_total_rewards = []
+    def eval(self):
+        eval_obs = self.eval_env.reset()
+        eval_rnn_states = np.zeros(
+            (
+                self.n_eval_rollout_threads,
+                self.num_agents,
+                self.recurrent_N,
+                self.hidden_size,
+            ),
+            dtype=np.float32,
+        )
+        eval_masks = np.ones(
+            (self.n_eval_rollout_threads, self.num_agents, 1), 
+            dtype=np.float32
+        )
+        eval_dones: list = [False for _ in range(self.num_agents)]
+        eval_episode_rewards: float = 0.0
 
-        for test_number in range(self.eval_episodes):
+        while not all(eval_dones):
+            eval_agent_actions: list = []
+            for agent_id in range(self.num_agents):
+                self.trainer[agent_id].prep_rollout()
+                eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
+                    obs=torch.tensor([eval_obs[agent_id]]),
+                    rnn_states_actor=eval_rnn_states[:, agent_id],
+                    masks=eval_masks[:, agent_id],
+                    deterministic=True,
+                )
+                eval_action = eval_action[0].detach().cpu().tolist()
+                eval_agent_actions.append(eval_action)
+                eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
 
-            eval_obs = self.eval_env.reset()
-            eval_rnn_states = np.zeros(
-                (
-                    self.n_eval_rollout_threads,
-                    self.num_agents,
-                    self.recurrent_N,
-                    self.hidden_size,
-                ),
-                dtype=np.float32,
-            )
-            eval_masks = np.ones(
-                (self.n_eval_rollout_threads, self.num_agents, 1), 
-                dtype=np.float32
-            )
-            eval_dones: list = [False for _ in range(self.num_agents)]
-            eval_episode_rewards: float = 0.0
+            eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(np.array(eval_agent_actions))
 
-            while not all(eval_dones):
-                eval_agent_actions: list = []
-                for agent_id in range(self.num_agents):
-                    self.trainer[agent_id].prep_rollout()
-                    eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
-                        obs=torch.tensor([eval_obs[agent_id]]),
-                        rnn_states_actor=eval_rnn_states[:, agent_id],
-                        masks=eval_masks[:, agent_id],
-                        deterministic=True,
-                    )
-                    eval_action = eval_action[0].detach().cpu().tolist()
-                    eval_agent_actions.append(eval_action)
-                    eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
+            eval_episode_rewards += sum(eval_rewards)
+            eval_obs = eval_next_obs
 
-                eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(np.array(eval_agent_actions))
-
-                eval_episode_rewards += sum(eval_rewards)
-                eval_obs = eval_next_obs
-
-            eval_total_rewards.append(eval_episode_rewards)
-
-            self.eval_env.reset()
-        return np.mean(np.array(eval_total_rewards))
+        self.eval_env.reset()
+        return eval_episode_rewards

@@ -8,11 +8,11 @@ import numpy as np
 
 from gym import spaces
 from typing import Callable, Dict, List
-from replay_buffer.separated_buffer import SeparatedReplayBuffer
-from runner.shared.observation_space import MultiAgentObservationSpace
+from runner.separated.separated_buffer import SeparatedReplayBuffer
+from utils.observation_space import MultiAgentObservationSpace
 
 from algorithms.ramppo_network import R_MAPPO as TrainAlgo
-from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
+from algorithms.rmappo_policy import R_MAPPOPolicy as Policy
 
 def _t2n(x):
     return x.detach().cpu().numpy()
@@ -49,7 +49,6 @@ class Runner(object):
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
         self.batch_size: int = self.args.batch_size  
-        self.eval_episodes: int = self.args.eval_episodes
 
         # interval
         self.log_interval: int = self.args.log_interval
@@ -75,10 +74,6 @@ class Runner(object):
 
         process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
         self.process_obs_type: Callable[[bool], object] = process_obs.get(self.args.use_centralized_V)
-
-        """
-        policy를 생성하는 for문과 trainer, buffer를 생성하는 for문을 하나로 통합함. 
-        """
 
         self.policy: List[object] = []
         self.trainer: List[object] = []
@@ -139,7 +134,7 @@ class Runner(object):
         share_obs = np.array(obs).reshape(1, -1)
         share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
         return share_obs_list
-    
+
     def obs_isolated(self, obs: List[List]) -> np.array:
         isolated_obs_list = np.array(obs)
         return isolated_obs_list

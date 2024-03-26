@@ -4,16 +4,15 @@ import numpy as np
 
 from gym import spaces
 
-from replay_buffer.shared_buffer import SharedReplayBuffer
-from runner.shared.observation_space import MultiAgentObservationSpace
+from runner.shared.shared_buffer import SharedReplayBuffer
+from utils.observation_space import MultiAgentObservationSpace
 
 from algorithms.ramppo_network import R_MAPPO as TrainAlgo
-from algorithms.policys.rmappo_policy import R_MAPPOPolicy as Policy
+from algorithms.rmappo_policy import R_MAPPOPolicy as Policy
 
 def _t2n(x):
     """Convert torch tensor to a numpy array."""
     return x.detach().cpu().numpy()
-
 
 class Runner(object):
     """
@@ -135,27 +134,6 @@ class Runner(object):
         train_infos = self.trainer.train(self.buffer)
         self.buffer.after_update()
         return train_infos
-
-    def save(self):
-        """Save policy's actor and critic networks."""
-        policy_actor = self.trainer.policy.actor
-        torch.save(policy_actor.state_dict(), str(self.save_dir) + "/actor.pt")
-        policy_critic = self.trainer.policy.critic
-        torch.save(policy_critic.state_dict(), str(self.save_dir) + "/critic.pt")
-        if self.trainer._use_valuenorm:
-            policy_vnorm = self.trainer.value_normalizer
-            torch.save(policy_vnorm.state_dict(), str(self.save_dir) + "/vnorm.pt")
-
-    def restore(self):
-        """Restore policy's networks from a saved model."""
-        policy_actor_state_dict = torch.load(str(self.model_dir) + "/actor.pt")
-        self.policy.actor.load_state_dict(policy_actor_state_dict)
-        if not self.args.use_render:
-            policy_critic_state_dict = torch.load(str(self.model_dir) + "/critic.pt")
-            self.policy.critic.load_state_dict(policy_critic_state_dict)
-            if self.trainer._use_valuenorm:
-                policy_vnorm_state_dict = torch.load(str(self.model_dir) + "/vnorm.pt")
-                self.trainer.value_normalizer.load_state_dict(policy_vnorm_state_dict)
 
     def log_train(self, train_infos, total_num_steps):
         """

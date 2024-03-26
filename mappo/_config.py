@@ -345,6 +345,5 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     #  eval
-    param("--eval_interval", type=float, default=10, help="evaluation interval")
-    param("--eval_episodes", type=int, default=10, help="eval_episodes")
+    param("--eval_interval", type=float, default=1, help="evaluation interval")
     return parser

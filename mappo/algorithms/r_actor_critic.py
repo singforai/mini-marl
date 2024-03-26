@@ -1,11 +1,11 @@
 import torch
 import torch.nn as nn
-from algorithms.utils.util import init, check
-from algorithms.utils.cnn import CNNBase
-from algorithms.utils.mlp import MLPBase
-from algorithms.utils.rnn import RNNLayer
-from algorithms.utils.act import ACTLayer
-from algorithms.utils.popart import PopArt
+from utils.algorithm_utils.util import init, check
+from utils.algorithm_utils.cnn import CNNBase
+from utils.algorithm_utils.mlp import MLPBase
+from utils.algorithm_utils.rnn import RNNLayer
+from utils.algorithm_utils.act import ACTLayer
+from utils.algorithm_utils.popart import PopArt
 from utils.util import get_shape_from_obs_space
 
 
