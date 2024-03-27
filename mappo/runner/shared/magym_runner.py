@@ -40,9 +40,12 @@ class MAGYM_Runner(Runner):
                 rnn_states_critic
                 ) = self.collect(step=step)
 
-                next_obs, rewards, dones, infos = self.train_env.step(
-                    actions[0]
-                )
+                if not all(dones):
+                    next_obs, rewards, dones, infos = self.train_env.step(
+                        actions[0]
+                    )
+                else:
+                    rewards = [0.0 for _ in range(self.num_agents)]
 
                 next_share_obs = self.process_obs_type(obs=next_obs)
                 rewards = self.convert_rewards(rewards)
@@ -89,7 +92,8 @@ class MAGYM_Runner(Runner):
         self.buffer.masks[step:] = 0.0
 
     def convert_rewards(self, rewards):
-        converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
+        converted_rewards = [[reward] for reward in rewards] 
+        #converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
         return converted_rewards
 
     def warmup(self):
