@@ -11,7 +11,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--project_name",
         type=str,
-        default="Checkers-v0",
+        default="checkers-v0",
         help="wandb project category name",
     )
     # experiment base setting parameters
@@ -31,7 +31,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_cuda",
         type=bool,
-        default=True,
+        default=False,
         help="Decide whether to use GPU during training ",
     )
     param(
@@ -94,7 +94,7 @@ def get_config() -> argparse.ArgumentParser:
         default=32,
         help="Number of samples used for one training",
     )
-    param("--max_episodes", type=int, default=15000, help="Number of episodes trained")
+    param("--max_episodes", type=int, default=30000, help="Number of episodes trained")
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
     param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
     param(
@@ -146,16 +146,16 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--test_interval",
         type=int,
-        default=10,
+        default=1,
         help="Intervals at which tests are performed and results are displayed during training",
     )
-    param("--test_episodes", type=int, default=20, help="Number of tested episodes")
+    param("--test_episodes", type=int, default=1, help="Number of tested episodes")
 
     # Replay_buffer parameters
     param(
         "--buffer_limit",
         type=int,
-        default=1000,
+        default=10000,
         help="It determines the capacity of Replay buffer and warm up chunk step",
     )
     param(

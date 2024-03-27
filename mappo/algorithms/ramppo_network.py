@@ -218,19 +218,19 @@ class R_MAPPO:
 
         if self._use_popart or self._use_valuenorm:
             '''
-            share_policy일 경우 두 에이전트는 같은 advantage 예측값을 출력함으로써 centralized한 action 가치를 부여한다. 
-            share_policy가 아닐 경우 각 agent는 각자의 advantage 예측값을 출력함으로써 decentralized한 action 가치를 부여한다. 
+            share_policy일 경우 두 에이전트는 같은 advantage 예측값을 출력함으로써 centralized한 action 가치를 부여한다.
+            share_policy가 아닐 경우 각 agent는 각자의 advantage 예측값을 출력함으로써 decentralized한 action 가치를 부여한다.
             '''
-            if self.share_policy:
-                advantages = np.repeat(
-                    buffer.returns[:-1].mean(-2, keepdims=True), 2, 2
-                ) - self.value_normalizer.denormalize(
-                    np.repeat(buffer.value_preds[:-1].mean(-2, keepdims=True), 2, 2)
-                )
-            else:
-                advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
-                buffer.value_preds[:-1]
-                )
+            # if self.share_policy:
+            #     advantages = np.repeat(
+            #         buffer.returns[:-1].mean(-2, keepdims=True), 2, 2
+            #     ) - self.value_normalizer.denormalize(
+            #         np.repeat(buffer.value_preds[:-1].mean(-2, keepdims=True), 2, 2)
+            #     )
+            # else:
+            advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
+            buffer.value_preds[:-1]
+            )
         else:
             advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
 

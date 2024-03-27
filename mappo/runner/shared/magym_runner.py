@@ -30,7 +30,8 @@ class MAGYM_Runner(Runner):
             step: int = 0
             dones: list = [False for _ in range(self.num_agents)]
 
-            while not all(dones):
+            #while not all(dones):
+            for step in range(self.episode_length):
                 (
                 action_values, 
                 actions, 
@@ -65,20 +66,16 @@ class MAGYM_Runner(Runner):
                 if self.use_render:
                     self.train_env.render()
                     time.sleep(self.sleep_second)
-
-                
-
                 step += 1
 
             #self.process_mask(step = step)
-
             self.compute()
             train_infos = self.train()
             self.train_env.reset()
-            # eval
-            # if episode % self.eval_interval == 0 and self.use_eval:
-            #     eval_results = self.eval()
-            #     train_infos["Test_Rewards"] = eval_results
+
+            if episode % self.eval_interval == 0 and self.use_eval:
+                eval_results = self.eval()
+                train_infos["Test_Rewards"] = eval_results
 
             # log information
             if episode % self.log_interval == 0:
@@ -92,7 +89,7 @@ class MAGYM_Runner(Runner):
         self.buffer.masks[step:] = 0.0
 
     def convert_rewards(self, rewards):
-        converted_rewards = [[reward] for reward in rewards]
+        converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
         return converted_rewards
 
     def warmup(self):
