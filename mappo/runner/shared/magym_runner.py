@@ -11,6 +11,15 @@ def _t2n(x):
     return x.detach().cpu().numpy()
 
 
+ACTION_MEANING = {
+    0: "DOWN",
+    1: "LEFT",
+    2: "UP",
+    3: "RIGHT",
+    4: "NOOP",
+}
+
+
 class MAGYM_Runner(Runner):
     def __init__(self, config):
         super().__init__(config)
@@ -30,20 +39,18 @@ class MAGYM_Runner(Runner):
             step: int = 0
             dones: list = [False for _ in range(self.num_agents)]
 
-            #while not all(dones):
+            # while not all(dones):
             for step in range(self.episode_length):
                 (
-                action_values, 
-                actions, 
-                action_log_probs, 
-                rnn_states_actor, 
-                rnn_states_critic
+                    action_values,
+                    actions,
+                    action_log_probs,
+                    rnn_states_actor,
+                    rnn_states_critic,
                 ) = self.collect(step=step)
 
                 if not all(dones):
-                    next_obs, rewards, dones, infos = self.train_env.step(
-                        actions[0]
-                    )
+                    next_obs, rewards, dones, infos = self.train_env.step(actions[0])
                 else:
                     rewards = [0.0 for _ in range(self.num_agents)]
 
@@ -64,21 +71,21 @@ class MAGYM_Runner(Runner):
                 )
 
                 # insert data into buffer
-                self.insert(data = data)
+                self.insert(data=data)
 
                 if self.use_render:
                     self.train_env.render()
                     time.sleep(self.sleep_second)
                 step += 1
 
-            #self.process_mask(step = step)
+            # self.process_mask(step = step)
             self.compute()
             train_infos = self.train()
             self.train_env.reset()
 
             if episode % self.eval_interval == 0 and self.use_eval:
                 eval_results = self.eval()
-                train_infos["Test_Rewards"] = eval_results
+                train_infos["Test Rewards"] = eval_results
 
             # log information
             if episode % self.log_interval == 0:
@@ -92,8 +99,8 @@ class MAGYM_Runner(Runner):
         self.buffer.masks[step:] = 0.0
 
     def convert_rewards(self, rewards):
-        converted_rewards = [[reward] for reward in rewards] 
-        #converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
+        converted_rewards = [[reward] for reward in rewards]
+        # converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
         return converted_rewards
 
     def warmup(self):
@@ -162,7 +169,7 @@ class MAGYM_Runner(Runner):
             dtype=np.float32,
         )
 
-        masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)        
+        masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)
         masks[dones_env == True] = np.zeros(
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
@@ -178,15 +185,15 @@ class MAGYM_Runner(Runner):
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
         self.buffer.insert(
-            share_obs = next_share_obs,
-            obs = next_obs,
-            rnn_states_actor = rnn_states_actor,
-            rnn_states_critic = rnn_states_critic,
-            actions = actions,
-            action_log_probs = action_log_probs,
-            value_preds = action_values,
-            rewards = rewards,
-            masks = masks
+            share_obs=next_share_obs,
+            obs=next_obs,
+            rnn_states_actor=rnn_states_actor,
+            rnn_states_critic=rnn_states_critic,
+            actions=actions,
+            action_log_probs=action_log_probs,
+            value_preds=action_values,
+            rewards=rewards,
+            masks=masks,
         )
 
     @torch.no_grad()
@@ -208,6 +215,7 @@ class MAGYM_Runner(Runner):
         self.trainer.prep_rollout()
 
         eval_episode_rewards: float = 0.0
+        step: int = 1
         eval_dones: list = [False for _ in range(self.num_agents)]
 
         while not all(eval_dones):
@@ -228,8 +236,14 @@ class MAGYM_Runner(Runner):
                 eval_actions[0]
             )
 
+            # print(
+            #    f"Step [{step}] Agent 1 Action: {ACTION_MEANING[eval_actions[0][0][0]]}, Agent 2 Action: {ACTION_MEANING[eval_actions[0][1][0]]}, Agent 1 Reward: {eval_rewards[0]}, Agent 2 Reward: {eval_rewards[1]}"
+            # )
+
             eval_episode_rewards += sum(eval_rewards)
             eval_obs = eval_next_obs
+
+            step += 1
 
         self.eval_env.reset()
 

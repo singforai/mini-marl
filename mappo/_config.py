@@ -6,12 +6,14 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", action='store_false', default=True, help="Whether to use wandb")
+    param(
+        "--use_wandb", action="store_false", default=True, help="Whether to use wandb"
+    )
     param("--entity_name", type=str, default="sangkiko", help="wandb_name")
     param(
         "--env_name",
         type=str,
-        default="ma_gym:Checkers-v0",
+        default="ma_gym:Switch2-v0",
         help="Built-in environment settings for ma_gym",
     )
     param(
@@ -63,14 +65,14 @@ def get_config() -> argparse.ArgumentParser:
     )
     param(
         "--share_policy",
-        action='store_true',
-        default=True,  
+        action="store_true",
+        default=True,
         help="Determining if agents want to share the same network with same parameters",
     )
     param(
         "--use_centralized_V",
         type=bool,
-        default=False,  # in mappo default = True
+        default=True,  # in mappo default = True
         help="Whether to use centralized V function",
     )
     param(
