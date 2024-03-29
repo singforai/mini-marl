@@ -9,4 +9,4 @@ command="python main.py --seed {0} --experiment_name base_rmappo --group_name ba
 #command="python main.py --seed {0} --experiment_name base_rmappo720 --group_name base_rmappo720 --max_step 500"
 # command="python main.py --seed {0} --experiment_name central_rmappo720 --group_name central_rmappo720 --max_step 500 --use_centralized_V True"
 
-parallel -j 10 $command ::: 0 1 2 3 6 7 14 21 42 84
+parallel -j 10 $command ::: 0 10 20 30 40 50 60 70 80 90

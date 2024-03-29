@@ -10,7 +10,6 @@ from runner.shared.base_runner import Runner
 def _t2n(x):
     return x.detach().cpu().numpy()
 
-
 class MAGYM_Runner(Runner):
     def __init__(self, config):
         super().__init__(config)

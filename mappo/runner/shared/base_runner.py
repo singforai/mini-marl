@@ -1,4 +1,4 @@
-import wandb
+
 import torch
 import numpy as np
 
@@ -49,12 +49,12 @@ class Runner(object):
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
 
         # parameters
-        self.max_episodes: int = self.args.max_episodes
-        self.episode_length: int = self.args.max_step
+        self.batch_size: int = self.args.batch_size  
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
-        self.batch_size: int = self.args.batch_size  
-
+        self.episode_length: int = self.args.max_step
+        self.max_episodes: int = self.args.max_episodes
+        
         # interval
         self.log_interval: int = self.args.log_interval
         self.save_interval: int = self.args.save_interval

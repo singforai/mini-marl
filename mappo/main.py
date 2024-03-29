@@ -11,8 +11,11 @@ def main(args):
     parser = get_config()
     args = parser.parse_known_args(args)[0]
 
+    if args.use_mix_advantage and not args.share_policy:
+        raise Exception("When using use_mix_advantage, share_policy must be set to True.")
+
     if args.use_wandb:
-        import wandb
+        import wandb 
         project_name = args.env_name.split(":")[1] 
         run_wandb = wandb.init(
             entity=args.entity_name,
@@ -27,7 +30,7 @@ def main(args):
         torch.set_num_threads(args.n_training_threads)
         device = torch.device("cuda")
     else:
-        torch.set_num_threads(args.n_training_threads) # 이거는 cuda 사용 여부랑 상관없나? 
+        torch.set_num_threads(args.n_training_threads)
         device = torch.device("cpu")
 
     # set_logging(experiment_name=args.experiment_name)
@@ -50,9 +53,6 @@ def main(args):
         "device": device,
     }
 
-    if args.use_mix_advantage and not args.share_policy:
-        raise Exception("When using use_mix_advantage, share_policy must be set to True.")
-
     if args.algorithm_name == "rmappo":
         if args.use_recurrent_policy ^ args.use_naive_recurrent_policy:
             print(f"You are choosing to use rmappo!")
@@ -68,7 +68,7 @@ def main(args):
         print("You are choosing to use ippo, we have to set use_centralized_V to be False")
         args.use_centralized_V = False
     else:
-        raise NotImplementedError
+        raise Exception("Check the algorithm_name!")
 
     if args.share_policy:
         from runner.shared.magym_runner import MAGYM_Runner as Runner

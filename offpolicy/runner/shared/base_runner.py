@@ -87,12 +87,11 @@ class RecRunner(object):
                          "obs_space": self.train_env.observation_space[0],
                          "share_obs_space": self.share_observation_space[0],
                          "act_space": self.train_env.action_space[0]}
-        }
+                         }
         def policy_mapping_fn(id): return 'policy_0'
 
         self.policy_ids: List[str] = sorted(list(self.policy_info.keys()))
-
-        self.total_env_steps: int = 0  # total environment interactions collected during training
+        self.total_env_steps: int = 0 
         self.num_episodes_collected: int = 0  # total episodes collected during training
         self.total_train_steps: int = 0  # number of gradient updates performed
         self.last_train_episode: int = 0  # last episode after which a gradient update was performed
@@ -193,11 +192,6 @@ class RecRunner(object):
     
     def run(self):
 
-        # if self.args.eval_mode:
-        #     self.eval()
-        #     self.total_env_steps = self.num_env_steps+1
-        #     return self.total_env_steps
-
         """Collect a training episode and perform appropriate training, saving, logging, and evaluation steps."""
         # collect data
         self.trainer.prep_rollout()
@@ -205,7 +199,7 @@ class RecRunner(object):
 
         # train
         if ((self.num_episodes_collected - self.last_train_episode) / self.train_interval_episode) >= 1 or self.last_train_episode == 0:
-            self.train() 
+            self.train()
             self.total_train_steps += 1
             self.last_train_episode = self.num_episodes_collected
 

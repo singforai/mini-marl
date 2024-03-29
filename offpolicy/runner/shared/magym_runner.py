@@ -71,14 +71,14 @@ class MAGYM_Runner(RecRunner):
         dones: list = [False for _ in range(self.num_agents)]
         if not explore:
             self.train_env.render() 
-
+            
         for step in range(self.episode_length):
             if warmup:
                 acts_batch = policy.get_random_actions(obs = np.array(obs))
-                _, rnn_states_batch, _ = policy.get_actions(np.array(obs), 
+                _, rnn_states_batch, _ = policy.get_actions(np.array(obs),
                                                             last_acts_batch,
                                                             rnn_states_batch)
-
+                
             else:
                 # get actions with exploration noise (eps-greedy/Gaussian)
                 acts_batch, rnn_states_batch, _ = policy.get_actions(np.array(obs),
@@ -114,7 +114,7 @@ class MAGYM_Runner(RecRunner):
             episode_share_obs[p_id][step] = share_obs
             episode_acts[p_id][step] = env_acts
             episode_rewards[p_id][step] = rewards
-            # here dones store agent done flag of the next step
+
             episode_dones[p_id][step] = np.array([[done] for done in dones])
             episode_dones_env[p_id][step] = dones_env
 
@@ -125,7 +125,6 @@ class MAGYM_Runner(RecRunner):
 
         episode_obs[p_id][step] = obs
         episode_share_obs[p_id][step] = share_obs
-
 
         if explore:
             self.num_episodes_collected += self.num_envs
@@ -140,7 +139,7 @@ class MAGYM_Runner(RecRunner):
 
         env_info['average_episode_rewards'] = np.sum(episode_rewards[p_id][:, 0, 0, 0])
         return env_info
-
+    
     def log(self):
         """See parent class."""
         end = time.time()

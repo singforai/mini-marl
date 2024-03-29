@@ -33,7 +33,7 @@ def get_config():
     param(
     "--use_common_reward",
     action = 'store_true',
-    default=False,  
+    default=True,  
     help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     # env parameters

@@ -12,7 +12,7 @@ def get_config() -> argparse.ArgumentParser:
         "--env_name",
         type=str,
         default="ma_gym:Checkers-v0",
-        help="Built-in settings for ma_gym",
+        help="Built-in Env for ma_gym",
     )
     param(
         "--experiment_name",
@@ -22,20 +22,12 @@ def get_config() -> argparse.ArgumentParser:
     )
     param(
         "--group_name",
-        default=None,
+        type = str,
+        default="None",
         help="Experiment group title stored in Wandb",
     )
 
-    # env setting
-    param("--max_episodes", type=int, default=100000, help="Number of episodes trained")
-    param("--max_step", type=int, default=100, help="Maximum support step per episode")
-    param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
-
-    # render setting (only rollout 1)
-    param("--use_render", type=bool, default=False, help="Render the learning process")
-    param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
-
-    #  cuda setting
+    # cuda setting
     param(
         "--use_cuda",
         type=bool,
@@ -47,10 +39,29 @@ def get_config() -> argparse.ArgumentParser:
         type=int,
         default=12,
         help="Number of threads to use for CPU internal calculations",
-    )  # rendering parameters
+    )  
 
     # seed setting
     param("--seed", type=int, default=42, help="Choose training seed")
+
+    # env setting
+    param("--max_episodes",
+           type=int, 
+           default=100000, 
+           help="Number of episodes trained"
+    )
+    param("--max_step", type=int, default=100, help="Maximum support step per episode")
+    param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
+
+    # render setting 
+    param("--use_render", type=bool, default=False, help="Render the learning process")
+    param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
+
+
+    
+    # rendering parameters
+
+
     param(
         "--fix_seed",
         type=bool,
@@ -74,8 +85,8 @@ def get_config() -> argparse.ArgumentParser:
     )
     param(
     "--use_common_reward",
-    action = 'store_false',
-    default=True,  
+    action = 'store_true',
+    default=False,  
     help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     param(
