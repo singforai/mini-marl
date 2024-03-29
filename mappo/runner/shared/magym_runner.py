@@ -18,7 +18,10 @@ class MAGYM_Runner(Runner):
     def run(self):
         self.warmup()
 
-        episodes: int = self.max_episodes // self.n_rollout_threads
+        episodes: int = self.max_episodes
+        '''
+        추후 n_rollout_thread를 구현해야 함. 
+        '''
 
         for episode in range(episodes):
 
@@ -39,13 +42,16 @@ class MAGYM_Runner(Runner):
                 rnn_states_actor, 
                 rnn_states_critic
                 ) = self.collect(step=step)
-
-                next_obs, rewards, dones, infos = self.train_env.step(
-                    actions[0]
-                )
+                
+                if not all(dones):
+                    next_obs, rewards, dones, infos = self.train_env.step(
+                        actions[0]
+                    )
+                else:
+                    rewards = [0.0 for _ in range(self.num_agents)]
 
                 next_share_obs = self.process_obs_type(obs=next_obs)
-                rewards = self.convert_rewards(rewards)
+                rewards = self.process_reward_type(rewards)
 
                 data = (
                     next_obs,
@@ -68,7 +74,6 @@ class MAGYM_Runner(Runner):
                     time.sleep(self.sleep_second)
                 step += 1
 
-            #self.process_mask(step = step)
             self.compute()
             train_infos = self.train()
             self.train_env.reset()
@@ -85,9 +90,6 @@ class MAGYM_Runner(Runner):
             if self.use_wandb:
                 wandb.log(train_infos)
 
-    def process_mask(self, step: int):
-        self.buffer.masks[step:] = 0.0
-
     def convert_rewards(self, rewards):
         converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
         return converted_rewards
@@ -95,7 +97,6 @@ class MAGYM_Runner(Runner):
     def warmup(self):
         obs = self.train_env.reset()
         share_obs = self.process_obs_type(obs=obs)
-
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()
 

@@ -12,13 +12,18 @@ def get_config() -> argparse.ArgumentParser:
         "--env_name",
         type=str,
         default="ma_gym:Checkers-v0",
-        help="Built-in environment settings for ma_gym",
+        help="Built-in settings for ma_gym",
     )
     param(
         "--experiment_name",
         type=str,
         default="ppo",
         help="Experiment title stored in Wandb",
+    )
+    param(
+        "--group_name",
+        default=None,
+        help="Experiment group title stored in Wandb",
     )
 
     # env setting
@@ -63,14 +68,20 @@ def get_config() -> argparse.ArgumentParser:
     )
     param(
         "--share_policy",
-        action='store_true',
+        action='store_false',
         default=True,  
         help="Determining if agents want to share the same network with same parameters",
     )
     param(
+    "--use_common_reward",
+    action = 'store_false',
+    default=True,  
+    help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
+    )
+    param(
         "--use_centralized_V",
-        type=bool,
-        default=False,  # in mappo default = True
+        action = "store_true",
+        default=False, 
         help="Whether to use centralized V function",
     )
     param(
@@ -127,6 +138,12 @@ def get_config() -> argparse.ArgumentParser:
         action="store_true",
         default=False,
         help="compute returns taking into account time limits",
+    )
+    param(
+        '--use_mix_advantage',
+        action = "store_true",
+        default = False,
+        help = "When calculating the advantage value, decide whether to average the calculated value of each agent.",
     )
 
     # Common

@@ -1,0 +1,9 @@
+Environments
+
+ma_gym:Checkers-v0
+
+3x8 gridworld를 기반으로 한다. 에이전트는 red: (0,6), blue: (3,6)에서 시작한다. state는 agent의 수 2에 맞춰 길이 2의 현위치 정보와 3x3x5의 observation 정보를 flatten하여 2x47의 리스트로 반환한다. observation 정보에는 lemon, apple, A1, A2, wall의 유무를 설명하는 정보가 포함되어 있다.  
+action은 총 5가지가 가능하다. 에이전트 둘은 독립적으로 움직이며 같은 위치에 동시에 존재할 수 없다. 
+
+update iter는 낮을수록 발산이 늦어짐
+update_target_interval은 높을수록 발산이 늦어지는것 같음

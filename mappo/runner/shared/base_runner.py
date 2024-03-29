@@ -27,8 +27,8 @@ class Runner(object):
         self.args = config["args"]
         self.train_env = config["train_env"]
         self.eval_env = config["eval_env"]
-        self.device: torch.device = config["device"]
-        self.num_agents: int = config["num_agents"]
+        self.device = config["device"]
+        self.num_agents = config["num_agents"]
 
         # name_parameter
         self.env_name: str = self.args.env_name
@@ -39,11 +39,12 @@ class Runner(object):
         self.n_rollout_threads: int = self.args.n_rollout_threads
         self.n_eval_rollout_threads: int = self.args.n_eval_rollout_threads
         self.n_render_rollout_threads: int = self.args.n_render_rollout_threads
-
+        
         # use_hyperparameter
         self.use_eval: bool = self.args.use_eval
         self.use_wandb: bool = self.args.use_wandb
         self.use_render: bool = self.args.use_render
+        self.use_common_reward: bool = self.args.use_common_reward
         self.use_centralized_V: bool = self.args.use_centralized_V
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
 
@@ -78,6 +79,9 @@ class Runner(object):
 
         process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
         self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
+
+        process_reward: Dict[bool, object] = {True : self.convert_sum_rewards, False: self.convert_each_rewards}
+        self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
 
         # policy network
         self.policy = Policy(
@@ -139,10 +143,18 @@ class Runner(object):
         return train_infos
     
     def obs_sharing(self, obs: List) -> np.array:
-        share_obs = np.array(obs).reshape(1, -1)
+        share_obs = np.array(obs).reshape(-1)
         share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
         return share_obs_list
-
+    
     def obs_isolated(self, obs: List) -> np.array:
         isolated_obs_list = np.array(obs)
         return isolated_obs_list
+    
+    def convert_each_rewards(self, rewards):
+        converted_rewards = [[reward] for reward in rewards]
+        return converted_rewards
+
+    def convert_sum_rewards(self, rewards):
+        converted_rewards = [[sum(rewards)] for _ in range(self.num_agents)]
+        return converted_rewards
