@@ -27,12 +27,12 @@ class SharedReplayBuffer(object):
         self._use_gae: bool = args.use_gae
         self._use_popart: bool= args.use_popart
         self._use_valuenorm: bool= args.use_valuenorm
-        self._use_proper_time_limits: bool = args.use_proper_time_limits
 
+        self.num_agents: int = num_agents
         self.hidden_size: int = args.hidden_size
         self.recurrent_N: int = args.recurrent_N
         self.episode_length: int = args.max_step
-        self.n_rollout_threads: int = args.n_rollout_threads
+        self.batch_size: int = args.batch_size
 
         self.gamma: float = args.gamma
         self.gae_lambda: float = args.gae_lambda
@@ -46,20 +46,20 @@ class SharedReplayBuffer(object):
         if type(share_obs_shape[-1]) == list:
             share_obs_shape = share_obs_shape[:1]
 
-        self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, num_agents, *share_obs_shape),
+        self.share_obs = np.zeros((self.episode_length + 1, self.batch_size, num_agents, *share_obs_shape),
                                   dtype=np.float32)
-        self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, num_agents, *obs_shape), dtype=np.float32)
+        self.obs = np.zeros((self.episode_length + 1, self.batch_size, num_agents, *obs_shape), dtype=np.float32)
         self.rnn_states = np.zeros(
-            (self.episode_length + 1, self.n_rollout_threads, num_agents, self.recurrent_N, self.hidden_size),
+            (self.episode_length + 1, self.batch_size, num_agents, self.recurrent_N, self.hidden_size),
             dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)
 
         self.value_preds = np.zeros(
-            (self.episode_length + 1, self.n_rollout_threads, num_agents, 1), dtype=np.float32)
-        self.returns = np.zeros((self.episode_length + 1, self.n_rollout_threads, num_agents, 1), dtype=np.float32) #zeros_like(self.value_pred)
+            (self.episode_length + 1, self.batch_size, num_agents, 1), dtype=np.float32)
+        self.returns = np.zeros((self.episode_length + 1, self.batch_size, num_agents, 1), dtype=np.float32) #zeros_like(self.value_pred)
 
         if act_space.__class__.__name__ == 'Discrete':
-            
+
             self.available_actions = None
         else:
             self.available_actions = None
@@ -67,13 +67,13 @@ class SharedReplayBuffer(object):
         act_shape = get_shape_from_act_space(act_space)
 
         self.actions = np.zeros(
-            (self.episode_length, self.n_rollout_threads, num_agents, act_shape), dtype=np.float32)
+            (self.episode_length, self.batch_size, num_agents, act_shape), dtype=np.float32)
         self.action_log_probs = np.zeros(
-            (self.episode_length, self.n_rollout_threads, num_agents, act_shape), dtype=np.float32)
+            (self.episode_length, self.batch_size, num_agents, act_shape), dtype=np.float32)
         self.rewards = np.zeros(
-            (self.episode_length, self.n_rollout_threads, num_agents, 1), dtype=np.float32) #(self.episode_length, self.n_rollout_threads, num_agents, 1), dtype=np.float32)
+            (self.episode_length, self.batch_size, num_agents, 1), dtype=np.float32) #(self.episode_length, self.batch_size, num_agents, 1), dtype=np.float32)
 
-        self.masks = np.ones((self.episode_length + 1, self.n_rollout_threads, num_agents, 1), dtype=np.float32)
+        self.masks = np.ones((self.episode_length + 1, self.batch_size, num_agents, 1), dtype=np.float32)
         self.bad_masks = np.ones_like(self.masks)
         self.active_masks = np.ones_like(self.masks)
 
@@ -96,6 +96,7 @@ class SharedReplayBuffer(object):
         :param active_masks: (np.ndarray) denotes whether an agent is active or dead in the env.
         :param available_actions: (np.ndarray) actions available to each agent. If None, all actions are available.
         """
+
         self.share_obs[self.step + 1] = share_obs.copy()
         self.obs[self.step + 1] = obs.copy()
         self.rnn_states[self.step + 1] = rnn_states_actor.copy()
@@ -129,61 +130,31 @@ class SharedReplayBuffer(object):
 
     def compute_returns(self, next_value, value_normalizer=None):
         """
-        Compute returns either as discounted sum of rewards, or using GAE.
-        :param next_value: (np.ndarray) value predictions for the step after the last episode step.
-        :param value_normalizer: (PopArt) If not None, PopArt value normalizer instance.
+        Compute returns either as discounted sum of rewards, or using GAE(Generalized Advantage Estimation).
+        
+        :param gae: Adjust the bias, variance of the predicted value according to the gae_lambda value.
+        
+        Warning: Since bad mask is not necessary on ma-gym, the _use_proper_time_limits hyperparameter is not used in this study.. 
         """
-        if self._use_proper_time_limits:
-            if self._use_gae:
-                self.value_preds[-1] = next_value
-                gae = 0
-                for step in reversed(range(self.rewards.shape[0])):
-                    if self._use_popart or self._use_valuenorm:
-                        # step + 1
-                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(
-                            self.value_preds[step + 1]) * self.masks[step + 1] \
-                                - value_normalizer.denormalize(self.value_preds[step])
-                        gae = delta + self.gamma * self.gae_lambda * gae * self.masks[step + 1]
-                        gae = gae * self.bad_masks[step + 1]
-                        self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
-                    else:
-                        delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - \
-                                self.value_preds[step]
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        gae = gae * self.bad_masks[step + 1]
-                        self.returns[step] = gae + self.value_preds[step]
-            else:
-                self.returns[-1] = next_value
-                for step in reversed(range(self.rewards.shape[0])):
-                    if self._use_popart or self._use_valuenorm:
-                        self.returns[step] = (self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[
-                            step]) * self.bad_masks[step + 1] \
-                                             + (1 - self.bad_masks[step + 1]) * value_normalizer.denormalize(
-                            self.value_preds[step])
-                    else:
-                        self.returns[step] = (self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[
-                            step]) * self.bad_masks[step + 1] \
-                                             + (1 - self.bad_masks[step + 1]) * self.value_preds[step]
+        if self._use_gae:
+            self.value_preds[-1] = next_value
+            gae = np.zeros((self.batch_size, self.num_agents, 1))
+            for step in reversed(range(self.rewards.shape[0])):
+                if self._use_popart or self._use_valuenorm:
+                    delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(
+                        self.value_preds[step + 1]) * self.masks[step + 1] \
+                            - value_normalizer.denormalize(self.value_preds[step])
+                    gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
+                    self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
+                else:
+                    delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - \
+                            self.value_preds[step]
+                    gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
+                    self.returns[step] = gae + self.value_preds[step]
         else:
-            if self._use_gae:
-                self.value_preds[-1] = next_value
-                gae = 0
-                for step in reversed(range(self.rewards.shape[0])):
-                    if self._use_popart or self._use_valuenorm:
-                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(
-                            self.value_preds[step + 1]) * self.masks[step + 1] \
-                                - value_normalizer.denormalize(self.value_preds[step])
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
-                    else:
-                        delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - \
-                                self.value_preds[step]
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        self.returns[step] = gae + self.value_preds[step]
-            else:
-                self.returns[-1] = next_value
-                for step in reversed(range(self.rewards.shape[0])):
-                    self.returns[step] = self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[step]
+            self.returns[-1] = next_value
+            for step in reversed(range(self.rewards.shape[0])):
+                self.returns[step] =  self.rewards[step] + self.returns[step + 1] * self.gamma * self.masks[step + 1]
 
     def feed_forward_generator(self, advantages, num_mini_batch=None, mini_batch_size=None):
         """
@@ -192,16 +163,16 @@ class SharedReplayBuffer(object):
         :param num_mini_batch: (int) number of minibatches to split the batch into.
         :param mini_batch_size: (int) number of samples in each minibatch.
         """
-        episode_length, n_rollout_threads, num_agents = self.rewards.shape[0:3]
-        batch_size = n_rollout_threads * episode_length * num_agents
+        episode_length, self.batch_size, num_agents = self.rewards.shape[0:3]
+        batch_size = self.batch_size * episode_length * num_agents
 
         if mini_batch_size is None:
             assert batch_size >= num_mini_batch, (
                 "PPO requires the number of processes ({}) "
                 "* number of steps ({}) * number of agents ({}) = {} "
                 "to be greater than or equal to the number of PPO mini batches ({})."
-                "".format(n_rollout_threads, episode_length, num_agents,
-                          n_rollout_threads * episode_length * num_agents,
+                "".format(self.batch_size, episode_length, num_agents,
+                          self.batch_size * episode_length * num_agents,
                           num_mini_batch))
             mini_batch_size = batch_size // num_mini_batch
 
@@ -253,12 +224,12 @@ class SharedReplayBuffer(object):
         :param advantages: (np.ndarray) advantage estimates.
         :param num_mini_batch: (int) number of minibatches to split the batch into.
         """
-        episode_length, n_rollout_threads, num_agents = self.rewards.shape[0:3]
-        batch_size = n_rollout_threads * num_agents
-        assert n_rollout_threads * num_agents >= num_mini_batch, (
+        episode_length, self.batch_size, num_agents = self.rewards.shape[0:3]
+        batch_size = self.batch_size * num_agents
+        assert self.batch_size * num_agents >= num_mini_batch, (
             "PPO requires the number of processes ({})* number of agents ({}) "
             "to be greater than or equal to the number of "
-            "PPO mini batches ({}).".format(n_rollout_threads, num_agents, num_mini_batch))
+            "PPO mini batches ({}).".format(self.batch_size, num_agents, num_mini_batch))
         num_envs_per_batch = batch_size // num_mini_batch
         perm = torch.randperm(batch_size).numpy()
 
@@ -351,8 +322,8 @@ class SharedReplayBuffer(object):
         :param num_mini_batch: (int) number of minibatches to split the batch into.
         :param data_chunk_length: (int) length of sequence chunks with which to train RNN.
         """
-        episode_length, n_rollout_threads, num_agents = self.rewards.shape[0:3]
-        batch_size = n_rollout_threads * episode_length * num_agents
+        episode_length, self.batch_size, num_agents = self.rewards.shape[0:3]
+        batch_size = self.batch_size * episode_length * num_agents
         data_chunks = batch_size // data_chunk_length  # [C=r*T*M/L]
         mini_batch_size = data_chunks // num_mini_batch
 

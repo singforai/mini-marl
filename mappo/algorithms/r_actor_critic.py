@@ -174,12 +174,15 @@ class R_Critic(nn.Module):
             )
 
         def init_(m):
-            return init(m, init_method, lambda x: nn.init.constant_(x, 0))
+            '''
+            Initialize the weights and biases of the input module
+            '''
+            return init(module = m, weight_init = init_method, bias_init = lambda x: nn.init.constant_(x, 0))
 
         if self._use_popart:
-            self.v_out = init_(PopArt(self.hidden_size, 1, device=device))
+            self.v_out = init_(m = PopArt(self.hidden_size, 1, device=device))
         else:
-            self.v_out = init_(nn.Linear(self.hidden_size, 1))
+            self.v_out = init_(m = nn.Linear(self.hidden_size, 1))
 
         self.to(device)
 

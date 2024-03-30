@@ -1,7 +1,11 @@
-import time
 import wandb
-import numpy as np
 import torch
+import multiprocessing
+
+import numpy as np
+
+from tqdm import tqdm
+from typing import List, Dict
 
 
 from runner.shared.base_runner import Runner
@@ -14,26 +18,28 @@ class MAGYM_Runner(Runner):
     def __init__(self, config):
         super().__init__(config)
 
+    # def process_batch(self, queue, batch_action):
+    #     next_obs, rewards, dones, _ = self.train_env.step(batch_action)
+    #     step_result: Dict = {
+    #         "next_obs": next_obs, 
+    #         "rewards": rewards, 
+    #         "dones": dones
+    #         }
+    #     queue.put(step_result)
+
     def run(self):
         self.warmup()
 
-        episodes: int = self.max_episodes
-        '''
-        추후 n_rollout_thread를 구현해야 함. 
-        '''
-
-        for episode in range(episodes):
-
-            self.train_env.render() if self.use_render else None
+        for episode in tqdm(range(self.max_episodes ), desc="training" , ncols=70):
 
             if self.use_linear_lr_decay:
-                self.trainer.policy.lr_decay(episode=episode, episodes=episodes)
+                self.trainer.policy.lr_decay(episode=episode, episodes=self.max_episodes)
 
             step: int = 0
-            dones: list = [False for _ in range(self.num_agents)]
+            dones: list = [[False for _ in range(self.num_agents)] for _ in range(self.batch_size)]
 
-            #while not all(dones):
             for step in range(self.episode_length):
+
                 (
                 action_values, 
                 actions, 
@@ -42,22 +48,41 @@ class MAGYM_Runner(Runner):
                 rnn_states_critic
                 ) = self.collect(step=step)
                 
-                if not all(dones):
-                    next_obs, rewards, dones, infos = self.train_env.step(
-                        actions[0]
-                    )
-                else:
-                    rewards = [0.0 for _ in range(self.num_agents)]
 
-                next_share_obs = self.process_obs_type(obs=next_obs)
-                rewards = self.process_reward_type(rewards)
+                next_obs_batch, rewards_batch, dones_batch = [], [], []
+                for batch_action in actions:
+                    next_obs, rewards, dones, _ = self.train_env.step(batch_action)
+                    next_obs_batch.append(next_obs)
+                    rewards_batch.append(rewards)
+                    dones_batch.append(dones)
+                
+                # procs: List[object] = []
+
+                # for batch_action in actions:
+                #     process = multiprocessing.Process(target = self.process_batch, args = (self.queue, batch_action))
+                #     process.start()
+                #     procs.append(process)
+
+                # for each_procs in procs:
+                #     each_procs.join()
+
+                # next_obs_batch, rewards_batch, dones_batch = [], [], []
+                # while not self.queue.empty():
+                #     batch_result = self.queue.get()
+                #     next_obs_batch.append(batch_result["next_obs"])
+                #     rewards_batch.append(batch_result["rewards"])
+                #     dones_batch.append(batch_result["dones"])
+
+                
+                next_share_obs_batch = self.process_obs_type(obs=next_obs_batch)
+                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
+
 
                 data = (
-                    next_obs,
-                    next_share_obs,
-                    rewards,
-                    np.array([dones]),
-                    infos,
+                    next_obs_batch,
+                    next_share_obs_batch,
+                    rewards_batch,
+                    np.array([dones_batch]),
                     action_values,
                     actions,
                     action_log_probs,
@@ -65,12 +90,7 @@ class MAGYM_Runner(Runner):
                     rnn_states_critic,
                 )
 
-                # insert data into buffer
                 self.insert(data = data)
-
-                if self.use_render:
-                    self.train_env.render()
-                    time.sleep(self.sleep_second)
                 step += 1
 
             self.compute()
@@ -81,21 +101,12 @@ class MAGYM_Runner(Runner):
                 eval_results = self.eval()
                 train_infos["Test_Rewards"] = eval_results
 
-            # log information
-            if episode % self.log_interval == 0:
-                print(
-                    f"Algo {self.algorithm_name} Exp {self.experiment_name} updates {episode}/{episodes} episodes"
-                )
             if self.use_wandb:
                 wandb.log(train_infos)
 
-    def convert_rewards(self, rewards):
-        converted_rewards = [[sum(rewards)] for _ in range(0, self.num_agents)]
-        return converted_rewards
-
     def warmup(self):
         obs = self.train_env.reset()
-        share_obs = self.process_obs_type(obs=obs)
+        share_obs = self.process_obs_type(obs=obs, warm_up = True)
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()
 
@@ -112,14 +123,14 @@ class MAGYM_Runner(Runner):
             )
         )
 
-        action_values = np.array(np.split(_t2n(value), self.n_rollout_threads))
-        actions = np.array(np.split(_t2n(action), self.n_rollout_threads))
+        action_values = np.array(np.split(_t2n(value), self.batch_size))
+        actions = np.array(np.split(_t2n(action), self.batch_size))
         action_log_probs = np.array(
-            np.split(_t2n(action_log_prob), self.n_rollout_threads)
+            np.split(_t2n(action_log_prob), self.batch_size)
         )
-        rnn_states = np.array(np.split(_t2n(rnn_state), self.n_rollout_threads))
+        rnn_states = np.array(np.split(_t2n(rnn_state), self.batch_size))
         rnn_states_critic = np.array(
-            np.split(_t2n(rnn_state_critic), self.n_rollout_threads)
+            np.split(_t2n(rnn_state_critic), self.batch_size)
         )
 
         return action_values, actions, action_log_probs, rnn_states, rnn_states_critic
@@ -130,7 +141,6 @@ class MAGYM_Runner(Runner):
             next_share_obs,
             rewards,
             dones,
-            infos,
             action_values,
             actions,
             action_log_probs,
@@ -138,8 +148,8 @@ class MAGYM_Runner(Runner):
             rnn_states_critic,
         ) = data
 
-        dones_env = np.all(dones, axis=1)
-
+        dones_env = np.all(dones, axis=2).reshape(-1)
+        dones = dones.reshape(self.batch_size, self.num_agents)
         rnn_states_actor[dones_env == True] = np.zeros(
             (
                 (dones_env == True).sum(),
@@ -158,15 +168,14 @@ class MAGYM_Runner(Runner):
             dtype=np.float32,
         )
 
-        masks = np.ones((self.n_rollout_threads, self.num_agents, 1), dtype=np.float32)        
+        masks = np.ones((self.batch_size, self.num_agents, 1), dtype=np.float32)        
         masks[dones_env == True] = np.zeros(
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
 
         active_masks = np.ones(
-            (self.n_rollout_threads, self.num_agents, 1), dtype=np.float32
+            (self.batch_size, self.num_agents, 1), dtype=np.float32
         )
-
         active_masks[dones == True] = np.zeros(
             ((dones == True).sum(), 1), dtype=np.float32
         )

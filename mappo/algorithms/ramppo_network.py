@@ -28,7 +28,7 @@ class R_MAPPO:
         self._use_policy_active_masks: bool = args.use_policy_active_masks
 
         self.ppo_epoch: int = args.ppo_epoch
-        self.num_mini_batch: int = args.num_mini_batch
+        self.train_batch_size: int = args.train_batch_size
         self.data_chunk_length: int = args.data_chunk_length
 
         self.clip_param: float = args.clip_param
@@ -49,7 +49,7 @@ class R_MAPPO:
         if self._use_popart:
             self.value_normalizer = self.policy.critic.v_out
         elif self._use_valuenorm:
-            self.value_normalizer = ValueNorm(1).to(self.device)
+            self.value_normalizer = ValueNorm(input_shape = 1).to(self.device)
         else:
             self.value_normalizer = None
 
@@ -145,6 +145,7 @@ class R_MAPPO:
             available_actions_batch,
             active_masks_batch,
         )
+
         # actor update
         imp_weights = torch.exp(action_log_probs - old_action_log_probs_batch)
 
@@ -217,20 +218,9 @@ class R_MAPPO:
         """
 
         if self._use_popart or self._use_valuenorm:
-            '''
-            share_policy일 경우 두 에이전트는 같은 advantage 예측값을 출력함으로써 centralized한 action 가치를 부여한다.
-            share_policy가 아닐 경우 각 agent는 각자의 advantage 예측값을 출력함으로써 decentralized한 action 가치를 부여한다.
-            '''
-            if self.use_mix_advantage:
-                advantages = np.repeat(
-                    buffer.returns[:-1].mean(-2, keepdims=True), 2, 2
-                ) - self.value_normalizer.denormalize(
-                    np.repeat(buffer.value_preds[:-1].mean(-2, keepdims=True), 2, 2)
-                )
-            else:
-                advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
-                buffer.value_preds[:-1]
-                )
+            advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
+            buffer.value_preds[:-1] 
+            )
         else:
             advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
 
@@ -255,15 +245,19 @@ class R_MAPPO:
         for _ in range(self.ppo_epoch):
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(
-                    advantages, self.num_mini_batch, self.data_chunk_length
+                    advantages = advantages, 
+                    num_mini_batch = self.train_batch_size, 
+                    data_chunk_length = self.data_chunk_length
                 )
             elif self._use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(
-                    advantages, self.num_mini_batch
+                    advantages = advantages, 
+                    num_mini_batch = self.train_batch_size
                 )
             else:
                 data_generator = buffer.feed_forward_generator(
-                    advantages, self.num_mini_batch
+                    advantages = advantages, 
+                    num_mini_batch = self.train_batch_size
                 )
 
             for sample in data_generator:
@@ -274,16 +268,16 @@ class R_MAPPO:
                     dist_entropy,
                     actor_grad_norm,
                     imp_weights,
-                ) = self.ppo_update(sample, update_actor)
-
+                ) = self.ppo_update(sample = sample, update_actor = update_actor)
+                
                 train_info["value_loss"] += value_loss.item()
                 train_info["policy_loss"] += policy_loss.item()
                 train_info["dist_entropy"] += dist_entropy.item()
-                train_info["actor_grad_norm"] += actor_grad_norm
-                train_info["critic_grad_norm"] += critic_grad_norm
+                train_info["actor_grad_norm"] += actor_grad_norm.item()
+                train_info["critic_grad_norm"] += critic_grad_norm.item()
                 train_info["ratio"] += imp_weights.mean()
 
-        num_updates = self.ppo_epoch * self.num_mini_batch
+        num_updates = self.ppo_epoch * self.train_batch_size
 
         for k in train_info.keys():
             train_info[k] /= num_updates

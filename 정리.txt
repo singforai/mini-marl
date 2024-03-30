@@ -1,0 +1,12 @@
+ma-gym에서 env 클래스 객체를 선언할 때 fully_observable attribute를 True로 설정할 경우 각 에이전트가 서로의 관측 정보까지 확인할 수 있게 된다. 
+
+
+use_propart는 False, use_valuenorm 은 True
+lambda는 익명함수, 간단한 로직을 처리할 때 사용 가능  
+
+ps aux|grep wandb|grep -v grep | awk '{print $2}'|xargs kill -9
+
+
+=================================
+use_common_reward와 use_centralized_V가 모두 True로 설정되어 있으면 advantages 값이 두 에이전트가 매 step 동일하게 찍힘
+

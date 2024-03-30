@@ -42,6 +42,12 @@ def get_config() -> argparse.ArgumentParser:
     )  
 
     # seed setting
+    param(
+        "--fix_seed",
+        type=bool,
+        default=True,
+        help="Should I fix the seed during training?",
+    )  # epsilon control parameters
     param("--seed", type=int, default=42, help="Choose training seed")
 
     # env setting
@@ -57,17 +63,64 @@ def get_config() -> argparse.ArgumentParser:
     param("--use_render", type=bool, default=False, help="Render the learning process")
     param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
 
-
-    
-    # rendering parameters
-
-
+    # batch setting
+    param("--batch_size", 
+          type=int, 
+          default=32, 
+          help="batch size of data when the model samples the episode")
     param(
-        "--fix_seed",
-        type=bool,
+        "--train_batch_size",
+        type=int,
+        default=1,
+        help="batch size of data when training PPO",
+    )
+    param(
+        "--n_eval_rollout_threads",
+        type=int,
+        default=1,
+        help="Number of parallel envs for evaluating rollouts",
+    )
+    param(
+        "--n_render_rollout_threads",
+        type=int,
+        default=1,
+        help="Number of parallel envs for rendering rollouts",
+    )
+
+    # gae setting 
+    param(
+        "--use_gae",
+        action="store_false",
         default=True,
-        help="Should I fix the seed during training?",
-    )  # epsilon control parameters
+        help="use generalized advantage estimation",
+    )
+    param(
+        "--gae_lambda",
+        type=float,
+        default=0.95,
+        help="The closer to 1, the smaller the bias of the predicted value and the larger the variance.",
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     ## train parameters
     param(
@@ -138,18 +191,7 @@ def get_config() -> argparse.ArgumentParser:
         default=1,
         help="Number of layers for actor/critic networks",
     )
-    param(
-        "--use_gae",
-        action="store_false",
-        default=True,
-        help="use generalized advantage estimation",
-    )
-    param(
-        "--use_proper_time_limits",
-        action="store_true",
-        default=False,
-        help="compute returns taking into account time limits",
-    )
+
     param(
         '--use_mix_advantage',
         action = "store_true",
@@ -177,27 +219,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.99,
         help="Discount factor used to calculate TD error",
     )
-    param("--batch_size", type=int, default=32, help="batch_size")
 
-    # rollout threads
-    param(
-        "--n_rollout_threads",
-        type=int,
-        default=1,
-        help="Number of parallel envs for training rollouts",
-    )  # 프로그래밍을 위해 당장은 1로 고정
-    param(
-        "--n_eval_rollout_threads",
-        type=int,
-        default=1,
-        help="Number of parallel envs for evaluating rollouts",
-    )
-    param(
-        "--n_render_rollout_threads",
-        type=int,
-        default=1,
-        help="Number of parallel envs for rendering rollouts",
-    )
 
     # optimizer hyperparameter
     param(
@@ -285,12 +307,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--ppo_epoch", type=int, default=15, help="number of ppo epochs (default: 15)"
     )
-    param(
-        "--num_mini_batch",
-        type=int,
-        default=1,
-        help="number of batches for ppo (default: 1)",
-    )
+
     param(
         "--data_chunk_length",
         type=int,
@@ -320,12 +337,7 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     # buffer hyperparameter
-    param(
-        "--gae_lambda",
-        type=float,
-        default=0.95,
-        help="gae lambda parameter (default: 0.95)",
-    )
+
 
     #  eval
     param("--eval_interval", type=float, default=1, help="evaluation interval")

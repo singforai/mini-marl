@@ -1,9 +1,10 @@
 
 import torch
+
 import numpy as np
+import multiprocessing 
 
 from gym import spaces
-
 from typing import Callable, Dict, List
 from runner.shared.shared_buffer import SharedReplayBuffer
 from utils.observation_space import MultiAgentObservationSpace
@@ -36,7 +37,7 @@ class Runner(object):
         self.experiment_name: str = self.args.experiment_name
 
         # rollout_threads
-        self.n_rollout_threads: int = self.args.n_rollout_threads
+        self.batch_size: int = self.args.batch_size
         self.n_eval_rollout_threads: int = self.args.n_eval_rollout_threads
         self.n_render_rollout_threads: int = self.args.n_render_rollout_threads
         
@@ -54,7 +55,7 @@ class Runner(object):
         self.recurrent_N: int = self.args.recurrent_N
         self.episode_length: int = self.args.max_step
         self.max_episodes: int = self.args.max_episodes
-        
+
         # interval
         self.log_interval: int = self.args.log_interval
         self.save_interval: int = self.args.save_interval
@@ -62,6 +63,9 @@ class Runner(object):
 
         # render time
         self.sleep_second: float = self.args.sleep_second
+
+        # hardware_settings
+        self.queue = multiprocessing.Queue()
 
         # share_observation
         self.observation_space = self.train_env.observation_space
@@ -125,36 +129,48 @@ class Runner(object):
 
     @torch.no_grad()
     def compute(self):
-        """Calculate returns for the collected data."""
+        """
+        Calculate the expected value of the action performed by the agent, and use these expected values to calculate the return value
+        
+        :param next_values: Value function predictions calculated by Critic(advantages? or v values?)
+        :param value_normalizer: Normalization function/class that depends on the use_propart, use_valuenorm hyperparameter value
+        """
         self.trainer.prep_rollout()
         next_values = self.trainer.policy.get_values(
             np.concatenate(self.buffer.share_obs[-1]),
             np.concatenate(self.buffer.rnn_states_critic[-1]),
             np.concatenate(self.buffer.masks[-1]),
         )
-        next_values = np.array(np.split(_t2n(next_values), self.n_rollout_threads))
-        self.buffer.compute_returns(next_values, self.trainer.value_normalizer)
+        next_values = np.array(np.split(_t2n(next_values), self.batch_size))
+        self.buffer.compute_returns(next_value = next_values, 
+                                    value_normalizer = self.trainer.value_normalizer)
 
     def train(self):
         """Train policies with data in buffer."""
         self.trainer.prep_training()
-        train_infos = self.trainer.train(self.buffer)
+        train_infos = self.trainer.train(buffer = self.buffer)
         self.buffer.after_update()
         return train_infos
     
-    def obs_sharing(self, obs: List) -> np.array:
-        share_obs = np.array(obs).reshape(-1)
-        share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+    def obs_sharing(self, obs: List, warm_up = False) -> np.array:
+        if warm_up:
+            share_obs = np.array(obs).reshape(-1)
+            share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+        else: 
+            share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs])
         return share_obs_list
     
-    def obs_isolated(self, obs: List) -> np.array:
-        isolated_obs_list = np.array(obs)
+    def obs_isolated(self, obs: List, warm_up = False) -> np.array:
+        if warm_up:
+            isolated_obs_list = np.array(obs)
+        else:
+            isolated_obs_list = np.array(obs)
         return isolated_obs_list
     
-    def convert_each_rewards(self, rewards):
-        converted_rewards = [[reward] for reward in rewards]
+    def convert_each_rewards(self, rewards_batch):
+        converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
         return converted_rewards
 
-    def convert_sum_rewards(self, rewards):
-        converted_rewards = [[sum(rewards)] for _ in range(self.num_agents)]
+    def convert_sum_rewards(self, rewards_batch):
+        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
         return converted_rewards
