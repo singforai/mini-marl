@@ -8,7 +8,7 @@ def get_config():
     # prepare parameters
     param("--use_wandb", action='store_true', default=False, help="Whether to use wandb")
     param("--entity_name", type=str, default="singfor7012", help="wandb_name")
-    param("--use_cuda", action='store_true', default=False, help="True uses GPU")
+    param("--use_cuda", action='store_true', default=True, help="True uses GPU")
     param("--fix_seed", action='store_false', default=True, help="If True, all random seeds are fixed.")
     param("--step_cost", type = bool, default = -0.01, help="Cost(rewards) given at each step.")
     param(
@@ -33,7 +33,7 @@ def get_config():
     param(
     "--use_common_reward",
     action = 'store_true',
-    default=True,  
+    default=False,  
     help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     # env parameters
@@ -100,7 +100,7 @@ def get_config():
                         default=True, help='Whether to use a naive recurrent policy')
     # TODO now only 1 is support
     param("--recurrent_N", type=int, default=1)
-    param('--data_chunk_length', type=int, default=10,
+    param('--data_chunk_length', type=int, default=5,
                         help="Time length of chunks used to train via BPTT")
     param('--burn_in_time', type=int, default=0,
                         help="Length of burn in time for RNN training, see R2D2 paper")
@@ -164,9 +164,9 @@ def get_config():
     param('--hypernet_hidden_dim', type=int, default=64,
                         help="Dimension of hidden layer of hypernetwork (only applicable if hypernet_layers == 2")
     param('--num_env_steps', type=int,
-                        default=2000000, help="Number of env steps to train for")
+                        default=20000000, help="Number of env steps to train for")
     # exploration parameters
-    param('--num_random_episodes', type=int, default=5,
+    param('--num_warmup_episodes', type=int, default=50,
                         help="Number of episodes to add to buffer with purely random actions")
     param('--epsilon_start', type=float, default=1.0,
                         help="Starting value for epsilon, for eps-greedy exploration")
@@ -180,9 +180,9 @@ def get_config():
     # train parameters
     param('--actor_train_interval_step', type=int, default=2,
                         help="After how many critic updates actor should be updated")
-    param('--train_interval_episode', type=int, default=1,
+    param('--train_interval_episode', type=int, default = 10,
                         help="Number of env steps between updates to actor/critic")
-    param('--train_interval', type=int, default=100,
+    param('--train_interval', type=int, default=10,
                         help="Number of episodes between updates to actor/critic")
     param("--use_value_active_masks",
                         action='store_true', default=False)
@@ -190,7 +190,7 @@ def get_config():
     # eval parameters
     param('--use_eval', action='store_false',
                         default=True, help="Whether to conduct the evaluation")
-    param('--eval_interval', type=int,  default=2000,
+    param('--eval_interval', type=int,  default=1,
                         help="After how many episodes the policy should be evaled")
     param('--num_eval_episodes', type=int, default=1,
                         help="How many episodes to collect for each eval")
@@ -209,8 +209,8 @@ def get_config():
     param("--q_network_name", type=str, default=None)
     param("--mixer_name", type=str, default=None) # IF VDN: None
 
-    param('--use_available_actions', action='store_false',
-                        default=True, help="Whether to use available actions")
+    param('--use_available_actions', action='store_true',
+                        default=False, help="Whether to use available actions")
     param('--use_same_share_obs', action='store_false',
                         default=True, help="Whether to use available actions")
     param('--use_global_all_local_state', action='store_true',
@@ -223,6 +223,4 @@ def get_config():
     param('--save_replay_interval', type=int,
                         default=100000, help="save term of replay")
 
-    # test mode
-    param('--eval_mode', default=False, help="only Evaluations, not Training")
     return parser

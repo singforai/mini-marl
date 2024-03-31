@@ -30,14 +30,14 @@ class MAGYM_Runner(Runner):
     def run(self):
         self.warmup()
 
-        for episode in tqdm(range(self.max_episodes ), desc="training" , ncols=70):
+        max_episodes = self.max_episodes // self.sampling_batch_size
+
+        for episode in tqdm(range(max_episodes), desc="training" , ncols=70):
 
             if self.use_linear_lr_decay:
-                self.trainer.policy.lr_decay(episode=episode, episodes=self.max_episodes)
+                self.trainer.policy.lr_decay(episode=episode, episodes=max_episodes)
 
-            step: int = 0
-            dones: list = [[False for _ in range(self.num_agents)] for _ in range(self.batch_size)]
-
+            init_dones: list = [[False for _ in range(self.num_agents)] for _ in range(self.sampling_batch_size)]
             for step in range(self.episode_length):
 
                 (
@@ -45,13 +45,15 @@ class MAGYM_Runner(Runner):
                 actions, 
                 action_log_probs, 
                 rnn_states_actor, 
-                rnn_states_critic
+                rnn_states_critic,
                 ) = self.collect(step=step)
-                
 
                 next_obs_batch, rewards_batch, dones_batch = [], [], []
-                for batch_action in actions:
-                    next_obs, rewards, dones, _ = self.train_env.step(batch_action)
+                for idx, batch_action in enumerate(actions):
+                    if all(init_dones[idx]):
+                        rewards = [0.0 for _ in range(self.num_agents)]
+                    else: 
+                        next_obs, rewards, dones, _ = self.train_env[idx].step(batch_action)
                     next_obs_batch.append(next_obs)
                     rewards_batch.append(rewards)
                     dones_batch.append(dones)
@@ -77,7 +79,6 @@ class MAGYM_Runner(Runner):
                 next_share_obs_batch = self.process_obs_type(obs=next_obs_batch)
                 rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
 
-
                 data = (
                     next_obs_batch,
                     next_share_obs_batch,
@@ -89,13 +90,15 @@ class MAGYM_Runner(Runner):
                     rnn_states_actor,
                     rnn_states_critic,
                 )
-
                 self.insert(data = data)
-                step += 1
+
+                init_dones = dones_batch
 
             self.compute()
             train_infos = self.train()
-            self.train_env.reset()
+            
+            for idx in range(self.sampling_batch_size):
+                self.train_env[idx].reset()
 
             if episode % self.eval_interval == 0 and self.use_eval:
                 eval_results = self.eval()
@@ -105,7 +108,7 @@ class MAGYM_Runner(Runner):
                 wandb.log(train_infos)
 
     def warmup(self):
-        obs = self.train_env.reset()
+        obs = self.train_env[0].reset()
         share_obs = self.process_obs_type(obs=obs, warm_up = True)
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()
@@ -113,7 +116,7 @@ class MAGYM_Runner(Runner):
     @torch.no_grad()
     def collect(self, step):
         self.trainer.prep_rollout()
-        value, action, action_log_prob, rnn_state, rnn_state_critic = (
+        action_value, action, action_log_prob, rnn_state, rnn_state_critic = (
             self.trainer.policy.get_actions(
                 obs=np.concatenate(self.buffer.obs[step]),
                 cent_obs=np.concatenate(self.buffer.share_obs[step]),
@@ -122,25 +125,24 @@ class MAGYM_Runner(Runner):
                 masks=np.concatenate(self.buffer.masks[step]),
             )
         )
-
-        action_values = np.array(np.split(_t2n(value), self.batch_size))
-        actions = np.array(np.split(_t2n(action), self.batch_size))
+        action_values = np.array(np.split(_t2n(action_value), self.sampling_batch_size))
+        actions = np.array(np.split(_t2n(action), self.sampling_batch_size))
         action_log_probs = np.array(
-            np.split(_t2n(action_log_prob), self.batch_size)
+            np.split(_t2n(action_log_prob), self.sampling_batch_size)
         )
-        rnn_states = np.array(np.split(_t2n(rnn_state), self.batch_size))
+        rnn_states = np.array(np.split(_t2n(rnn_state), self.sampling_batch_size))
         rnn_states_critic = np.array(
-            np.split(_t2n(rnn_state_critic), self.batch_size)
+            np.split(_t2n(rnn_state_critic), self.sampling_batch_size)
         )
 
         return action_values, actions, action_log_probs, rnn_states, rnn_states_critic
 
     def insert(self, data):
         (
-            next_obs,
-            next_share_obs,
-            rewards,
-            dones,
+            next_obs_batch,
+            next_share_obs_batch,
+            rewards_batch,
+            dones_batch,
             action_values,
             actions,
             action_log_probs,
@@ -148,8 +150,8 @@ class MAGYM_Runner(Runner):
             rnn_states_critic,
         ) = data
 
-        dones_env = np.all(dones, axis=2).reshape(-1)
-        dones = dones.reshape(self.batch_size, self.num_agents)
+        dones_env = np.all(dones_batch, axis=2).reshape(-1)
+        dones_batch = dones_batch.reshape(self.sampling_batch_size, self.num_agents)
         rnn_states_actor[dones_env == True] = np.zeros(
             (
                 (dones_env == True).sum(),
@@ -168,29 +170,29 @@ class MAGYM_Runner(Runner):
             dtype=np.float32,
         )
 
-        masks = np.ones((self.batch_size, self.num_agents, 1), dtype=np.float32)        
+        masks = np.ones((self.sampling_batch_size, self.num_agents, 1), dtype=np.float32)        
         masks[dones_env == True] = np.zeros(
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
 
         active_masks = np.ones(
-            (self.batch_size, self.num_agents, 1), dtype=np.float32
+            (self.sampling_batch_size, self.num_agents, 1), dtype=np.float32
         )
-        active_masks[dones == True] = np.zeros(
-            ((dones == True).sum(), 1), dtype=np.float32
+        active_masks[dones_batch == True] = np.zeros(
+            ((dones_batch == True).sum(), 1), dtype=np.float32
         )
         active_masks[dones_env == True] = np.ones(
             ((dones_env == True).sum(), self.num_agents, 1), dtype=np.float32
         )
         self.buffer.insert(
-            share_obs = next_share_obs,
-            obs = next_obs,
+            share_obs = next_share_obs_batch,
+            obs = next_obs_batch,
             rnn_states_actor = rnn_states_actor,
             rnn_states_critic = rnn_states_critic,
             actions = actions,
             action_log_probs = action_log_probs,
             value_preds = action_values,
-            rewards = rewards,
+            rewards = rewards_batch,
             masks = masks
         )
 
@@ -199,7 +201,7 @@ class MAGYM_Runner(Runner):
         eval_obs = self.eval_env.reset()
         eval_rnn_states = np.zeros(
             (
-                self.n_eval_rollout_threads,
+                self.eval_batch_size,
                 self.num_agents,
                 self.recurrent_N,
                 self.hidden_size,
@@ -207,7 +209,7 @@ class MAGYM_Runner(Runner):
             dtype=np.float32,
         )
         eval_masks = np.ones(
-            (self.n_eval_rollout_threads, self.num_agents, 1), dtype=np.float32
+            (self.eval_batch_size, self.num_agents, 1), dtype=np.float32
         )
 
         self.trainer.prep_rollout()
@@ -223,10 +225,10 @@ class MAGYM_Runner(Runner):
                 deterministic=True,
             )
             eval_actions = np.array(
-                np.split(_t2n(eval_actions), self.n_eval_rollout_threads)
+                np.split(_t2n(eval_actions), self.eval_batch_size)
             )
             eval_rnn_states = np.array(
-                np.split(_t2n(eval_rnn_states), self.n_eval_rollout_threads)
+                np.split(_t2n(eval_rnn_states), self.eval_batch_size)
             )
 
             eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(

@@ -32,7 +32,7 @@ class SharedReplayBuffer(object):
         self.hidden_size: int = args.hidden_size
         self.recurrent_N: int = args.recurrent_N
         self.episode_length: int = args.max_step
-        self.batch_size: int = args.batch_size
+        self.sampling_batch_size: int = args.sampling_batch_size
 
         self.gamma: float = args.gamma
         self.gae_lambda: float = args.gae_lambda
@@ -46,17 +46,17 @@ class SharedReplayBuffer(object):
         if type(share_obs_shape[-1]) == list:
             share_obs_shape = share_obs_shape[:1]
 
-        self.share_obs = np.zeros((self.episode_length + 1, self.batch_size, num_agents, *share_obs_shape),
+        self.share_obs = np.zeros((self.episode_length + 1, self.sampling_batch_size, num_agents, *share_obs_shape),
                                   dtype=np.float32)
-        self.obs = np.zeros((self.episode_length + 1, self.batch_size, num_agents, *obs_shape), dtype=np.float32)
+        self.obs = np.zeros((self.episode_length + 1, self.sampling_batch_size, num_agents, *obs_shape), dtype=np.float32)
         self.rnn_states = np.zeros(
-            (self.episode_length + 1, self.batch_size, num_agents, self.recurrent_N, self.hidden_size),
+            (self.episode_length + 1, self.sampling_batch_size, num_agents, self.recurrent_N, self.hidden_size),
             dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)
 
         self.value_preds = np.zeros(
-            (self.episode_length + 1, self.batch_size, num_agents, 1), dtype=np.float32)
-        self.returns = np.zeros((self.episode_length + 1, self.batch_size, num_agents, 1), dtype=np.float32) #zeros_like(self.value_pred)
+            (self.episode_length + 1, self.sampling_batch_size, num_agents, 1), dtype=np.float32)
+        self.returns = np.zeros((self.episode_length + 1, self.sampling_batch_size, num_agents, 1), dtype=np.float32) #zeros_like(self.value_pred)
 
         if act_space.__class__.__name__ == 'Discrete':
 
@@ -67,13 +67,13 @@ class SharedReplayBuffer(object):
         act_shape = get_shape_from_act_space(act_space)
 
         self.actions = np.zeros(
-            (self.episode_length, self.batch_size, num_agents, act_shape), dtype=np.float32)
+            (self.episode_length, self.sampling_batch_size, num_agents, act_shape), dtype=np.float32)
         self.action_log_probs = np.zeros(
-            (self.episode_length, self.batch_size, num_agents, act_shape), dtype=np.float32)
+            (self.episode_length, self.sampling_batch_size, num_agents, act_shape), dtype=np.float32)
         self.rewards = np.zeros(
-            (self.episode_length, self.batch_size, num_agents, 1), dtype=np.float32) #(self.episode_length, self.batch_size, num_agents, 1), dtype=np.float32)
+            (self.episode_length, self.sampling_batch_size, num_agents, 1), dtype=np.float32) #(self.episode_length, self.sampling_batch_size, num_agents, 1), dtype=np.float32)
 
-        self.masks = np.ones((self.episode_length + 1, self.batch_size, num_agents, 1), dtype=np.float32)
+        self.masks = np.ones((self.episode_length + 1, self.sampling_batch_size, num_agents, 1), dtype=np.float32)
         self.bad_masks = np.ones_like(self.masks)
         self.active_masks = np.ones_like(self.masks)
 
@@ -138,7 +138,7 @@ class SharedReplayBuffer(object):
         """
         if self._use_gae:
             self.value_preds[-1] = next_value
-            gae = np.zeros((self.batch_size, self.num_agents, 1))
+            gae = np.zeros((self.sampling_batch_size, self.num_agents, 1))
             for step in reversed(range(self.rewards.shape[0])):
                 if self._use_popart or self._use_valuenorm:
                     delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(
@@ -163,16 +163,16 @@ class SharedReplayBuffer(object):
         :param num_mini_batch: (int) number of minibatches to split the batch into.
         :param mini_batch_size: (int) number of samples in each minibatch.
         """
-        episode_length, self.batch_size, num_agents = self.rewards.shape[0:3]
-        batch_size = self.batch_size * episode_length * num_agents
+        episode_length, self.sampling_batch_size, num_agents = self.rewards.shape[0:3]
+        batch_size = self.sampling_batch_size * episode_length * num_agents
 
         if mini_batch_size is None:
             assert batch_size >= num_mini_batch, (
                 "PPO requires the number of processes ({}) "
                 "* number of steps ({}) * number of agents ({}) = {} "
                 "to be greater than or equal to the number of PPO mini batches ({})."
-                "".format(self.batch_size, episode_length, num_agents,
-                          self.batch_size * episode_length * num_agents,
+                "".format(self.sampling_batch_size, episode_length, num_agents,
+                          self.sampling_batch_size * episode_length * num_agents,
                           num_mini_batch))
             mini_batch_size = batch_size // num_mini_batch
 
@@ -224,12 +224,12 @@ class SharedReplayBuffer(object):
         :param advantages: (np.ndarray) advantage estimates.
         :param num_mini_batch: (int) number of minibatches to split the batch into.
         """
-        episode_length, self.batch_size, num_agents = self.rewards.shape[0:3]
-        batch_size = self.batch_size * num_agents
-        assert self.batch_size * num_agents >= num_mini_batch, (
+        episode_length, self.sampling_batch_size, num_agents = self.rewards.shape[0:3]
+        batch_size = self.sampling_batch_size * num_agents
+        assert self.sampling_batch_size * num_agents >= num_mini_batch, (
             "PPO requires the number of processes ({})* number of agents ({}) "
             "to be greater than or equal to the number of "
-            "PPO mini batches ({}).".format(self.batch_size, num_agents, num_mini_batch))
+            "PPO mini batches ({}).".format(self.sampling_batch_size, num_agents, num_mini_batch))
         num_envs_per_batch = batch_size // num_mini_batch
         perm = torch.randperm(batch_size).numpy()
 
@@ -322,9 +322,9 @@ class SharedReplayBuffer(object):
         :param num_mini_batch: (int) number of minibatches to split the batch into.
         :param data_chunk_length: (int) length of sequence chunks with which to train RNN.
         """
-        episode_length, self.batch_size, num_agents = self.rewards.shape[0:3]
-        batch_size = self.batch_size * episode_length * num_agents
-        data_chunks = batch_size // data_chunk_length  # [C=r*T*M/L]
+        episode_length, self.sampling_batch_size, num_agents = self.rewards.shape[0:3]
+        batch_size = self.sampling_batch_size * episode_length * num_agents 
+        data_chunks = batch_size // data_chunk_length   
         mini_batch_size = data_chunks // num_mini_batch
 
         rand = torch.randperm(data_chunks).numpy()

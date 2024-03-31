@@ -6,7 +6,7 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", action='store_false', default=True, help="Whether to use wandb")
+    param("--use_wandb", action='store_true', default=False, help="Whether to use wandb")
     param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--env_name",
@@ -64,27 +64,21 @@ def get_config() -> argparse.ArgumentParser:
     param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
 
     # batch setting
-    param("--batch_size", 
+    param("--sampling_batch_size", 
           type=int, 
-          default=32, 
+          default=1, 
           help="batch size of data when the model samples the episode")
     param(
-        "--train_batch_size",
+        "--training_batch_size",
         type=int,
         default=1,
         help="batch size of data when training PPO",
     )
     param(
-        "--n_eval_rollout_threads",
+        "--eval_batch_size",
         type=int,
         default=1,
         help="Number of parallel envs for evaluating rollouts",
-    )
-    param(
-        "--n_render_rollout_threads",
-        type=int,
-        default=1,
-        help="Number of parallel envs for rendering rollouts",
     )
 
     # gae setting 
@@ -101,8 +95,19 @@ def get_config() -> argparse.ArgumentParser:
         help="The closer to 1, the smaller the bias of the predicted value and the larger the variance.",
     )
 
-
-
+    # gradient norm setting
+    param(
+        "--use_max_grad_norm",
+        action="store_false",
+        default=True,
+        help="by default, use max norm of gradients. If set, do not use.",
+    )
+    param(
+        "--max_grad_norm",
+        type=float,
+        default=0.5,
+        help="max norm of gradients (default: 0.5)",
+    )
 
 
 
@@ -261,12 +266,7 @@ def get_config() -> argparse.ArgumentParser:
         default=False,
         help="Whether to use a naive recurrent policy",
     )
-    param(
-        "--use_max_grad_norm",
-        action="store_false",
-        default=True,
-        help="by default, use max norm of gradients. If set, do not use.",
-    )
+
     param(
         "--use_clipped_value_loss",
         action="store_false",
@@ -326,12 +326,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.01,
         help="entropy term coefficient (default: 0.01)",
     )
-    param(
-        "--max_grad_norm",
-        type=float,
-        default=0.5,
-        help="max norm of gradients (default: 0.5)",
-    )
+
     param(
         "--huber_delta", type=float, default=10.0, help=" coefficience of huber loss."
     )

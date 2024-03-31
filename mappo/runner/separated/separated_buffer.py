@@ -16,12 +16,11 @@ class SeparatedReplayBuffer(object):
         self._use_gae: bool = args.use_gae
         self._use_popart: bool= args.use_popart
         self._use_valuenorm: bool= args.use_valuenorm
-        self._use_proper_time_limits: bool = args.use_proper_time_limits
 
         self.hidden_size: int = args.hidden_size
         self.recurrent_N: int = args.recurrent_N
         self.episode_length: int = args.max_step
-        self.n_rollout_threads: int = args.n_rollout_threads
+        self.sampling_batch_size: int = args.sampling_batch_size
 
         self.gamma: float = args.gamma
         self.gae_lambda: float = args.gae_lambda
@@ -35,27 +34,27 @@ class SeparatedReplayBuffer(object):
         if type(share_obs_shape[-1]) == list:
             share_obs_shape = share_obs_shape[:1]
 
-        self.share_obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, *share_obs_shape), dtype=np.float32)
-        self.obs = np.zeros((self.episode_length + 1, self.n_rollout_threads, *obs_shape), dtype=np.float32)
+        self.share_obs = np.zeros((self.episode_length + 1, self.sampling_batch_size, *share_obs_shape), dtype=np.float32)
+        self.obs = np.zeros((self.episode_length + 1, self.sampling_batch_size, *obs_shape), dtype=np.float32)
 
-        self.rnn_states = np.zeros((self.episode_length + 1, self.n_rollout_threads, self.recurrent_N, self.hidden_size), dtype=np.float32)
+        self.rnn_states = np.zeros((self.episode_length + 1, self.sampling_batch_size, self.recurrent_N, self.hidden_size), dtype=np.float32)
         self.rnn_states_critic = np.zeros_like(self.rnn_states)
 
-        self.value_preds = np.zeros((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
-        self.returns = np.zeros((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
+        self.value_preds = np.zeros((self.episode_length + 1, self.sampling_batch_size, 1), dtype=np.float32)
+        self.returns = np.zeros((self.episode_length + 1, self.sampling_batch_size, 1), dtype=np.float32)
         
         if act_space.__class__.__name__ == 'Discrete':
-            self.available_actions = np.ones((self.episode_length + 1, self.n_rollout_threads, act_space.n), dtype=np.float32)
+            self.available_actions = np.ones((self.episode_length + 1, self.sampling_batch_size, act_space.n), dtype=np.float32)
         else:
             self.available_actions = None
 
         act_shape = get_shape_from_act_space(act_space)
 
-        self.actions = np.zeros((self.episode_length, self.n_rollout_threads, act_shape), dtype=np.float32)
-        self.action_log_probs = np.zeros((self.episode_length, self.n_rollout_threads, act_shape), dtype=np.float32)
-        self.rewards = np.zeros((self.episode_length, self.n_rollout_threads, 1), dtype=np.float32)
+        self.actions = np.zeros((self.episode_length, self.sampling_batch_size, act_shape), dtype=np.float32)
+        self.action_log_probs = np.zeros((self.episode_length, self.sampling_batch_size, act_shape), dtype=np.float32)
+        self.rewards = np.zeros((self.episode_length, self.sampling_batch_size, 1), dtype=np.float32)
         
-        self.masks = np.ones((self.episode_length + 1, self.n_rollout_threads, 1), dtype=np.float32)
+        self.masks = np.ones((self.episode_length + 1, self.sampling_batch_size, 1), dtype=np.float32)
         self.bad_masks = np.ones_like(self.masks)
         self.active_masks = np.ones_like(self.masks)
 
@@ -99,48 +98,22 @@ class SeparatedReplayBuffer(object):
         self.bad_masks[0] = self.bad_masks[-1].copy()
 
     def compute_returns(self, next_value, value_normalizer=None):
-        if self._use_proper_time_limits:
-            if self._use_gae:
-                self.value_preds[-1] = next_value
-                gae = 0
-                for step in reversed(range(self.rewards.shape[0])):
-                    if self._use_popart or self._use_valuenorm:
-                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[
-                            step + 1]) * self.masks[step + 1] - value_normalizer.denormalize(self.value_preds[step])
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        gae = gae * self.bad_masks[step + 1]
-                        self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
-                    else:
-                        delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - self.value_preds[step]
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        gae = gae * self.bad_masks[step + 1]
-                        self.returns[step] = gae + self.value_preds[step]
-            else:
-                self.returns[-1] = next_value
-                for step in reversed(range(self.rewards.shape[0])):
-                    if self._use_popart:
-                        self.returns[step] = (self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[step]) * self.bad_masks[step + 1] \
-                            + (1 - self.bad_masks[step + 1]) * value_normalizer.denormalize(self.value_preds[step])
-                    else:
-                        self.returns[step] = (self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[step]) * self.bad_masks[step + 1] \
-                            + (1 - self.bad_masks[step + 1]) * self.value_preds[step]
+        if self._use_gae:
+            self.value_preds[-1] = next_value
+            gae = 0
+            for step in reversed(range(self.rewards.shape[0])):
+                if self._use_popart or self._use_valuenorm:
+                    delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[step + 1]) * self.masks[step + 1] - value_normalizer.denormalize(self.value_preds[step])
+                    gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
+                    self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
+                else:
+                    delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - self.value_preds[step]
+                    gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
+                    self.returns[step] = gae + self.value_preds[step]
         else:
-            if self._use_gae:
-                self.value_preds[-1] = next_value
-                gae = 0
-                for step in reversed(range(self.rewards.shape[0])):
-                    if self._use_popart or self._use_valuenorm:
-                        delta = self.rewards[step] + self.gamma * value_normalizer.denormalize(self.value_preds[step + 1]) * self.masks[step + 1] - value_normalizer.denormalize(self.value_preds[step])
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        self.returns[step] = gae + value_normalizer.denormalize(self.value_preds[step])
-                    else:
-                        delta = self.rewards[step] + self.gamma * self.value_preds[step + 1] * self.masks[step + 1] - self.value_preds[step]
-                        gae = delta + self.gamma * self.gae_lambda * self.masks[step + 1] * gae
-                        self.returns[step] = gae + self.value_preds[step]
-            else:
-                self.returns[-1] = next_value
-                for step in reversed(range(self.rewards.shape[0])):
-                    self.returns[step] = self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[step]
+            self.returns[-1] = next_value
+            for step in reversed(range(self.rewards.shape[0])):
+                self.returns[step] = self.returns[step + 1] * self.gamma * self.masks[step + 1] + self.rewards[step]
 
     def feed_forward_generator(self, advantages, num_mini_batch=None, mini_batch_size=None):
         episode_length, n_rollout_threads = self.rewards.shape[0:2]

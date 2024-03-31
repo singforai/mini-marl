@@ -4,6 +4,8 @@ import sys
 import time
 import torch
 
+from tqdm import tqdm
+
 from utils.main_utils import *
 
 from config import get_config 
@@ -40,7 +42,7 @@ def main(args):
 
     env = gym.make(
         id=args.env_name,
-        full_observable=False,
+        full_observable=False,\
         max_steps=args.episode_length,
         step_cost=args.step_cost,
     )
@@ -54,13 +56,15 @@ def main(args):
     if args.share_policy:
         from runner.shared.magym_runner import MAGYM_Runner as Runner
     else:
-        from runner.separated.magym_runner import MAGYM_Runner as Runner
+        NotImplementedError
     
     total_num_steps: int = 0
 
     runner = Runner(config=config) 
+    pbar = tqdm(total=args.num_env_steps, desc="training", ncols=70)
     while total_num_steps < args.num_env_steps:
         total_num_steps = runner.run() #base_runner에서 run함수를 호출
+        pbar.update(total_num_steps)
 
     env.close()
     if args.use_wandb:

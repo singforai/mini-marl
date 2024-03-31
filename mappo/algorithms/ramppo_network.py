@@ -28,7 +28,7 @@ class R_MAPPO:
         self._use_policy_active_masks: bool = args.use_policy_active_masks
 
         self.ppo_epoch: int = args.ppo_epoch
-        self.train_batch_size: int = args.train_batch_size
+        self.training_batch_size: int = args.training_batch_size
         self.data_chunk_length: int = args.data_chunk_length
 
         self.clip_param: float = args.clip_param
@@ -246,18 +246,18 @@ class R_MAPPO:
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(
                     advantages = advantages, 
-                    num_mini_batch = self.train_batch_size, 
+                    num_mini_batch = self.training_batch_size, 
                     data_chunk_length = self.data_chunk_length
                 )
             elif self._use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(
                     advantages = advantages, 
-                    num_mini_batch = self.train_batch_size
+                    num_mini_batch = self.training_batch_size
                 )
             else:
                 data_generator = buffer.feed_forward_generator(
                     advantages = advantages, 
-                    num_mini_batch = self.train_batch_size
+                    num_mini_batch = self.training_batch_size
                 )
 
             for sample in data_generator:
@@ -277,12 +277,12 @@ class R_MAPPO:
                 train_info["critic_grad_norm"] += critic_grad_norm.item()
                 train_info["ratio"] += imp_weights.mean()
 
-        num_updates = self.ppo_epoch * self.train_batch_size
+        num_updates = self.ppo_epoch * self.training_batch_size
+
+        train_info["Sampling_Rewards"] = buffer.rewards.sum()
 
         for k in train_info.keys():
             train_info[k] /= num_updates
-        
-        train_info["Sampling_Rewards"] = buffer.rewards.sum()
 
         return train_info
 

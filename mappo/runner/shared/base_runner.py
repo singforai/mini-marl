@@ -35,11 +35,6 @@ class Runner(object):
         self.env_name: str = self.args.env_name
         self.algorithm_name: str = self.args.algorithm_name
         self.experiment_name: str = self.args.experiment_name
-
-        # rollout_threads
-        self.batch_size: int = self.args.batch_size
-        self.n_eval_rollout_threads: int = self.args.n_eval_rollout_threads
-        self.n_render_rollout_threads: int = self.args.n_render_rollout_threads
         
         # use_hyperparameter
         self.use_eval: bool = self.args.use_eval
@@ -50,11 +45,12 @@ class Runner(object):
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
 
         # parameters
-        self.batch_size: int = self.args.batch_size  
+        self.sampling_batch_size: int = self.args.sampling_batch_size  
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
         self.episode_length: int = self.args.max_step
         self.max_episodes: int = self.args.max_episodes
+        self.eval_batch_size = self.args.eval_batch_size
 
         # interval
         self.log_interval: int = self.args.log_interval
@@ -65,13 +61,13 @@ class Runner(object):
         self.sleep_second: float = self.args.sleep_second
 
         # hardware_settings
-        self.queue = multiprocessing.Queue()
+        # self.queue = multiprocessing.Queue()
 
         # share_observation
-        self.observation_space = self.train_env.observation_space
+        self.observation_space = self.train_env[0].observation_space
         if self.use_centralized_V:
-            self._obs_high = np.tile(self.train_env._obs_high, self.num_agents)
-            self._obs_low = np.tile(self.train_env._obs_low, self.num_agents)
+            self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
+            self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
             self.share_observation_space = MultiAgentObservationSpace(
                 [
                     spaces.Box(self._obs_low, self._obs_high)
@@ -92,7 +88,7 @@ class Runner(object):
             args=self.args,
             obs_space=self.observation_space[0],
             cent_obs_space=self.share_observation_space[0],
-            act_space=self.train_env.action_space[0],
+            act_space=self.train_env[0].action_space[0],
             device=self.device,
         )
 
@@ -105,7 +101,7 @@ class Runner(object):
             num_agents=self.num_agents,
             obs_space=self.observation_space[0],
             cent_obs_space=self.share_observation_space[0],
-            act_space=self.train_env.action_space[0],
+            act_space=self.train_env[0].action_space[0],
         )
 
     def run(self):
@@ -141,7 +137,7 @@ class Runner(object):
             np.concatenate(self.buffer.rnn_states_critic[-1]),
             np.concatenate(self.buffer.masks[-1]),
         )
-        next_values = np.array(np.split(_t2n(next_values), self.batch_size))
+        next_values = np.array(np.split(_t2n(next_values), self.sampling_batch_size))
         self.buffer.compute_returns(next_value = next_values, 
                                     value_normalizer = self.trainer.value_normalizer)
 

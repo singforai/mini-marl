@@ -28,7 +28,7 @@ def main(args):
 
     if args.use_cuda and torch.cuda.is_available():
         torch.set_num_threads(args.n_training_threads)
-        device = torch.device("cuda")
+        device = torch.device("cuda:1")
     else:
         torch.set_num_threads(args.n_training_threads)
         device = torch.device("cpu")
@@ -45,9 +45,11 @@ def main(args):
         step_cost=args.step_cost,
     )
 
+    train_env_batch = [env for _ in range(args.sampling_batch_size)]
+
     config = {
         "args": args,
-        "train_env": env,
+        "train_env": train_env_batch,
         "eval_env": env,
         "num_agents": env.n_agents,
         "device": device,

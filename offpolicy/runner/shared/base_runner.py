@@ -1,12 +1,14 @@
 import os
 import sys
 import time
+
 import wandb
 import torch
 import datetime
 
 import numpy as np
 
+from tqdm import tqdm
 from gym import spaces
 from typing import List, Dict, Callable
 
@@ -196,7 +198,6 @@ class RecRunner(object):
         # collect data
         self.trainer.prep_rollout()
         env_info = self.collecter(explore=True, training_episode=True, warmup=False) 
-
         # train
         if ((self.num_episodes_collected - self.last_train_episode) / self.train_interval_episode) >= 1 or self.last_train_episode == 0:
             self.train()
@@ -204,21 +205,23 @@ class RecRunner(object):
             self.last_train_episode = self.num_episodes_collected
 
 
-        # save
-        if (self.total_env_steps - self.last_save_T) / self.save_interval >= 1 or self.total_env_steps >= self.num_env_steps:
-            self.last_save_T = self.total_env_steps
+        # # save
+        # if (self.total_env_steps - self.last_save_T) / self.save_interval >= 1 or self.total_env_steps >= self.num_env_steps:
+        #     self.last_save_T = self.total_env_steps
 
 
-        # log
-        if ((self.total_env_steps - self.last_log_T) / self.log_interval) >= 1 or self.total_env_steps >= self.num_env_steps:
+        # # log
+        # if ((self.total_env_steps - self.last_log_T) / self.log_interval) >= 1 or self.total_env_steps >= self.num_env_steps:
             
-            self.log()
-            self.last_log_T = self.total_env_steps
+        #     self.last_log_T = self.total_env_steps
 
         # eval
         if self.use_eval and ((self.total_env_steps - self.last_eval_T) / self.eval_interval) >= 1 or self.total_env_steps >= self.num_env_steps:
-            self.eval()
+            env_info = self.eval()
             self.last_eval_T = self.total_env_steps
+        
+        if self.use_wandb:
+            wandb.log(env_info)
 
         return self.total_env_steps
     
@@ -230,8 +233,8 @@ class RecRunner(object):
         """
         self.trainer.prep_rollout()
         warmup_rewards = []
-        print("warm up...")
-        for _ in range((num_warmup_episodes // self.num_envs) + 1):
+
+        for _ in tqdm(range((num_warmup_episodes // self.num_envs)), desc="warm up..", ncols=70):
             env_info = self.collecter(explore=True, training_episode=False, warmup=True)
             warmup_rewards.append(env_info['average_episode_rewards'])
         warmup_reward = np.mean(warmup_rewards)
@@ -297,27 +300,10 @@ class RecRunner(object):
                 self.trainer.hard_target_updates()
                 self.last_hard_update_episode = self.num_episodes_collected
 
-    def log(self):
-        """Log relevent training and rollout colleciton information.."""
-        raise NotImplementedError
 
     def log_clear(self):
         """Clear logging variables so they do not contain stale information."""
         raise NotImplementedError
-
-    def log_env(self, env_info, suffix=None):
-        """
-        Log information related to the environment.
-        :param env_info: (dict) contains logging information related to the environment.
-        :param suffix: (str) optional string to add to end of keys in env_info when logging. 
-        """
-        for k, v in env_info.items():
-            if len(v) > 0:
-                v = np.mean(v)
-                suffix_k = k if suffix is None else suffix + k 
-                print(suffix_k + " is " + str(v))
-                if self.use_wandb:
-                    wandb.log({suffix_k: v}, step=self.total_env_steps)
 
     def log_train(self, policy_id, train_info):
         """
@@ -346,3 +332,16 @@ class RecRunner(object):
     def convert_sum_rewards(self, rewards):
         converted_rewards = [[sum(rewards)] for _ in range(self.num_agents)]
         return converted_rewards
+    
+    def eval(self):
+        """Collect episodes to evaluate the policy."""
+        self.trainer.prep_rollout()
+
+        eval_infos = {}
+        eval_infos['Test Rewards'] = []
+
+        for _ in range(self.args.num_eval_episodes):
+            env_info = self.collecter(explore=False, training_episode=False, warmup=False)
+            for k, v in env_info.items():
+                eval_infos[k].append(v)
+        return env_info

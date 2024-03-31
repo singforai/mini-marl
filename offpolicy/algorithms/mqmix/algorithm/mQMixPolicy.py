@@ -29,7 +29,9 @@ class M_QMixPolicy(MLPPolicy):
         self.q_network = AgentQFunction(self.args, self.q_network_input_dim, self.act_dim, self.device)
 
         if train:
-            self.exploration = DecayThenFlatSchedule(self.args.epsilon_start, self.args.epsilon_finish, self.args.epsilon_anneal_time,
+            self.exploration = DecayThenFlatSchedule(self.args.epsilon_start, 
+                                                     self.args.epsilon_finish, 
+                                                     self.args.epsilon_anneal_time,
                                                   decay="linear")
 
     def get_q_values(self, obs_batch, action_batch=None):

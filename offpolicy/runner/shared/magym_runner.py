@@ -7,35 +7,10 @@ class MAGYM_Runner(RecRunner):
     def __init__(self, config):
         """Runner class for the StarcraftII environment (SMAC). See parent class for more information."""
         super().__init__(config)
-        num_warmup_episodes = max((self.batch_size, self.args.num_random_episodes)) #self.args.num_random_episodes: 5
-        self.start = time.time()
-        if self.args.eval_mode == False:
-            self.warmup(num_warmup_episodes)
-        end = time.time()
-        print("\nEnv {} Algo {} Exp {} runs total num timesteps {}/{}, FPS {}. \n"
-              .format(self.env_name,
-                      self.algorithm_name,
-                      self.experiment_name,
-                      self.total_env_steps,
-                      self.num_env_steps,
-                      int(self.total_env_steps / (end - self.start))))
+
+        self.warmup(self.args.num_warmup_episodes)
         self.log_clear()
 
-    
-    def eval(self):
-        """Collect episodes to evaluate the policy."""
-        self.trainer.prep_rollout()
-
-        eval_infos = {}
-        eval_infos['average_episode_rewards'] = []
-
-        for _ in range(self.args.num_eval_episodes):
-            env_info = self.collecter(explore=False, training_episode=False, warmup=False)
-            for k, v in env_info.items():
-                eval_infos[k].append(v)
-
-        self.log_env(eval_infos, suffix="eval_")
-    
     @torch.no_grad()
     def collect_rollout(self, explore=True, training_episode=True, warmup=False):
         """
@@ -69,8 +44,8 @@ class MAGYM_Runner(RecRunner):
         episode_dones_env = {p_id : np.ones((self.episode_length, self.num_envs, 1), dtype=np.float32) for p_id in self.policy_ids}
         
         dones: list = [False for _ in range(self.num_agents)]
-        if not explore:
-            self.train_env.render() 
+        # if not explore:
+        #     self.train_env.render() 
             
         for step in range(self.episode_length):
             if warmup:
@@ -101,9 +76,9 @@ class MAGYM_Runner(RecRunner):
             next_share_obs = self.obs_sharing(obs = next_obs)
             rewards = self.process_reward_type(rewards)
 
-            if not explore:
-                self.train_env.render() 
-                time.sleep(0.1)
+            # if not explore:
+            #     self.train_env.render() 
+            #     time.sleep(0.005)
 
             if training_episode or warmup:
                 self.total_env_steps += self.num_envs
@@ -136,27 +111,29 @@ class MAGYM_Runner(RecRunner):
                                episode_rewards,
                                episode_dones,
                                episode_dones_env)
-
-        env_info['average_episode_rewards'] = np.sum(episode_rewards[p_id][:, 0, 0, 0])
+        if not (explore or training_episode or warmup):
+            env_info['Test Rewards'] = np.sum(episode_rewards[p_id][:, 0, 0, 0])
+        else:
+            env_info['average_episode_rewards'] = np.sum(episode_rewards[p_id][:, 0, 0, 0])
         return env_info
     
-    def log(self):
-        """See parent class."""
-        end = time.time()
+    # def log(self):
+    #     """See parent class."""
         
-        print("\nEnv {} Algo {} Exp {} runs total num timesteps {}/{}, FPS {}."
-              .format(self.env_name,
-                      self.algorithm_name,
-                      self.args.experiment_name,
-                      self.total_env_steps,
-                      self.num_env_steps,
-                      int(self.total_env_steps / (end - self.start))))
+    #     print(
+    #         "\nEnv {} Algo {} Exp {} runs total num timesteps {}/{}."
+    #           .format(self.env_name,
+    #                   self.algorithm_name,
+    #                   self.args.experiment_name,
+    #                   self.total_env_steps,
+    #                   self.num_env_steps,
+    #                   )
+    #         )
 
-        for p_id, train_info in zip(self.policy_ids, self.train_infos):
-            self.log_train(p_id, train_info)
+    #     for p_id, train_info in zip(self.policy_ids, self.train_infos):
+    #         self.log_train(p_id, train_info)
 
-        self.log_env(self.train_env_infos)
-        self.log_clear()
+    #     self.log_clear()
 
     def log_clear(self):
         """See parent class."""

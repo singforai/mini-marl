@@ -1,6 +1,3 @@
-   
-import os                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-import time
 import wandb
 import torch
 
@@ -31,24 +28,23 @@ class Runner(object):
         self.algorithm_name: str = self.args.algorithm_name
         self.experiment_name: str = self.args.experiment_name
 
-        # rollout_threads
-        self.n_rollout_threads: int = self.args.n_rollout_threads
-        self.n_eval_rollout_threads: int = self.args.n_eval_rollout_threads
-        self.n_render_rollout_threads: int = self.args.n_render_rollout_threads
+        # batch setting
+        self.sampling_batch_size: int = self.args.sampling_batch_size
+        self.eval_rollout_threads = 1
 
         # use_hyperparameter
         self.use_eval: bool = self.args.use_eval
         self.use_wandb: bool = self.args.use_wandb
         self.use_render: bool = self.args.use_render
+        self.use_common_reward: bool = self.args.use_common_reward
         self.use_centralized_V: bool = self.args.use_centralized_V
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
 
         # parameters
-        self.max_episodes: int = self.args.max_episodes
-        self.episode_length: int = self.args.max_step
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
-        self.batch_size: int = self.args.batch_size  
+        self.max_episodes: int = self.args.max_episodes
+        self.episode_length: int = self.args.max_step
 
         # interval
         self.log_interval: int = self.args.log_interval
@@ -58,11 +54,11 @@ class Runner(object):
         # render time
         self.sleep_second: float = self.args.sleep_second
 
-        self.observation_space = self.train_env.observation_space
+        self.observation_space = self.train_env[0].observation_space
         
         if self.use_centralized_V:
-            self._obs_high = np.tile(self.train_env._obs_high, self.num_agents)
-            self._obs_low = np.tile(self.train_env._obs_low, self.num_agents)
+            self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
+            self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
             self.share_observation_space = MultiAgentObservationSpace(
                 [
                     spaces.Box(self._obs_low, self._obs_high)
@@ -75,15 +71,18 @@ class Runner(object):
         process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
         self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
 
+        process_reward: Dict[bool, object] = {True : self.convert_sum_rewards, False: self.convert_each_rewards}
+        self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
+
         self.policy: List[object] = []
         self.trainer: List[object] = []
         self.buffer: List[object] = []
 
         for agent_id in range(self.num_agents): 
             po = Policy(self.args,
-                        self.train_env.observation_space[agent_id],
+                        self.train_env[0].observation_space[agent_id],
                         self.share_observation_space[agent_id],
-                        self.train_env.action_space[agent_id],
+                        self.train_env[0].action_space[agent_id],
                         device = self.device)
             
             self.policy.append(po)
@@ -91,14 +90,13 @@ class Runner(object):
             tr = TrainAlgo(self.args, self.policy[agent_id], device = self.device)
             
             bu = SeparatedReplayBuffer(self.args,
-                                       self.train_env.observation_space[agent_id],
+                                       self.train_env[0].observation_space[agent_id],
                                        self.share_observation_space[agent_id],
-                                       self.train_env.action_space[agent_id])
+                                       self.train_env[0].action_space[agent_id])
             
             self.trainer.append(tr)
             self.buffer.append(bu)
 
-            
     def run(self):
         raise NotImplementedError
 
@@ -130,14 +128,29 @@ class Runner(object):
             self.buffer[agent_id].after_update()
         return train_infos
 
-    def obs_sharing(self, obs: List[List]) -> np.array:
-        share_obs = np.array(obs).reshape(1, -1)
-        share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+    def obs_sharing(self, obs: List, warm_up = False) -> np.array:
+        if warm_up:
+            share_obs = np.array(obs).reshape(-1)
+            share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+        else: 
+            share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs])
         return share_obs_list
-
-    def obs_isolated(self, obs: List[List]) -> np.array:
-        isolated_obs_list = np.array(obs)
+    
+    def obs_isolated(self, obs: List, warm_up = False) -> np.array:
+        if warm_up:
+            isolated_obs_list = np.array(obs)
+        else:
+            isolated_obs_list = np.array(obs)
         return isolated_obs_list
+    
+    def convert_each_rewards(self, rewards_batch):
+        converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
+        return converted_rewards
+
+    def convert_sum_rewards(self, rewards_batch):
+        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+        return converted_rewards
+
     
     def log_train(self, train_infos, eval_result):
 
@@ -149,6 +162,9 @@ class Runner(object):
                 total_train_infos[key] += train_infos[agent_i][key]
 
         total_train_infos["ratio"] = total_train_infos["ratio"]/self.num_agents
+
+        total_train_infos["dist_entropy"] /= self.num_agents
+        total_train_infos["actor_grad_norm"] /= self.num_agents
 
         if self.use_wandb:
             wandb.log(total_train_infos)
