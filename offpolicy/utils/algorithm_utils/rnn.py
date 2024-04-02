@@ -28,7 +28,11 @@ class RNNBase(MLPBase):
 
         self._recurrent_N = args.recurrent_N #1
         # mlp.py => hidden_size 64
-        self.rnn = RNNLayer(self.hidden_size, self.hidden_size, self._recurrent_N, self._use_orthogonal)
+        self.rnn = RNNLayer(
+            inputs_dim = self.hidden_size, 
+            outputs_dim = self.hidden_size, 
+            recurrent_N = self._recurrent_N, 
+            use_orthogonal = self._use_orthogonal)
 
     def forward(self, x, hxs):
         if self._use_feature_normalization:

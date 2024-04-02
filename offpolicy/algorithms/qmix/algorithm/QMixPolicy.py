@@ -31,7 +31,6 @@ class QMixPolicy(RecurrentPolicy):
         self.discrete = is_discrete(self.act_space)
         self.multidiscrete = is_multidiscrete(self.act_space)
 
-        #박현우 표 코드 변경
         device=torch.device("cuda:0")
         self.tpdv = dict(dtype=torch.float32, device=device)
 
@@ -57,12 +56,6 @@ class QMixPolicy(RecurrentPolicy):
         :param action_batch: (np.ndarray) if not None, then only return the q values corresponding to actions in action_batch
         :return q_values: (torch.Tensor) computed q values
         :return new_rnn_states: (torch.Tensor) updated RNN states
-        """
-
-        """
-        3x64 / 3x9 / 3x64
-
-        61x96x64 / 61x96x9 / 96x64: runstate
         """
 
         if self.args.prev_act_inp: # 이전 action도 input으로 포함시키는가? => default: false

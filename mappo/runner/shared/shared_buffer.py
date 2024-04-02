@@ -1,4 +1,5 @@
 import torch
+import pdb
 import numpy as np
 
 from utils.util import get_shape_from_obs_space, get_shape_from_act_space
@@ -323,9 +324,9 @@ class SharedReplayBuffer(object):
         :param data_chunk_length: (int) length of sequence chunks with which to train RNN.
         """
         episode_length, self.sampling_batch_size, num_agents = self.rewards.shape[0:3]
-        batch_size = self.sampling_batch_size * episode_length * num_agents 
-        data_chunks = batch_size // data_chunk_length   
-        mini_batch_size = data_chunks // num_mini_batch
+        batch_size = self.sampling_batch_size * episode_length * num_agents    # 2 x 100 x 2 = 400
+        data_chunks = batch_size // data_chunk_length      # 400 / 5 = 80
+        mini_batch_size = data_chunks // num_mini_batch    # 80 / 2 = 40
 
         rand = torch.randperm(data_chunks).numpy()
         sampler = [rand[i * mini_batch_size:(i + 1) * mini_batch_size] for i in range(num_mini_batch)]

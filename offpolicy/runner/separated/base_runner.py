@@ -1,30 +1,24 @@
 import os
-import sys
-import time
-
-import wandb
-import torch
-import datetime
-
 import numpy as np
-
-from tqdm import tqdm
+import wandb
+from tqdm import tqdm 
+import torch
+import time
+import datetime
 from gym import spaces
 from typing import List, Dict, Callable
-
-from utils.util import DecayThenFlatSchedule
 from utils.observation_space import MultiAgentObservationSpace
 from utils.rec_buffer import RecReplayBuffer, PrioritizedRecReplayBuffer
-
-from utils.util import get_cent_act_dim, get_dim_from_space
-
-
+from utils.util import DecayThenFlatSchedule, get_cent_act_dim, get_dim_from_space
 
 class RecRunner(object):
     """Base class for training recurrent policies."""
 
     def __init__(self, config):
-
+        """
+        Base class for training recurrent policies.
+        :param config: (dict) Config dictionary containing parameters for training.
+        """
         self.args = config["args"]
         self.train_env = config["train_env"]
         self.eval_env = config["eval_env"]
@@ -82,32 +76,33 @@ class RecRunner(object):
         process_reward: Dict[bool, object] = {True : self.convert_sum_rewards, False: self.convert_each_rewards}
         self.process_reward_type: Callable[[bool], object] = process_reward.get(self.args.use_common_reward)
 
+        self.policy_info = {
+            'policy_' + str(agent_id): {"cent_obs_dim": get_dim_from_space(self.share_observation_space[agent_id]),
+                                        "cent_act_dim": get_cent_act_dim(self.train_env.action_space),
+                                        "obs_space": self.train_env.observation_space[agent_id],
+                                        "share_obs_space": self.share_observation_space[agent_id],
+                                        "act_space": self.train_env.action_space[agent_id]}
+            for agent_id in range(self.num_agents)
+        }
 
-        self.policy_info: Dict = {
-            'policy_0': {"cent_obs_dim": get_dim_from_space(self.share_observation_space[0]),
-                         "cent_act_dim": get_cent_act_dim(self.train_env.action_space),
-                         "obs_space": self.train_env.observation_space[0],
-                         "share_obs_space": self.share_observation_space[0],
-                         "act_space": self.train_env.action_space[0]}
-                         }
-        def policy_mapping_fn(id): return 'policy_0'
+        def policy_mapping_fn(agent_id): return 'policy_' + str(agent_id)
 
-        self.policy_ids: List[str] = sorted(list(self.policy_info.keys()))
-        self.total_env_steps: int = 0 
-        self.num_episodes_collected: int = 0 
-        self.total_train_steps: int = 0  
-        self.last_train_episode: int = 0  
-        self.last_eval_T: int = 0
-        self.last_save_T: int = 0  # last epsiode after which the models were saved
-        self.last_log_T: int = 0 # last timestep after which information was logged
-        self.last_hard_update_episode: int = 0 # last episode after which target policy was updated to equal live policy
+        self.policy_ids = sorted(list(self.policy_info.keys()))
+
+        self.total_env_steps = 0  
+        self.num_episodes_collected = 0
+        self.total_train_steps = 0  
+        self.last_train_episode = 0  
+        self.last_eval_T = 0  
+        self.last_save_T = 0  
+        self.last_log_T = 0 
+        self.last_hard_update_episode = 0 
 
         if self.args.use_naive_recurrent_policy:
             self.data_chunk_length: int = self.episode_length 
         else:
             self.data_chunk_length: int = self.args.data_chunk_length
 
-        # initialize all the policies and organize the agents corresponding to each policy
         if self.use_rnn_layer:
             if self.algorithm_name == "rmatd3":
                 from algorithms.r_matd3.algorithm.rMATD3Policy import R_MATD3Policy as Policy
@@ -140,27 +135,30 @@ class RecRunner(object):
                 from algorithms.mvdn.mvdn import M_VDN as TrainAlgo
             else:
                 raise NotImplementedError
-
-        self.collecter = self.collect_rollout
+                
         self.train = self.batch_train_q if self.algorithm_name in self.q_learning else self.batch_train
-        
-        self.policies = {p_id: Policy(self.args, config, self.policy_info[p_id]) for p_id in self.policy_ids}
+
+        self.policies = {p_id: Policy(
+            args = self.args, 
+            config = config, 
+            policy_config = self.policy_info[p_id]
+        ) for p_id in self.policy_ids}
 
         # initialize trainer class for updating policies
-        self.trainer = TrainAlgo(args = self.args, 
-                                 num_agents = self.num_agents,
-                                 batch_size = self.batch_size, 
-                                 policies = self.policies, 
-                                 policy_mapping_fn = policy_mapping_fn,
-                                 device=self.device, 
-                                 episode_length=self.episode_length)
+        self.trainer = TrainAlgo(
+            args = self.args, 
+            num_agents = self.num_agents,
+            batch_size = self.batch_size, 
+            policies = self.policies, 
+            policy_mapping_fn = policy_mapping_fn,
+            device = self.device, 
+            episode_length=self.episode_length
+        )
 
         # map policy id to agent ids controlled by that policy
-        self.policy_agents = {policy_id: sorted(
-            [agent_id for agent_id in self.agent_ids if policy_mapping_fn(agent_id) == policy_id]) for policy_id in
-            self.policies.keys()}
-        
-        
+        self.policy_agents = {
+            policy_id: sorted([agent_id for agent_id in self.agent_ids if policy_mapping_fn(agent_id) == policy_id]) for policy_id in self.policies.keys()
+        }
 
         self.policy_obs_dim = {
             policy_id: self.policies[policy_id].obs_dim for policy_id in self.policy_ids}
@@ -173,52 +171,47 @@ class RecRunner(object):
         
         self.beta_anneal = DecayThenFlatSchedule(
             self.per_beta_start, 1.0, num_train_episodes, decay="linear")
+
         if self.use_per:
-            self.buffer = PrioritizedRecReplayBuffer(self.per_alpha,
-                                                     self.policy_info,
-                                                     self.policy_agents,
-                                                     self.buffer_size,
-                                                     self.episode_length,
-                                                     self.use_same_share_obs,
-                                                     self.use_avail_acts,
-                                                     self.use_reward_normalization)
+            self.buffer = PrioritizedRecReplayBuffer(
+                alpha = self.per_alpha,    
+                policy_info = self.policy_info,
+                policy_agents = self.policy_agents,
+                buffer_size = self.buffer_size,
+                episode_length = self.episode_length,
+                use_same_share_obs = self.use_same_share_obs,
+                use_avail_acts = self.use_avail_acts,
+                use_reward_normalization = self.use_reward_normalization
+            )
         else:
-            self.buffer = RecReplayBuffer(self.policy_info,
-                                          self.policy_agents,
-                                          self.buffer_size,
-                                          self.episode_length,
-                                          self.use_same_share_obs,
-                                          self.use_avail_acts,
-                                          self.use_reward_normalization)
-            
-    
+            self.buffer = RecReplayBuffer(
+                policy_info = self.policy_info,
+                policy_agents = self.policy_agents,
+                buffer_size = self.buffer_size,
+                episode_length = self.episode_length,
+                use_same_share_obs = self.use_same_share_obs,
+                use_avail_acts = self.use_avail_acts,
+                use_reward_normalization = self.use_reward_normalization
+            )
     
     def run(self):
-
         """Collect a training episode and perform appropriate training, saving, logging, and evaluation steps."""
         # collect data
         self.trainer.prep_rollout()
-        env_info = self.collecter(explore=True, training_episode=True, warmup=False) 
+        env_info = self.collect_rollout(explore=True, training_episode=True, warmup=False) 
+        for k, v in env_info.items():
+            self.env_infos[k].append(v)
+
         # train
         if ((self.num_episodes_collected - self.last_train_episode) / self.train_interval_episode) >= 1 or self.last_train_episode == 0:
-            self.train()
+            self.train() 
             self.total_train_steps += 1
             self.last_train_episode = self.num_episodes_collected
 
-
-        # # save
-        # if (self.total_env_steps - self.last_save_T) / self.save_interval >= 1 or self.total_env_steps >= self.num_env_steps:
-        #     self.last_save_T = self.total_env_steps
-
-
-        # # log
-        # if ((self.total_env_steps - self.last_log_T) / self.log_interval) >= 1 or self.total_env_steps >= self.num_env_steps:
-            
-        #     self.last_log_T = self.total_env_steps
-
         # eval
         if self.use_eval and ((self.total_env_steps - self.last_eval_T) / self.eval_interval) >= 1 or self.total_env_steps >= self.num_env_steps:
-            env_info = self.eval()
+            test_rewards = self.eval()
+            env_info["Test_Rewards"] = test_rewards
             self.last_eval_T = self.total_env_steps
         
         if self.use_wandb:
@@ -234,9 +227,8 @@ class RecRunner(object):
         """
         self.trainer.prep_rollout()
         warmup_rewards = []
-
         for _ in tqdm(range((num_warmup_episodes // self.num_envs)), desc="warm up..", ncols=70):
-            env_info = self.collecter(explore=True, training_episode=False, warmup=True)
+            env_info = self.collect_rollout(explore=True, training_episode=False, warmup=True)
             warmup_rewards.append(env_info['average_episode_rewards'])
         warmup_reward = np.mean(warmup_rewards)
         print("warmup average episode rewards: {}".format(warmup_reward))
@@ -302,9 +294,26 @@ class RecRunner(object):
                 self.last_hard_update_episode = self.num_episodes_collected
 
 
+    def log(self):
+        """Log relevent training and rollout colleciton information.."""
+        raise NotImplementedError
+
     def log_clear(self):
         """Clear logging variables so they do not contain stale information."""
         raise NotImplementedError
+
+    def log_env(self, env_info, suffix=None):
+        """
+        Log information related to the environment.
+        :param env_info: (dict) contains logging information related to the environment.
+        :param suffix: (str) optional string to add to end of keys in env_info when logging. 
+        """
+        for k, v in env_info.items():
+            if len(v) > 0:
+                v = np.mean(v)
+                suffix_k = k if suffix is None else suffix + k 
+                print(suffix_k + " is " + str(v))
+
 
     def log_train(self, policy_id, train_info):
         """
@@ -314,8 +323,7 @@ class RecRunner(object):
         """
         for k, v in train_info.items():
             policy_k = str(policy_id) + '/' + k
-            if self.use_wandb:
-                wandb.log({policy_k: v}, step=self.total_env_steps)
+
 
     def collect_rollout(self):
         """Collect a rollout and store it in the buffer."""
@@ -333,16 +341,12 @@ class RecRunner(object):
     def convert_sum_rewards(self, rewards):
         converted_rewards = [[sum(rewards)] for _ in range(self.num_agents)]
         return converted_rewards
-    
+
     def eval(self):
         """Collect episodes to evaluate the policy."""
         self.trainer.prep_rollout()
-
-        eval_infos = {}
-        eval_infos['Test Rewards'] = []
-
+        test_rewards = 0.0
         for _ in range(self.args.num_eval_episodes):
-            env_info = self.collecter(explore=False, training_episode=False, warmup=False)
-            for k, v in env_info.items():
-                eval_infos[k].append(v)
-        return env_info
+            test_rewards += self.collect_rollout(explore=False, training_episode=False, warmup=False)
+
+        return test_rewards

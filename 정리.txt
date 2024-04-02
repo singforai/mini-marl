@@ -9,4 +9,3 @@ ps aux|grep wandb|grep -v grep | awk '{print $2}'|xargs kill -9
 
 =================================
 use_common_reward와 use_centralized_V가 모두 True로 설정되어 있으면 advantages 값이 두 에이전트가 매 step 동일하게 찍힘
-

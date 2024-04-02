@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import pdb
 import torch.nn as nn
 from utils.util import get_gard_norm, huber_loss, mse_loss
 from utils.valuenorm import ValueNorm
@@ -19,7 +20,6 @@ class R_MAPPO:
         self._use_popart: bool = args.use_popart
         self._use_valuenorm: bool = args.use_valuenorm
         self._use_huber_loss: bool = args.use_huber_loss
-        self.use_mix_advantage: bool = args.use_mix_advantage
         self._use_max_grad_norm: bool = args.use_max_grad_norm
         self._use_recurrent_policy: bool = args.use_recurrent_policy
         self._use_clipped_value_loss: bool = args.use_clipped_value_loss
@@ -176,9 +176,9 @@ class R_MAPPO:
             actor_grad_norm = nn.utils.clip_grad_norm_(
                 self.policy.actor.parameters(), self.max_grad_norm
             )
+            
         else:
             actor_grad_norm = get_gard_norm(self.policy.actor.parameters())
-
         self.policy.actor_optimizer.step()
 
         # critic update
@@ -261,6 +261,7 @@ class R_MAPPO:
                 )
 
             for sample in data_generator:
+
                 (
                     value_loss,
                     critic_grad_norm,
@@ -278,12 +279,10 @@ class R_MAPPO:
                 train_info["ratio"] += imp_weights.mean()
 
         num_updates = self.ppo_epoch * self.training_batch_size
-
         train_info["Sampling_Rewards"] = buffer.rewards.sum()
 
         for k in train_info.keys():
             train_info[k] /= num_updates
-
         return train_info
 
     def prep_training(self):

@@ -54,6 +54,7 @@ class MAGYM_Runner(RecRunner):
                                                             last_acts_batch,
                                                             rnn_states_batch)
                 
+                
             else:
                 # get actions with exploration noise (eps-greedy/Gaussian)
                 acts_batch, rnn_states_batch, _ = policy.get_actions(np.array(obs),
@@ -61,7 +62,6 @@ class MAGYM_Runner(RecRunner):
                                                                     rnn_states_batch,
                                                                     t_env=self.total_env_steps,
                                                                     explore=explore)
-        
             acts_batch = acts_batch if isinstance(acts_batch, np.ndarray) else acts_batch.cpu().detach().numpy()
             rnn_states_batch = rnn_states_batch if isinstance(rnn_states_batch, np.ndarray) else rnn_states_batch.cpu().detach().numpy()
             last_acts_batch = acts_batch
@@ -97,9 +97,6 @@ class MAGYM_Runner(RecRunner):
             share_obs = next_share_obs
 
             assert self.num_envs == 1, ("only one env is support here.")
-
-        episode_obs[p_id][step] = obs
-        episode_share_obs[p_id][step] = share_obs
 
         if explore:
             self.num_episodes_collected += self.num_envs

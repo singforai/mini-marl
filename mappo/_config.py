@@ -35,6 +35,12 @@ def get_config() -> argparse.ArgumentParser:
         help="Decide whether to use GPU during training ",
     )
     param(
+        "--num_gpu",
+        type=int,
+        default=0,
+        help="GPU unique number to use",
+    )
+    param(
         "--n_training_threads",
         type=int,
         default=12,
@@ -106,41 +112,28 @@ def get_config() -> argparse.ArgumentParser:
         "--max_grad_norm",
         type=float,
         default=0.5,
-        help="max norm of gradients (default: 0.5)",
+        help="max norm of gradients",
     )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ## train parameters
+    # policy setting
     param(
         "--algorithm_name",
-        type=str,
-        default="rmappo",
-        choices=["rmappo", "mappo", "ippo"],
+        type = str,
+        default = "rmappo",
+        choices = ["rmappo", "mappo", "ippo"],
         help="Name of algorithm to apply",
     )
     param(
-        "--share_policy",
-        action='store_false',
-        default=True,  
-        help="Determining if agents want to share the same network with same parameters",
+        "--policy_type",
+        type = str,
+        default = "share",  
+        choices = ["share", "separate", "hybrid"],
+        help = "Determining if agents want to share the same network with same parameters",
     )
+
+    ## train parameters
+
+
     param(
     "--use_common_reward",
     action = 'store_true',
@@ -195,13 +188,6 @@ def get_config() -> argparse.ArgumentParser:
         type=int,
         default=1,
         help="Number of layers for actor/critic networks",
-    )
-
-    param(
-        '--use_mix_advantage',
-        action = "store_true",
-        default = False,
-        help = "When calculating the advantage value, decide whether to average the calculated value of each agent.",
     )
 
     # Common

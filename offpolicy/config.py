@@ -129,7 +129,7 @@ def get_config():
                         help="Discount factor for env")
     param("--use_max_grad_norm",
                         action='store_false', default=True)
-    param("--max_grad_norm", type=float, default=10.0,
+    param("--max_grad_norm", type=float, default=0.5,
                         help='max norm of gradients (default: 0.5)')
     param('--use_huber_loss', action='store_true',
                         default=False, help="Whether to use Huber loss for critic update") # MSE/MAE loss function의 결합형태 

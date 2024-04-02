@@ -11,9 +11,6 @@ def main(args):
     parser = get_config()
     args = parser.parse_known_args(args)[0]
 
-    if args.use_mix_advantage and not args.share_policy:
-        raise Exception("When using use_mix_advantage, share_policy must be set to True.")
-
     if args.use_wandb:
         import wandb 
         project_name = args.env_name.split(":")[1] 
@@ -28,7 +25,7 @@ def main(args):
 
     if args.use_cuda and torch.cuda.is_available():
         torch.set_num_threads(args.n_training_threads)
-        device = torch.device("cuda:1")
+        device = torch.device(f"cuda:{args.num_gpu}")
     else:
         torch.set_num_threads(args.n_training_threads)
         device = torch.device("cpu")
@@ -72,10 +69,14 @@ def main(args):
     else:
         raise Exception("Check the algorithm_name!")
 
-    if args.share_policy:
+    if args.policy_type == "share":
         from runner.shared.magym_runner import MAGYM_Runner as Runner
-    else:
+    elif args.policy_type == "separate":
         from runner.separated.magym_runner import MAGYM_Runner as Runner
+    elif args.policy_type == "hybrid":
+        from runner.hybrid.magym_runner import MAGYM_Runner as Runner
+    else:
+        raise Exception("Check the hyperparameter: policy_type!")
 
     runner = Runner(config)
     runner.run()

@@ -56,15 +56,15 @@ def main(args):
     if args.share_policy:
         from runner.shared.magym_runner import MAGYM_Runner as Runner
     else:
-        NotImplementedError
+        from runner.separated.magym_runner import MAGYM_Runner as Runner
     
     total_num_steps: int = 0
 
     runner = Runner(config=config) 
-    pbar = tqdm(total=args.num_env_steps, desc="training", ncols=70)
+    pbar = tqdm(total=args.num_env_steps/args.episode_length, desc="training", ncols=70)
     while total_num_steps < args.num_env_steps:
         total_num_steps = runner.run() #base_runner에서 run함수를 호출
-        pbar.update(total_num_steps)
+        pbar.update(1)
 
     env.close()
     if args.use_wandb:

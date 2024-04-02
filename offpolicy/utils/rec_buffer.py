@@ -53,10 +53,15 @@ class RecReplayBuffer(object):
         :return: (np.ndarray) indexes in which the new transitions were placed.
         """
         for p_id in self.policy_info.keys():
-            idx_range = self.policy_buffers[p_id].insert(num_insert_episodes, np.array(obs[p_id]),
-                                                         np.array(share_obs[p_id]), np.array(acts[p_id]),
-                                                         np.array(rewards[p_id]), np.array(dones[p_id]),
-                                                         np.array(dones_env[p_id]))
+            idx_range = self.policy_buffers[p_id].insert(
+                num_insert_episodes, 
+                np.array(obs[p_id]),
+                np.array(share_obs[p_id]),
+                np.array(acts[p_id]),
+                np.array(rewards[p_id]), 
+                np.array(dones[p_id]),
+                np.array(dones_env[p_id])
+            )
         return idx_range
 
     def sample(self, batch_size):
@@ -116,14 +121,20 @@ class RecPolicyBuffer(object):
             share_obs_shape = share_obs_space
         else:
             raise NotImplementedError
-
-        self.obs = np.zeros((self.episode_length + 1, self.buffer_size,
-                             self.num_agents, obs_shape[0]), dtype=np.float32)
+        self.obs = np.zeros(
+            (
+                self.episode_length + 1, 
+                self.buffer_size,
+                self.num_agents, 
+                obs_shape[0]
+            ), 
+            dtype=np.float32
+        )
 
         if self.use_same_share_obs:
             self.share_obs = np.zeros((self.episode_length + 1, self.buffer_size, share_obs_shape[0]), dtype=np.float32)
         else:
-            self.share_obs = np.zeros((self.episode_length + 1, self.buffer_size, self.num_agents, share_obs_shape[0]),
+            self.share_obs = np.zeros((self.episode_length + 1, self.buffer_size,  share_obs_shape[0]),
                                       dtype=np.float32)
 
         # action
@@ -173,7 +184,6 @@ class RecPolicyBuffer(object):
         if self.use_same_share_obs:
             # remove agent dimension since all agents share centralized observation
             share_obs = share_obs[:, :, 0]
-
         self.obs[:, idx_range] = obs.copy()
         self.share_obs[:, idx_range] = share_obs.copy()
         self.acts[:, idx_range] = acts.copy()
@@ -289,7 +299,7 @@ class PrioritizedRecReplayBuffer(RecReplayBuffer):
         assert beta > 0
 
         batch_inds = self._sample_proportional(batch_size, p_id)
-
+        print(batch_inds)
         p_min = self._it_mins[p_id].min() / self._it_sums[p_id].sum()
         max_weight = (p_min * len(self)) ** (-beta)
         p_sample = self._it_sums[p_id][batch_inds] / self._it_sums[p_id].sum()
