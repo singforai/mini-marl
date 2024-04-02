@@ -66,7 +66,6 @@ class MAGYM_Runner(Runner):
 
             self.compute()
             train_infos = self.train()
-        
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
                 eval_result: float = self.eval()

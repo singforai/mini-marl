@@ -8,9 +8,11 @@ from typing import Callable, Dict, List
 from runner.separated.separated_buffer import SeparatedReplayBuffer
 from utils.observation_space import MultiAgentObservationSpace
 
-from algorithms.ramppo_network import R_MAPPO as TrainAlgo
-from algorithms.rmappo_policy import R_MAPPOPolicy as Policy
+from utils.util import obs_sharing, obs_isolated, convert_each_rewards, convert_sum_rewards
 
+from runner.hybrid.algorithms.ramppo_network import R_MAPPO as TrainAlgo
+from runner.hybrid.algorithms.policy.rmappo_actor_policy import R_MAPPO_Actor_Policy as Actor_Policy
+from runner.hybrid.algorithms.policy.rmappo_critic_policy import R_MAPPO_Critic_Policy as Critic_Policy
 def _t2n(x):
     return x.detach().cpu().numpy()
 
@@ -47,9 +49,8 @@ class Runner(object):
         self.episode_length: int = self.args.max_step
 
         # interval
-        self.log_interval: int = self.args.log_interval
-        self.save_interval: int = self.args.save_interval
         self.eval_interval: int = self.args.eval_interval
+        self.render_interval: int = self.args.render_interval
 
         # render time
         self.sleep_second: float = self.args.sleep_second
@@ -68,35 +69,49 @@ class Runner(object):
         else:
             self.share_observation_space = self.observation_space
         
-        process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
+        process_obs: Dict[bool, object] = {True : obs_sharing, False: obs_isolated}
         self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
 
-        process_reward: Dict[bool, object] = {True : self.convert_sum_rewards, False: self.convert_each_rewards}
+        process_reward: Dict[bool, object] = {True : convert_sum_rewards, False: convert_each_rewards}
         self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
 
-        self.policy: List[object] = []
+        self.actor_policy: List[object] = []
+        for agent_id in range(self.num_agents): 
+            actor_policy = Actor_Policy(
+                args = self.args,
+                obs_space = self.train_env[0].observation_space[agent_id],
+                act_space = self.train_env[0].action_space[agent_id],
+                device = self.device
+            )
+            self.actor_policy.append(actor_policy)
+        self.critic_policy = Critic_Policy(
+            args = self.args,
+            obs_space = self.train_env[0].observation_space[agent_id],
+            cent_obs_space = self.share_observation_space[agent_id],
+            act_space = self.train_env[0].action_space[agent_id],
+            device = self.device
+        )
+
         self.trainer: List[object] = []
         self.buffer: List[object] = []
-
         for agent_id in range(self.num_agents): 
-            po = Policy(self.args,
-                        self.train_env[0].observation_space[agent_id],
-                        self.share_observation_space[agent_id],
-                        self.train_env[0].action_space[agent_id],
-                        device = self.device)
+            tr = TrainAlgo(
+                args = self.args, 
+                actor_policy = self.actor_policy[agent_id],
+                critic_policy = self.critic_policy, 
+                device = self.device
+            )
             
-            self.policy.append(po)
-
-            tr = TrainAlgo(self.args, self.policy[agent_id], device = self.device)
-            
-            bu = SeparatedReplayBuffer(self.args,
-                                       self.train_env[0].observation_space[agent_id],
-                                       self.share_observation_space[agent_id],
-                                       self.train_env[0].action_space[agent_id])
+            bu = SeparatedReplayBuffer(
+                self.args,
+                self.train_env[0].observation_space[agent_id],
+                self.share_observation_space[agent_id],
+                self.train_env[0].action_space[agent_id]
+            )
             
             self.trainer.append(tr)
             self.buffer.append(bu)
-
+        
     def run(self):
         raise NotImplementedError
 
@@ -113,9 +128,11 @@ class Runner(object):
     def compute(self):
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
-            next_value = self.trainer[agent_id].policy.get_values(self.buffer[agent_id].share_obs[-1], 
-                                                                self.buffer[agent_id].rnn_states_critic[-1],
-                                                                self.buffer[agent_id].masks[-1])
+            next_value = self.trainer[agent_id].critic_policy.get_values(
+                self.buffer[agent_id].share_obs[-1], 
+                self.buffer[agent_id].rnn_states_critic[-1],
+                self.buffer[agent_id].masks[-1]
+            )
             next_value = _t2n(next_value)
             self.buffer[agent_id].compute_returns(next_value, self.trainer[agent_id].value_normalizer)
 
@@ -123,35 +140,15 @@ class Runner(object):
         train_infos = []
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_training()
-            train_info = self.trainer[agent_id].train(buffer = self.buffer[agent_id])
+            train_info = self.trainer[agent_id].train(
+                central_buffer = self.buffer,
+                agent_id = agent_id,
+                update_actor = True
+            )
             train_infos.append(train_info)
             self.buffer[agent_id].after_update()
         return train_infos
 
-    def obs_sharing(self, obs: List, warm_up = False) -> np.array:
-        if warm_up:
-            share_obs = np.array(obs).reshape(-1)
-            share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
-        else: 
-            share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs])
-        return share_obs_list
-    
-    def obs_isolated(self, obs: List, warm_up = False) -> np.array:
-        if warm_up:
-            isolated_obs_list = np.array(obs)
-        else:
-            isolated_obs_list = np.array(obs)
-        return isolated_obs_list
-    
-    def convert_each_rewards(self, rewards_batch):
-        converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
-        return converted_rewards
-
-    def convert_sum_rewards(self, rewards_batch):
-        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
-        return converted_rewards
-
-    
     def log_train(self, train_infos, eval_result):
 
         total_train_infos = {key: 0.0 for key in train_infos[0]}
@@ -168,3 +165,6 @@ class Runner(object):
 
         if self.use_wandb:
             wandb.log(total_train_infos)
+
+    def train_log(self):
+        return 

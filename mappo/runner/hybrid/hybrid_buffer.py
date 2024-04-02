@@ -185,8 +185,6 @@ class SeparatedReplayBuffer(object):
             available_actions_batch = []
             value_preds_batch = []
             return_batch = []
-            masks_batch = []
-            active_masks_batch = []
             old_action_log_probs_batch = []
             adv_targ = []
 

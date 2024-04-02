@@ -66,7 +66,8 @@ def get_config() -> argparse.ArgumentParser:
     param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
 
     # render setting 
-    param("--use_render", type=bool, default=False, help="Render the learning process")
+    param("--use_render", action = "store_true", default = False, help="Render the learning process")
+    param("--render_interval", type = int, default = 100, help = "Set eval rendering interval")
     param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
 
     # batch setting

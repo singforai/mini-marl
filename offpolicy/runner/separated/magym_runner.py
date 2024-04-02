@@ -77,8 +77,6 @@ class MAGYM_Runner(RecRunner):
 
             env_acts = np.argmax(acts_batchs, axis=1, keepdims= True)
 
-            print(env_acts, "===")
-
             # env step and store the relevant episode information
             if not np.all(dones):
                 next_obs, rewards, dones, infos = env.step(env_acts)

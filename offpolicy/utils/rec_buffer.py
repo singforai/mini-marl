@@ -299,7 +299,6 @@ class PrioritizedRecReplayBuffer(RecReplayBuffer):
         assert beta > 0
 
         batch_inds = self._sample_proportional(batch_size, p_id)
-        print(batch_inds)
         p_min = self._it_mins[p_id].min() / self._it_sums[p_id].sum()
         max_weight = (p_min * len(self)) ** (-beta)
         p_sample = self._it_sums[p_id][batch_inds] / self._it_sums[p_id].sum()

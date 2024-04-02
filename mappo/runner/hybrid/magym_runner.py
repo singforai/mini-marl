@@ -5,7 +5,7 @@ import numpy as np
 
 from tqdm import tqdm
 
-from runner.separated.base_runner import Runner
+from runner.hybrid.base_runner import Runner
 
 def _t2n(x):
     return x.detach().cpu().numpy()
@@ -46,7 +46,7 @@ class MAGYM_Runner(Runner):
                     rewards_batch.append(rewards)
                     dones_batch.append(dones)
                 
-                next_share_obs_batch = self.process_obs_type(obs=next_obs_batch)
+                next_share_obs_batch = self.process_obs_type(obs=next_obs_batch, num_agents = self.num_agents)
                 rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
                 
                 data = (
@@ -61,7 +61,6 @@ class MAGYM_Runner(Runner):
                     rnn_states_critic,
                 )  
                 self.insert(data)
-                
                 init_dones = dones_batch
 
             self.compute()
@@ -69,8 +68,7 @@ class MAGYM_Runner(Runner):
         
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
-                eval_result: float = self.eval()
-
+                eval_result: float = self.eval(episode = episode)
             self.log_train(train_infos = train_infos, eval_result = eval_result)
 
             for idx in range(self.sampling_batch_size):
@@ -84,7 +82,7 @@ class MAGYM_Runner(Runner):
         # reset env
         
         obs = self.train_env[0].reset()
-        share_obs = self.process_obs_type(obs=obs, warm_up = True)
+        share_obs = self.process_obs_type(obs=obs, num_agents = self.num_agents, warm_up = True)
         for agent_id in range(self.num_agents):
                 self.buffer[agent_id].obs[0] = obs[agent_id].copy()
                 self.buffer[agent_id].share_obs[0] = share_obs[agent_id].copy()
@@ -92,23 +90,18 @@ class MAGYM_Runner(Runner):
     @torch.no_grad()
     def collect(self, step):
 
-        action_values = []
-        actions = []
-        rnn_states = []
-        rnn_states_critic = []
-        action_log_probs = []
+        action_values,actions, rnn_states, rnn_states_critic, action_log_probs = [], [], [], [], []
 
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
 
-            action_value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(
+            action_value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].critic_policy.get_actions(
                 obs = self.buffer[agent_id].obs[step],
                 cent_obs = self.buffer[agent_id].share_obs[step],
                 rnn_states_actor = self.buffer[agent_id].rnn_states[step],
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
                 masks = self.buffer[agent_id].masks[step],
             )
-
             action_values.append(_t2n(action_value))
             action = _t2n(action)
 
@@ -194,7 +187,8 @@ class MAGYM_Runner(Runner):
             )
 
     @torch.no_grad()
-    def eval(self):
+    def eval(self, episode: int):
+        
         eval_obs = self.eval_env.reset()
         eval_batch = 1
         eval_rnn_states = np.zeros(
@@ -213,11 +207,15 @@ class MAGYM_Runner(Runner):
         eval_dones: list = [False for _ in range(self.num_agents)]
         eval_episode_rewards: float = 0.0
 
+        if self.use_render:
+            if episode % self.render_interval == 0:
+                self.eval_env.render()
+
         while not all(eval_dones):
             eval_agent_actions: list = []
             for agent_id in range(self.num_agents):
                 self.trainer[agent_id].prep_rollout()
-                eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
+                eval_action, eval_rnn_state = self.trainer[agent_id].critic_policy.act(
                     obs=torch.tensor([eval_obs[agent_id]]),
                     rnn_states_actor=eval_rnn_states[:, agent_id],
                     masks=eval_masks[:, agent_id],
@@ -232,5 +230,11 @@ class MAGYM_Runner(Runner):
             eval_episode_rewards += sum(eval_rewards)
             eval_obs = eval_next_obs
 
+            if self.use_render:
+                if episode % self.render_interval == 0:
+                    self.eval_env.render()
+                    time.sleep(self.sleep_second)
+        
         self.eval_env.reset()
+
         return eval_episode_rewards

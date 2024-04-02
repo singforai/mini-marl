@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import torch
+from typing import List
 
 def check(input):
     if type(input) == np.ndarray:
@@ -70,3 +71,27 @@ def tile_images(img_nhwc):
     img_HhWwc = img_HWhwc.transpose(0, 2, 1, 3, 4)
     img_Hh_Ww_c = img_HhWwc.reshape(H*h, W*w, c)
     return img_Hh_Ww_c
+
+
+def obs_sharing(obs: List, num_agents: int, warm_up = False) -> np.array:
+    if warm_up:
+        share_obs = np.array(obs).reshape(-1)
+        share_obs_list = np.array([share_obs for _ in range(num_agents)]) 
+    else: 
+        share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(num_agents)] for each_obs in obs])
+    return share_obs_list
+
+def obs_isolated(obs: List, num_agents: int, warm_up = False) -> np.array:
+    if warm_up:
+        isolated_obs_list = np.array(obs)
+    else:
+        isolated_obs_list = np.array(obs)
+    return isolated_obs_list
+
+def convert_each_rewards(rewards_batch):
+    converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
+    return converted_rewards
+
+def convert_sum_rewards(rewards_batch):
+    converted_rewards = [[[sum(rewards)] for _ in rewards] for rewards in rewards_batch]
+    return converted_rewards

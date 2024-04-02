@@ -97,6 +97,8 @@ class Runner(object):
             self.trainer.append(tr)
             self.buffer.append(bu)
 
+
+
     def run(self):
         raise NotImplementedError
 
