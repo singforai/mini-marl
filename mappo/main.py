@@ -18,7 +18,7 @@ def main(args):
             entity=args.entity_name,
             project=project_name,
             group = args.group_name,
-            name=f"{args.experiment_name}-{int(time.time())}",
+            name=f"{args.experiment_name}-{args.seed}",
             config=args,
             reinit=True,
         )
@@ -75,6 +75,7 @@ def main(args):
         from runner.separated.magym_runner import MAGYM_Runner as Runner
     elif args.policy_type == "hybrid":
         from runner.hybrid.magym_runner import MAGYM_Runner as Runner
+        args.use_centralized_V = False
     else:
         raise Exception("Check the hyperparameter: policy_type!")
 

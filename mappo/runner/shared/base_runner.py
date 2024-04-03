@@ -41,7 +41,6 @@ class Runner(object):
         self.use_wandb: bool = self.args.use_wandb
         self.use_render: bool = self.args.use_render
         self.use_common_reward: bool = self.args.use_common_reward
-        self.use_centralized_V: bool = self.args.use_centralized_V
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
 
         # parameters
@@ -65,20 +64,15 @@ class Runner(object):
 
         # share_observation
         self.observation_space = self.train_env[0].observation_space
-        if self.use_centralized_V:
-            self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
-            self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
-            self.share_observation_space = MultiAgentObservationSpace(
-                [
-                    spaces.Box(self._obs_low, self._obs_high)
-                    for _ in range(self.num_agents)
-                ]
-            )
-        else:
-            self.share_observation_space = self.observation_space
 
-        process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
-        self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
+        self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
+        self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
+        self.share_observation_space = MultiAgentObservationSpace(
+            [
+                spaces.Box(self._obs_low, self._obs_high)
+                for _ in range(self.num_agents)
+            ]
+        )
 
         process_reward: Dict[bool, object] = {True : self.convert_sum_rewards, False: self.convert_each_rewards}
         self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
@@ -94,7 +88,6 @@ class Runner(object):
 
         # algorithm
         self.trainer = TrainAlgo(args=self.args, policy=self.policy, device=self.device)
-
         # buffer
         self.buffer = SharedReplayBuffer(
             args=self.args,
@@ -155,13 +148,6 @@ class Runner(object):
         else: 
             share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs])
         return share_obs_list
-    
-    def obs_isolated(self, obs: List, warm_up = False) -> np.array:
-        if warm_up:
-            isolated_obs_list = np.array(obs)
-        else:
-            isolated_obs_list = np.array(obs)
-        return isolated_obs_list
     
     def convert_each_rewards(self, rewards_batch):
         converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]

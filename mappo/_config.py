@@ -59,7 +59,7 @@ def get_config() -> argparse.ArgumentParser:
     # env setting
     param("--max_episodes",
            type=int, 
-           default=100000, 
+           default=10000, 
            help="Number of episodes trained"
     )
     param("--max_step", type=int, default=100, help="Maximum support step per episode")

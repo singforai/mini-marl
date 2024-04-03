@@ -67,7 +67,7 @@ class Runner(object):
             )
         else:
             self.share_observation_space = self.observation_space
-        
+        print(self.share_observation_space)
         process_obs: Dict[bool, object] = {True : self.obs_sharing, False: self.obs_isolated}
         self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
 
@@ -163,10 +163,11 @@ class Runner(object):
             for key in train_infos[agent_i].keys():
                 total_train_infos[key] += train_infos[agent_i][key]
 
-        total_train_infos["ratio"] = total_train_infos["ratio"]/self.num_agents
-
+        total_train_infos["ratio"] /= self.num_agents
+        total_train_infos["value_loss"] /= self.num_agents
         total_train_infos["dist_entropy"] /= self.num_agents
         total_train_infos["actor_grad_norm"] /= self.num_agents
+        total_train_infos["critic_grad_norm"] /= self.num_agents
 
         if self.use_wandb:
             wandb.log(total_train_infos)

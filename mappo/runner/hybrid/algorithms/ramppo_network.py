@@ -42,7 +42,7 @@ class R_MAPPO:
 
         self.actor_policy = actor_policy
         self.critic_policy = critic_policy 
-
+        
         assert (
             self._use_popart and self._use_valuenorm
         ) == False, "self._use_popart and self._use_valuenorm can not be set True simultaneously"
@@ -219,19 +219,26 @@ class R_MAPPO:
         :return train_info: (dict) contains information regarding training update (e.g. loss, grad norms, etc).
         """
         buffer = central_buffer[agent_id]
-        central_advantage = []
-        for agent_buffer in central_buffer:
-            if self._use_popart or self._use_valuenorm:
+        # central_advantage = []
+        # for agent_buffer in central_buffer:
+        #     if self._use_popart or self._use_valuenorm:
 
-                advantages = agent_buffer.returns[:-1] - \
-                self.value_normalizer.denormalize(agent_buffer.value_preds[:-1] )
-                central_advantage.append(advantages)
-            else:
-                advantages = agent_buffer.returns[:-1] - agent_buffer.value_preds[:-1]
-                central_advantage.append(advantages)
-        sum_advantage = np.sum(central_advantage, axis=0) #/ len(central_advantage)
+        #         advantages = agent_buffer.returns[:-1] - \
+        #         self.value_normalizer.denormalize(agent_buffer.value_preds[:-1] )
+        #         central_advantage.append(advantages)
+        #     else:
+        #         advantages = agent_buffer.returns[:-1] - agent_buffer.value_preds[:-1]
+        #         central_advantage.append(advantages)
+        # sum_advantage = np.sum(central_advantage, axis=0) #/ len(central_advantage)
+        # advantages_copy = sum_advantage.copy()
+        if self._use_popart or self._use_valuenorm:
+            advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
+            buffer.value_preds[:-1]
+            )
+        else:
+            advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
 
-        advantages_copy = sum_advantage.copy()
+        advantages_copy = advantages.copy()
         advantages_copy[buffer.active_masks[:-1] == 0.0] = np.nan
         mean_advantages = np.nanmean(advantages_copy)
         std_advantages = np.nanstd(advantages_copy)

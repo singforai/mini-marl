@@ -58,21 +58,11 @@ class Runner(object):
         self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
         self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
 
-        process_obs: Dict[bool, object] = {True : self.use_same_obs, False: self.make_central_obs}
-        self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
-
         process_reward: Dict[bool, object] = {True : convert_sum_rewards, False: convert_each_rewards}
         self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
 
         self.observation_space = self.train_env[0].observation_space
         self.central_observation_space = spaces.Box(self._obs_low, self._obs_high)
-        if self.use_centralized_V:
-            self.observation_space = MultiAgentObservationSpace(
-                [
-                    spaces.Box(self._obs_low, self._obs_high)
-                    for _ in range(self.num_agents)
-                ]
-            )
 
         self.actor_policy: List[object] = []
         for agent_id in range(self.num_agents): 
@@ -123,10 +113,7 @@ class Runner(object):
     
     @torch.no_grad()
     def compute(self):
-        if self.use_centralized_V:
-            central_obs = self.buffer[0].obs
-        else:
-            central_obs = self.make_central_obs()
+        central_obs = self.make_central_obs()
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
             next_value = self.trainer[agent_id].critic_policy.get_values(
@@ -139,10 +126,7 @@ class Runner(object):
 
     def train(self):
         train_infos = []
-        if self.use_centralized_V:
-            central_obs = self.buffer[0].obs
-        else:
-            central_obs = self.make_central_obs()
+        central_obs = self.make_central_obs()
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_training()
             train_info = self.trainer[agent_id].train(
@@ -181,7 +165,3 @@ class Runner(object):
             central_obs.append(self.buffer[agent_id].obs)
         central_obs = np.concatenate(central_obs, axis = 2)
         return central_obs
-    
-    def use_same_obs(self):
-        critic_obs = self.buffer[0].obs
-        return critic_obs

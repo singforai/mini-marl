@@ -76,9 +76,8 @@ class MAGYM_Runner(Runner):
                 #     dones_batch.append(batch_result["dones"])
 
                 
-                next_share_obs_batch = self.process_obs_type(obs=next_obs_batch)
+                next_share_obs_batch = self.obs_sharing(obs=next_obs_batch)
                 rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
-
                 data = (
                     next_obs_batch,
                     next_share_obs_batch,
@@ -109,7 +108,7 @@ class MAGYM_Runner(Runner):
 
     def warmup(self):
         obs = self.train_env[0].reset()
-        share_obs = self.process_obs_type(obs=obs, warm_up = True)
+        share_obs = self.obs_sharing(obs=obs, warm_up = True)
         self.buffer.obs[0] = obs.copy()
         self.buffer.share_obs[0] = share_obs.copy()
 
