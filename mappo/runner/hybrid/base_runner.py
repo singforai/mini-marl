@@ -5,10 +5,10 @@ import numpy as np
 
 from gym import spaces
 from typing import Callable, Dict, List
-from runner.separated.separated_buffer import SeparatedReplayBuffer
+from runner.hybrid.hybrid_buffer import Hybrid_ReplayBuffer
 from utils.observation_space import MultiAgentObservationSpace
 
-from utils.util import obs_sharing, obs_isolated, convert_each_rewards, convert_sum_rewards
+from utils.util import  convert_each_rewards, convert_sum_rewards
 
 from runner.hybrid.algorithms.ramppo_network import R_MAPPO as TrainAlgo
 from runner.hybrid.algorithms.policy.rmappo_actor_policy import R_MAPPO_Actor_Policy as Actor_Policy
@@ -55,41 +55,38 @@ class Runner(object):
         # render time
         self.sleep_second: float = self.args.sleep_second
 
-        self.observation_space = self.train_env[0].observation_space
-        
-        if self.use_centralized_V:
-            self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
-            self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
-            self.share_observation_space = MultiAgentObservationSpace(
-                [
-                    spaces.Box(self._obs_low, self._obs_high)
-                    for _ in range(self.num_agents)
-                ]
-            )
-        else:
-            self.share_observation_space = self.observation_space
-        
-        process_obs: Dict[bool, object] = {True : obs_sharing, False: obs_isolated}
+        self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
+        self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
+
+        process_obs: Dict[bool, object] = {True : self.use_same_obs, False: self.make_central_obs}
         self.process_obs_type: Callable[[bool], object] = process_obs.get(self.use_centralized_V)
 
         process_reward: Dict[bool, object] = {True : convert_sum_rewards, False: convert_each_rewards}
         self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
 
+        self.observation_space = self.train_env[0].observation_space
+        self.central_observation_space = spaces.Box(self._obs_low, self._obs_high)
+        if self.use_centralized_V:
+            self.observation_space = MultiAgentObservationSpace(
+                [
+                    spaces.Box(self._obs_low, self._obs_high)
+                    for _ in range(self.num_agents)
+                ]
+            )
+
         self.actor_policy: List[object] = []
         for agent_id in range(self.num_agents): 
             actor_policy = Actor_Policy(
                 args = self.args,
-                obs_space = self.train_env[0].observation_space[agent_id],
+                obs_space = self.observation_space[agent_id],
                 act_space = self.train_env[0].action_space[agent_id],
                 device = self.device
             )
             self.actor_policy.append(actor_policy)
         self.critic_policy = Critic_Policy(
             args = self.args,
-            obs_space = self.train_env[0].observation_space[agent_id],
-            cent_obs_space = self.share_observation_space[agent_id],
-            act_space = self.train_env[0].action_space[agent_id],
-            device = self.device
+            cent_obs_space = self.central_observation_space,
+            device = self.device,
         )
 
         self.trainer: List[object] = []
@@ -102,11 +99,11 @@ class Runner(object):
                 device = self.device
             )
             
-            bu = SeparatedReplayBuffer(
-                self.args,
-                self.train_env[0].observation_space[agent_id],
-                self.share_observation_space[agent_id],
-                self.train_env[0].action_space[agent_id]
+            bu = Hybrid_ReplayBuffer(
+                args = self.args,
+                obs_space = self.observation_space[agent_id],
+                act_space = self.train_env[0].action_space[agent_id],
+                num_agents = self.num_agents
             )
             
             self.trainer.append(tr)
@@ -126,24 +123,35 @@ class Runner(object):
     
     @torch.no_grad()
     def compute(self):
+        if self.use_centralized_V:
+            central_obs = self.buffer[0].obs
+        else:
+            central_obs = self.make_central_obs()
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
             next_value = self.trainer[agent_id].critic_policy.get_values(
-                self.buffer[agent_id].share_obs[-1], 
-                self.buffer[agent_id].rnn_states_critic[-1],
-                self.buffer[agent_id].masks[-1]
+                cent_obs = central_obs[-1], 
+                rnn_states_critic = self.buffer[agent_id].rnn_states_critic[-1],
+                masks = self.buffer[agent_id].masks[-1]
             )
             next_value = _t2n(next_value)
             self.buffer[agent_id].compute_returns(next_value, self.trainer[agent_id].value_normalizer)
 
     def train(self):
         train_infos = []
+        if self.use_centralized_V:
+            central_obs = self.buffer[0].obs
+        else:
+            central_obs = self.make_central_obs()
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_training()
             train_info = self.trainer[agent_id].train(
                 central_buffer = self.buffer,
+                central_obs = central_obs,
+                actor_policy = self.actor_policy[agent_id],
                 agent_id = agent_id,
-                update_actor = True
+                update_actor = True,
+                
             )
             train_infos.append(train_info)
             self.buffer[agent_id].after_update()
@@ -166,5 +174,14 @@ class Runner(object):
         if self.use_wandb:
             wandb.log(total_train_infos)
 
-    def train_log(self):
-        return 
+    
+    def make_central_obs(self):
+        central_obs: List = []
+        for agent_id in range(self.num_agents):
+            central_obs.append(self.buffer[agent_id].obs)
+        central_obs = np.concatenate(central_obs, axis = 2)
+        return central_obs
+    
+    def use_same_obs(self):
+        critic_obs = self.buffer[0].obs
+        return critic_obs

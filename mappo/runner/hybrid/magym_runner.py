@@ -2,7 +2,7 @@ import time
 import torch
 
 import numpy as np
-
+from utils.util import obs_sharing
 from tqdm import tqdm
 
 from runner.hybrid.base_runner import Runner
@@ -42,16 +42,17 @@ class MAGYM_Runner(Runner):
                         rewards = [0.0 for _ in range(self.num_agents)]
                     else: 
                         next_obs, rewards, dones, _ = self.train_env[idx].step(batch_action)
+                        if self.use_centralized_V:
+                            next_obs = obs_sharing(obs=next_obs, num_agents = self.num_agents)
                     next_obs_batch.append(next_obs)
                     rewards_batch.append(rewards)
                     dones_batch.append(dones)
                 
-                next_share_obs_batch = self.process_obs_type(obs=next_obs_batch, num_agents = self.num_agents)
+                
                 rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
                 
                 data = (
                     np.array(next_obs_batch),
-                    next_share_obs_batch,
                     np.array(rewards_batch),
                     np.array([dones_batch]),
                     action_values,
@@ -80,27 +81,29 @@ class MAGYM_Runner(Runner):
 
     def warmup(self):
         # reset env
-        
         obs = self.train_env[0].reset()
-        share_obs = self.process_obs_type(obs=obs, num_agents = self.num_agents, warm_up = True)
+        if self.use_centralized_V:
+            obs = obs_sharing(obs=obs, num_agents = self.num_agents)
         for agent_id in range(self.num_agents):
                 self.buffer[agent_id].obs[0] = obs[agent_id].copy()
-                self.buffer[agent_id].share_obs[0] = share_obs[agent_id].copy()
         
     @torch.no_grad()
     def collect(self, step):
 
         action_values,actions, rnn_states, rnn_states_critic, action_log_probs = [], [], [], [], []
 
+        central_obs = self.process_obs_type()
+
         for agent_id in range(self.num_agents):
             self.trainer[agent_id].prep_rollout()
 
             action_value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].critic_policy.get_actions(
                 obs = self.buffer[agent_id].obs[step],
-                cent_obs = self.buffer[agent_id].share_obs[step],
+                cent_obs = central_obs[step],
                 rnn_states_actor = self.buffer[agent_id].rnn_states[step],
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
                 masks = self.buffer[agent_id].masks[step],
+                actor_policy = self.actor_policy[agent_id],
             )
             action_values.append(_t2n(action_value))
             action = _t2n(action)
@@ -127,7 +130,6 @@ class MAGYM_Runner(Runner):
     def insert(self, data):
         (
             next_obs_batch,
-            next_share_obs_batch,
             rewards_batch,
             dones_batch,
             action_values,
@@ -171,11 +173,9 @@ class MAGYM_Runner(Runner):
             (
                 (dones_batch == True).sum(), 1),
                 dtype=np.float32
-            )
-
+            )        
         for agent_id in range(self.num_agents):
             self.buffer[agent_id].insert(
-                next_share_obs_batch[: ,agent_id],
                 next_obs_batch[: ,agent_id],
                 rnn_states_actor[:, agent_id],
                 rnn_states_critic[:, agent_id],
@@ -190,6 +190,8 @@ class MAGYM_Runner(Runner):
     def eval(self, episode: int):
         
         eval_obs = self.eval_env.reset()
+        if self.use_centralized_V:
+            eval_obs = obs_sharing(obs=eval_obs, num_agents = self.num_agents)
         eval_batch = 1
         eval_rnn_states = np.zeros(
             (
@@ -215,18 +217,20 @@ class MAGYM_Runner(Runner):
             eval_agent_actions: list = []
             for agent_id in range(self.num_agents):
                 self.trainer[agent_id].prep_rollout()
-                eval_action, eval_rnn_state = self.trainer[agent_id].critic_policy.act(
-                    obs=torch.tensor([eval_obs[agent_id]]),
+                eval_action, eval_rnn_state = self.trainer[agent_id].actor_policy.act(
+                    obs=np.array([eval_obs[agent_id]]),
                     rnn_states_actor=eval_rnn_states[:, agent_id],
                     masks=eval_masks[:, agent_id],
                     deterministic=True,
                 )
+
                 eval_action = eval_action[0].detach().cpu().tolist()
                 eval_agent_actions.append(eval_action)
                 eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
 
             eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(np.array(eval_agent_actions))
-
+            if self.use_centralized_V:
+                eval_next_obs = obs_sharing(obs=eval_next_obs, num_agents = self.num_agents)
             eval_episode_rewards += sum(eval_rewards)
             eval_obs = eval_next_obs
 

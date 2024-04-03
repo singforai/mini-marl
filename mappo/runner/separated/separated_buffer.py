@@ -256,7 +256,6 @@ class SeparatedReplayBuffer(object):
 
         rand = torch.randperm(data_chunks).numpy()
         sampler = [rand[i*mini_batch_size:(i+1)*mini_batch_size] for i in range(num_mini_batch)]
-
         if len(self.share_obs.shape) > 3:
             share_obs = self.share_obs[:-1].transpose(1, 0, 2, 3, 4).reshape(-1, *self.share_obs.shape[2:])
             obs = self.obs[:-1].transpose(1, 0, 2, 3, 4).reshape(-1, *self.obs.shape[2:])

@@ -101,7 +101,7 @@ class R_MAPPO:
 
         return value_loss
 
-    def ppo_update(self, sample, update_actor=True):
+    def ppo_update(self, sample, actor_policy, update_actor=True):
         """
         Update actor and critic networks.
         :param sample: (Tuple) contains data batch with which to update networks.
@@ -115,8 +115,8 @@ class R_MAPPO:
         :return imp_weights: (torch.Tensor) importance sampling weights.
         """
         (
-            share_obs_batch,
             obs_batch,
+            cent_obs_batch,
             rnn_states_batch,
             rnn_states_critic_batch,
             actions_batch,
@@ -137,14 +137,15 @@ class R_MAPPO:
 
         # Reshape to do in a single forward pass for all steps
         values, action_log_probs, dist_entropy = self.critic_policy.evaluate_actions(
-            share_obs_batch,
-            obs_batch,
-            rnn_states_batch,
-            rnn_states_critic_batch,
-            actions_batch,
-            masks_batch,
-            available_actions_batch,
-            active_masks_batch,
+            actor_policy = actor_policy,
+            obs = obs_batch,
+            cent_obs = cent_obs_batch, 
+            rnn_states_actor = rnn_states_batch,
+            rnn_states_critic = rnn_states_critic_batch,
+            action = actions_batch,
+            masks = masks_batch,
+            available_actions = available_actions_batch,
+            active_masks = active_masks_batch,
         )
 
         # actor update
@@ -168,19 +169,19 @@ class R_MAPPO:
 
         policy_loss = policy_action_loss
 
-        self.critic_policy.actor_optimizer.zero_grad()
+        actor_policy.actor_optimizer.zero_grad()
 
         if update_actor:
             (policy_loss - dist_entropy * self.entropy_coef).backward()
 
         if self._use_max_grad_norm:
             actor_grad_norm = nn.utils.clip_grad_norm_(
-                self.critic_policy.actor.parameters(), self.max_grad_norm
+                actor_policy.actor.parameters(), self.max_grad_norm
             )
             
         else:
-            actor_grad_norm = get_gard_norm(self.critic_policy.actor.parameters())
-        self.critic_policy.actor_optimizer.step()
+            actor_grad_norm = get_gard_norm(actor_policy.actor.parameters())
+        actor_policy.actor_optimizer.step()
 
         # critic update
         value_loss = self.cal_value_loss(
@@ -209,7 +210,7 @@ class R_MAPPO:
             imp_weights,
         )
 
-    def train(self, central_buffer, agent_id, update_actor=True):
+    def train(self, central_buffer, central_obs, actor_policy, agent_id, update_actor=True):
         """
         Perform a training update using minibatch GD.
         :param buffer: (SharedReplayBuffer) buffer containing training data.
@@ -228,9 +229,9 @@ class R_MAPPO:
             else:
                 advantages = agent_buffer.returns[:-1] - agent_buffer.value_preds[:-1]
                 central_advantage.append(advantages)
-        average_advantage = np.sum(central_advantage, axis=0) / len(central_advantage)
+        sum_advantage = np.sum(central_advantage, axis=0) #/ len(central_advantage)
 
-        advantages_copy = average_advantage.copy()
+        advantages_copy = sum_advantage.copy()
         advantages_copy[buffer.active_masks[:-1] == 0.0] = np.nan
         mean_advantages = np.nanmean(advantages_copy)
         std_advantages = np.nanstd(advantages_copy)
@@ -251,18 +252,23 @@ class R_MAPPO:
             if self._use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(
                     advantages = advantages, 
+                    cent_obs = central_obs,
                     num_mini_batch = self.training_batch_size, 
-                    data_chunk_length = self.data_chunk_length
+                    data_chunk_length = self.data_chunk_length,
+                    
                 )
             elif self._use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(
                     advantages = advantages, 
-                    num_mini_batch = self.training_batch_size
+                    cent_obs = central_obs,
+                    num_mini_batch = self.training_batch_size,
+                    
                 )
             else:
                 data_generator = buffer.feed_forward_generator(
                     advantages = advantages, 
-                    num_mini_batch = self.training_batch_size
+                    cent_obs = central_obs,
+                    num_mini_batch = self.training_batch_size,
                 )
 
             for sample in data_generator:
@@ -274,7 +280,7 @@ class R_MAPPO:
                     dist_entropy,
                     actor_grad_norm,
                     imp_weights,
-                ) = self.ppo_update(sample = sample, update_actor = update_actor)
+                ) = self.ppo_update(sample = sample, actor_policy = actor_policy, update_actor = update_actor)
                 
                 train_info["value_loss"] += value_loss.item()
                 train_info["policy_loss"] += policy_loss.item()

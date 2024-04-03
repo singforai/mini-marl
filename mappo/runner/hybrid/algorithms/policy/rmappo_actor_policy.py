@@ -35,3 +35,18 @@ class R_MAPPO_Actor_Policy:
             eps=self.opti_eps,
             weight_decay=self.weight_decay,
         )
+
+    def act(self, obs, rnn_states_actor, masks, available_actions=None, deterministic=False):
+        """
+        Compute actions using the given inputs.
+        :param obs (np.ndarray): local agent inputs to the actor.
+        :param rnn_states_actor: (np.ndarray) if actor is RNN, RNN states for actor.
+        :param masks: (np.ndarray) denotes points at which RNN states should be reset.
+        :param available_actions: (np.ndarray) denotes which actions are available to agent
+                                  (if None, all actions available)
+        :param deterministic: (bool) whether the action should be mode of distribution or should be sampled.
+        """
+        actions, _, rnn_states_actor = self.actor(
+            obs, rnn_states_actor, masks, available_actions, deterministic
+        )
+        return actions, rnn_states_actor

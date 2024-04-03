@@ -17,14 +17,21 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
 
-    def __init__(self, args, obs_space, cent_obs_space, act_space, device):
-        super().__init__(args, obs_space, act_space, device)
+    def __init__(self, args, cent_obs_space, device):
+        #super().__init__(args, obs_space, act_space, device)
 
         # optimizer hyperparameters
         self.critic_lr: float = args.critic_lr
-        self.share_obs_space = cent_obs_space
+        self.opti_eps: float = args.opti_eps
+        self.weight_decay: float = args.weight_decay
+        
+        self.cent_obs_space = cent_obs_space
 
-        self.critic = R_Critic(args, self.share_obs_space, self.device)
+        self.critic = R_Critic(
+            args = args, 
+            cent_obs_space = self.cent_obs_space, 
+            device = device
+        )
 
         self.critic_optimizer = torch.optim.Adam(
             self.critic.parameters(),
@@ -49,6 +56,7 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
         rnn_states_actor,
         rnn_states_critic,
         masks,
+        actor_policy,
         available_actions=None,
         deterministic=False,
     ):
@@ -70,7 +78,7 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
         :return rnn_states_critic: (torch.Tensor) updated critic network RNN states.
         """
 
-        actions, action_log_probs, rnn_states_actor = self.actor(
+        actions, action_log_probs, rnn_states_actor = actor_policy.actor(
             obs, rnn_states_actor, masks, available_actions=None, deterministic=False
         )
 
@@ -91,8 +99,9 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
 
     def evaluate_actions(
         self,
-        cent_obs,
+        actor_policy,
         obs,
+        cent_obs,
         rnn_states_actor,
         rnn_states_critic,
         action,
@@ -116,26 +125,11 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
         :return action_log_probs: (torch.Tensor) log probabilities of the input actions.
         :return dist_entropy: (torch.Tensor) action distribution entropy for the given inputs.
         """
-        action_log_probs, dist_entropy = self.actor.evaluate_actions(
+        action_log_probs, dist_entropy = actor_policy.actor.evaluate_actions(
             obs, rnn_states_actor, action, masks, available_actions, active_masks
         )
 
         values, _ = self.critic(cent_obs, rnn_states_critic, masks)
         return values, action_log_probs, dist_entropy
 
-    def act(
-        self, obs, rnn_states_actor, masks, available_actions=None, deterministic=False
-    ):
-        """
-        Compute actions using the given inputs.
-        :param obs (np.ndarray): local agent inputs to the actor.
-        :param rnn_states_actor: (np.ndarray) if actor is RNN, RNN states for actor.
-        :param masks: (np.ndarray) denotes points at which RNN states should be reset.
-        :param available_actions: (np.ndarray) denotes which actions are available to agent
-                                  (if None, all actions available)
-        :param deterministic: (bool) whether the action should be mode of distribution or should be sampled.
-        """
-        actions, _, rnn_states_actor = self.actor(
-            obs, rnn_states_actor, masks, available_actions, deterministic
-        )
-        return actions, rnn_states_actor
+
