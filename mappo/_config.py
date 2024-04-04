@@ -269,7 +269,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_policy_active_masks",
         action="store_false",
-        default=True,
+        default=False,
         help="by default True, whether to mask useless data in policy loss.",
     )
     param(

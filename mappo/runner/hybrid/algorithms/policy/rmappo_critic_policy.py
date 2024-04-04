@@ -6,7 +6,7 @@ from algorithms.r_actor_critic import R_Critic
 
 from runner.hybrid.algorithms.policy.rmappo_actor_policy import R_MAPPO_Actor_Policy as Actor_Policy
 
-class R_MAPPO_Critic_Policy(Actor_Policy):
+class R_MAPPO_Critic_Policy():
     """
     MAPPO Policy  class. Wraps actor and critic networks to compute actions and value function predictions.
 
@@ -56,7 +56,7 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
         rnn_states_actor,
         rnn_states_critic,
         masks,
-        actor_policy,
+        actor,
         available_actions=None,
         deterministic=False,
     ):
@@ -78,7 +78,7 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
         :return rnn_states_critic: (torch.Tensor) updated critic network RNN states.
         """
 
-        actions, action_log_probs, rnn_states_actor = actor_policy.actor(
+        actions, action_log_probs, rnn_states_actor = actor(
             obs, rnn_states_actor, masks, available_actions=None, deterministic=False
         )
 
@@ -99,7 +99,7 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
 
     def evaluate_actions(
         self,
-        actor_policy,
+        actor,
         obs,
         cent_obs,
         rnn_states_actor,
@@ -125,7 +125,7 @@ class R_MAPPO_Critic_Policy(Actor_Policy):
         :return action_log_probs: (torch.Tensor) log probabilities of the input actions.
         :return dist_entropy: (torch.Tensor) action distribution entropy for the given inputs.
         """
-        action_log_probs, dist_entropy = actor_policy.actor.evaluate_actions(
+        action_log_probs, dist_entropy = actor.evaluate_actions(
             obs, rnn_states_actor, action, masks, available_actions, active_masks
         )
 

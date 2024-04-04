@@ -7,6 +7,41 @@ from utils.valuenorm import ValueNorm
 from utils.util import check
 
 
+
+class Samples:
+    obs_batches = []
+    cent_obs_batches = []
+    rnn_states_actor_batches= []
+    rnn_states_critic_batches = []
+    actions_batches = []
+    value_preds_batches = []
+    return_batches = []
+    masks_batches = []
+    active_masks_batches = []
+    old_action_log_probs_batches = []
+    adv_targs = []
+    available_actions_batches = []
+
+    def __init__(self) -> None:
+        self.params = [
+            self.obs_batches,
+            self.cent_obs_batches,
+            self.rnn_states_actor_batches,
+            self.rnn_states_critic_batches,
+            self.actions_batches,
+            self.value_preds_batches,
+            self.return_batches,
+            self.masks_batches,
+            self.active_masks_batches,
+            self.old_action_log_probs_batches,
+            self.adv_targs,
+            self.available_actions_batches,
+        ]
+    def sampling(self, sample):
+        for x, y in zip(self.params, sample):
+            x.append(y)
+
+
 class R_MAPPO:
     """
     Trainer class for MAPPO to update policies.
@@ -15,7 +50,7 @@ class R_MAPPO:
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
 
-    def __init__(self, args, actor_policy, critic_policy, device):
+    def __init__(self, args, actor_policy, critic_policy, num_agents, device):
 
         self._use_popart: bool = args.use_popart
         self._use_valuenorm: bool = args.use_valuenorm
@@ -27,9 +62,10 @@ class R_MAPPO:
         self._use_naive_recurrent: bool = args.use_naive_recurrent_policy
         self._use_policy_active_masks: bool = args.use_policy_active_masks
 
+        self.num_agents: int = num_agents
         self.ppo_epoch: int = args.ppo_epoch
-        self.training_batch_size: int = args.training_batch_size
         self.data_chunk_length: int = args.data_chunk_length
+        self.training_batch_size: int = args.training_batch_size
 
         self.clip_param: float = args.clip_param
         self.huber_delta: float = args.huber_delta
@@ -101,7 +137,7 @@ class R_MAPPO:
 
         return value_loss
 
-    def ppo_update(self, sample, actor_policy, update_actor=True):
+    def ppo_update(self, data_generator_batch, actor_policy, update_actor=True):
         """
         Update actor and critic networks.
         :param sample: (Tuple) contains data batch with which to update networks.
@@ -114,92 +150,113 @@ class R_MAPPO:
         :return actor_grad_norm: (torch.Tensor) gradient norm from actor update.
         :return imp_weights: (torch.Tensor) importance sampling weights.
         """
-        (
-            obs_batch,
-            cent_obs_batch,
-            rnn_states_batch,
-            rnn_states_critic_batch,
-            actions_batch,
-            value_preds_batch,
-            return_batch,
-            masks_batch,
-            active_masks_batch,
-            old_action_log_probs_batch,
-            adv_targ,
-            available_actions_batch,
-        ) = sample
-
-        old_action_log_probs_batch = check(old_action_log_probs_batch).to(**self.tpdv)
-        adv_targ = check(adv_targ).to(**self.tpdv)
-        value_preds_batch = check(value_preds_batch).to(**self.tpdv)
-        return_batch = check(return_batch).to(**self.tpdv)
-        active_masks_batch = check(active_masks_batch).to(**self.tpdv)
-
-        # Reshape to do in a single forward pass for all steps
-        values, action_log_probs, dist_entropy = self.critic_policy.evaluate_actions(
-            actor_policy = actor_policy,
-            obs = obs_batch,
-            cent_obs = cent_obs_batch, 
-            rnn_states_actor = rnn_states_batch,
-            rnn_states_critic = rnn_states_critic_batch,
-            action = actions_batch,
-            masks = masks_batch,
-            available_actions = available_actions_batch,
-            active_masks = active_masks_batch,
-        )
-
-        # actor update
-        imp_weights = torch.exp(action_log_probs - old_action_log_probs_batch)
-
-        surr1 = imp_weights * adv_targ
-        surr2 = (
-            torch.clamp(imp_weights, 1.0 - self.clip_param, 1.0 + self.clip_param)
-            * adv_targ
-        )
-
-        if self._use_policy_active_masks:
-            policy_action_loss = (
-                -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True)
-                * active_masks_batch
-            ).sum() / active_masks_batch.sum()
-        else:
-            policy_action_loss = -torch.sum(
-                torch.min(surr1, surr2), dim=-1, keepdim=True
-            ).mean()
-
-        policy_loss = policy_action_loss
-
         actor_policy.actor_optimizer.zero_grad()
+        data = Samples()
+
+        for sample in data_generator_batch:
+            sample = list(sample)
+
+            data.sampling(sample)
+            
+            data.old_action_log_probs_batches[-1] = check(data.old_action_log_probs_batches[-1]).to(**self.tpdv)
+            data.adv_targs[-1] = check(data.adv_targs[-1]).to(**self.tpdv)
+            data.value_preds_batches[-1] = check(data.value_preds_batches[-1]).to(**self.tpdv)
+            data.return_batches[-1] = check(data.return_batches[-1]).to(**self.tpdv)
+            data.active_masks_batches[-1] = check(data.active_masks_batches[-1]).to(**self.tpdv)
+        
+        agents_values = []
+        agents_action_log_probs = []
+        agents_dist_entropy = []
+        agents_imp_weights = []
+
+        for agent_id in range(self.num_agents):
+        
+            values, action_log_probs, dist_entropy = self.critic_policy.evaluate_actions(
+                actor = actor_policy.actor[agent_id],
+                obs = data.obs_batches[agent_id],
+                cent_obs = data.cent_obs_batches[agent_id], 
+                rnn_states_actor = data.rnn_states_actor_batches[agent_id],
+                rnn_states_critic = data.rnn_states_critic_batches[agent_id],
+                action = data.actions_batches[agent_id],
+                masks = data.masks_batches[agent_id],
+                available_actions = data.available_actions_batches[agent_id],
+                active_masks = data.active_masks_batches[agent_id],
+            )
+            imp_weights = torch.exp(action_log_probs - data.old_action_log_probs_batches[agent_id])
+
+            agents_values.append(values)
+            agents_action_log_probs.append(agents_action_log_probs)
+            agents_dist_entropy.append(dist_entropy)
+            agents_imp_weights.append(imp_weights)
+        
+        total_adv_targs= torch.stack(data.adv_targs).sum(dim = 0)
+        total_imp_weights = torch.stack(agents_imp_weights).mean(dim = 0) # 두 agent의 imp의 평균
+        #total_imp_weights = torch.prod(torch.stack(agents_imp_weights), dim=0) 두 agent의 imp의 곱
+        total_dist_entropy = torch.stack(agents_dist_entropy).mean(dim = 0)
+        
+
+        surr1 = total_imp_weights * total_adv_targs
+        surr2 = (
+            torch.clamp(total_imp_weights, 1.0 - self.clip_param, 1.0 + self.clip_param) * total_adv_targs
+        )
+
+        j_clip: float = 0.0
+        for agent_id in range(self.num_agents):
+            if self._use_policy_active_masks:
+                policy_action_loss = (
+                    (-torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True) \
+                    * data.active_masks_batches[agent_id]
+                    ).sum()
+                ) / data.active_masks_batches[agent_id].sum()
+
+                j_clip = j_clip + policy_action_loss
+            else:
+                policy_action_loss = -torch.sum(
+                    torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
+                j_clip = j_clip + policy_action_loss
+        j_clip  = j_clip / self.num_agents
+
+        policy_loss = j_clip
+
+        
 
         if update_actor:
-            (policy_loss - dist_entropy * self.entropy_coef).backward()
+            (policy_loss - total_dist_entropy * self.entropy_coef).backward()
 
         if self._use_max_grad_norm:
             actor_grad_norm = nn.utils.clip_grad_norm_(
-                actor_policy.actor.parameters(), self.max_grad_norm
+                actor_policy.actor.parameters(), 
+                self.max_grad_norm
             )
             
         else:
             actor_grad_norm = get_gard_norm(actor_policy.actor.parameters())
+        
         actor_policy.actor_optimizer.step()
+        actor_policy.actor_optimizer.zero_grad()
 
         # critic update
-        value_loss = self.cal_value_loss(
-            values, value_preds_batch, return_batch, active_masks_batch
-        )
+        for agent_id in range(self.num_agents):
+            with torch.autograd.detect_anomaly(True):
+                self.critic_policy.critic_optimizer.zero_grad()
+                value_loss = self.cal_value_loss(
+                    values = agents_values[agent_id],
+                    value_preds_batch = data.value_preds_batches[agent_id], 
+                    return_batch = data.return_batches[agent_id], 
+                    active_masks_batch = data.active_masks_batches[agent_id]
+                )
+                (value_loss * self.value_loss_coef).backward()
 
-        self.critic_policy.critic_optimizer.zero_grad()
+                if self._use_max_grad_norm:
+                    critic_grad_norm = nn.utils.clip_grad_norm_(
+                        self.critic_policy.critic.parameters(), 
+                        self.max_grad_norm
+                    )
+                else:
+                    critic_grad_norm = get_gard_norm(self.critic_policy.critic.parameters())
 
-        (value_loss * self.value_loss_coef).backward()
-
-        if self._use_max_grad_norm:
-            critic_grad_norm = nn.utils.clip_grad_norm_(
-                self.critic_policy.critic.parameters(), self.max_grad_norm
-            )
-        else:
-            critic_grad_norm = get_gard_norm(self.critic_policy.critic.parameters())
-
-        self.critic_policy.critic_optimizer.step()
+                self.critic_policy.critic_optimizer.step()
+                
 
         return (
             value_loss,
@@ -210,7 +267,7 @@ class R_MAPPO:
             imp_weights,
         )
 
-    def train(self, central_buffer, central_obs, actor_policy, agent_id, update_actor=True):
+    def train(self, central_buffer, central_obs, actor_policy, update_actor=True):
         """
         Perform a training update using minibatch GD.
         :param buffer: (SharedReplayBuffer) buffer containing training data.
@@ -218,33 +275,23 @@ class R_MAPPO:
 
         :return train_info: (dict) contains information regarding training update (e.g. loss, grad norms, etc).
         """
-        buffer = central_buffer[agent_id]
-        # central_advantage = []
-        # for agent_buffer in central_buffer:
-        #     if self._use_popart or self._use_valuenorm:
+        agents_advantage = [] #(2, 100, 1, 1)
+        for buffer in central_buffer:
+            if self._use_popart or self._use_valuenorm:
+                advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
+                buffer.value_preds[:-1]
+                )
+            else:
+                advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
 
-        #         advantages = agent_buffer.returns[:-1] - \
-        #         self.value_normalizer.denormalize(agent_buffer.value_preds[:-1] )
-        #         central_advantage.append(advantages)
-        #     else:
-        #         advantages = agent_buffer.returns[:-1] - agent_buffer.value_preds[:-1]
-        #         central_advantage.append(advantages)
-        # sum_advantage = np.sum(central_advantage, axis=0) #/ len(central_advantage)
-        # advantages_copy = sum_advantage.copy()
-        if self._use_popart or self._use_valuenorm:
-            advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(
-            buffer.value_preds[:-1]
-            )
-        else:
-            advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
-
-        advantages_copy = advantages.copy()
-        advantages_copy[buffer.active_masks[:-1] == 0.0] = np.nan
-        mean_advantages = np.nanmean(advantages_copy)
-        std_advantages = np.nanstd(advantages_copy)
-        # mean_advantages =  np.mean(advantages_copy)
-        # std_advantages = np.mean(advantages_copy)
-        advantages = (advantages - mean_advantages) / (std_advantages + 1e-5)
+            advantages_copy = advantages.copy()
+            advantages_copy[buffer.active_masks[:-1] == 0.0] = np.nan
+            mean_advantages = np.nanmean(advantages_copy)
+            std_advantages = np.nanstd(advantages_copy)
+            # mean_advantages =  np.mean(advantages_copy)
+            # std_advantages = np.mean(advantages_copy)
+            advantages = (advantages - mean_advantages) / (std_advantages + 1e-5)
+            agents_advantage.append(advantages)
 
         train_info = {}
 
@@ -256,30 +303,32 @@ class R_MAPPO:
         train_info["ratio"] = 0
 
         for _ in range(self.ppo_epoch):
-            if self._use_recurrent_policy:
-                data_generator = buffer.recurrent_generator(
-                    advantages = advantages, 
-                    cent_obs = central_obs,
-                    num_mini_batch = self.training_batch_size, 
-                    data_chunk_length = self.data_chunk_length,
-                    
-                )
-            elif self._use_naive_recurrent:
-                data_generator = buffer.naive_recurrent_generator(
-                    advantages = advantages, 
-                    cent_obs = central_obs,
-                    num_mini_batch = self.training_batch_size,
-                    
-                )
-            else:
-                data_generator = buffer.feed_forward_generator(
-                    advantages = advantages, 
-                    cent_obs = central_obs,
-                    num_mini_batch = self.training_batch_size,
-                )
+            data_generators = [] # [agent1: data_generator, agent2: data_generator]
+            for advantages in agents_advantage:
+                if self._use_recurrent_policy:
+                    data_generator = buffer.recurrent_generator(
+                        advantages = advantages, 
+                        cent_obs = central_obs,
+                        num_mini_batch = self.training_batch_size, 
+                        data_chunk_length = self.data_chunk_length,
+                        
+                    )
+                elif self._use_naive_recurrent:
+                    data_generator = buffer.naive_recurrent_generator(
+                        advantages = advantages, 
+                        cent_obs = central_obs,
+                        num_mini_batch = self.training_batch_size,
+                        
+                    )
+                else:
+                    data_generator = buffer.feed_forward_generator(
+                        advantages = advantages, 
+                        cent_obs = central_obs,
+                        num_mini_batch = self.training_batch_size,
+                    )
+                data_generators.append(data_generator)
 
-            for sample in data_generator:
-
+            for data_generator_batch in zip(*data_generators):
                 (
                     value_loss,
                     critic_grad_norm,
@@ -287,7 +336,7 @@ class R_MAPPO:
                     dist_entropy,
                     actor_grad_norm,
                     imp_weights,
-                ) = self.ppo_update(sample = sample, actor_policy = actor_policy, update_actor = update_actor)
+                ) = self.ppo_update(data_generator_batch = data_generator_batch, actor_policy = actor_policy, update_actor = update_actor)
                 
                 train_info["value_loss"] += value_loss.item()
                 train_info["policy_loss"] += policy_loss.item()

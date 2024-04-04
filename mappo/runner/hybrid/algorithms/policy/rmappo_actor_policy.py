@@ -1,10 +1,11 @@
 import  gym
 import torch
 import numpy as np
+import torch.nn as nn
 from utils.util import update_linear_schedule
 from algorithms.r_actor_critic import R_Actor
 
-class R_MAPPO_Actor_Policy:
+class R_MAPPO_Actor_Policy(nn.Module):
     """
     MAPPO Policy  class. Wraps actor and critic networks to compute actions and value function predictions.
 
@@ -15,26 +16,35 @@ class R_MAPPO_Actor_Policy:
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
 
-    def __init__(self, args, obs_space, act_space, device):
-
+    def __init__(self, args, obs_space, act_space, num_agents, device):
+        super().__init__()
         self.device: torch.device = device
-
-        # optimizer hyperparameters
-        self.actor_lr: float = args.actor_lr
-        self.opti_eps: float = args.opti_eps
-        self.weight_decay: float = args.weight_decay
 
         self.obs_space = obs_space
         self.act_space = act_space
+        self.opti_eps: float = args.opti_eps
+        self.actor_lr: float = args.actor_lr
+        self.weight_decay: float = args.weight_decay
 
-        self.actor = R_Actor(args, self.obs_space, self.act_space, self.device)
+        self.actor = nn.ModuleList()
+
+        for agent_id in range(num_agents):
+            self.actor.append(
+                R_Actor(
+                    args = args, 
+                    obs_space = self.obs_space[agent_id], 
+                    action_space = self.act_space[agent_id], 
+                    device = self.device
+                )
+            )
 
         self.actor_optimizer = torch.optim.Adam(
-            self.actor.parameters(),
+            params=self.actor.parameters(), 
             lr=self.actor_lr,
             eps=self.opti_eps,
             weight_decay=self.weight_decay,
         )
+
 
     def act(self, obs, rnn_states_actor, masks, available_actions=None, deterministic=False):
         """

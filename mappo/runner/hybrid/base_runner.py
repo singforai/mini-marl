@@ -1,13 +1,13 @@
 import wandb
 import torch
 
+import torch.nn as nn
+
 import numpy as np
 
 from gym import spaces
 from typing import Callable, Dict, List
 from runner.hybrid.hybrid_buffer import Hybrid_ReplayBuffer
-from utils.observation_space import MultiAgentObservationSpace
-
 from utils.util import  convert_each_rewards, convert_sum_rewards
 
 from runner.hybrid.algorithms.ramppo_network import R_MAPPO as TrainAlgo
@@ -52,8 +52,8 @@ class Runner(object):
         self.eval_interval: int = self.args.eval_interval
         self.render_interval: int = self.args.render_interval
 
-        # render time
         self.sleep_second: float = self.args.sleep_second
+        
 
         self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
         self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
@@ -64,40 +64,37 @@ class Runner(object):
         self.observation_space = self.train_env[0].observation_space
         self.central_observation_space = spaces.Box(self._obs_low, self._obs_high)
 
-        self.actor_policy: List[object] = []
-        for agent_id in range(self.num_agents): 
-            actor_policy = Actor_Policy(
-                args = self.args,
-                obs_space = self.observation_space[agent_id],
-                act_space = self.train_env[0].action_space[agent_id],
-                device = self.device
-            )
-            self.actor_policy.append(actor_policy)
+        self.actor_policy = Actor_Policy(
+            args=self.args, 
+            obs_space=self.observation_space, 
+            act_space=self.train_env[0].action_space, 
+            num_agents = self.num_agents,
+            device=self.device
+        )
+        
         self.critic_policy = Critic_Policy(
-            args = self.args,
-            cent_obs_space = self.central_observation_space,
-            device = self.device,
+            args=self.args,
+            cent_obs_space=self.central_observation_space,
+            device=self.device,
         )
 
-        self.trainer: List[object] = []
+        self.trainer = TrainAlgo(
+            args = self.args, 
+            actor_policy = self.actor_policy,
+            critic_policy = self.critic_policy, 
+            num_agents = self.num_agents,
+            device = self.device
+        )
+
         self.buffer: List[object] = []
         for agent_id in range(self.num_agents): 
-            tr = TrainAlgo(
-                args = self.args, 
-                actor_policy = self.actor_policy[agent_id],
-                critic_policy = self.critic_policy, 
-                device = self.device
-            )
-            
-            bu = Hybrid_ReplayBuffer(
+            agent_buffer = Hybrid_ReplayBuffer(
                 args = self.args,
                 obs_space = self.observation_space[agent_id],
                 act_space = self.train_env[0].action_space[agent_id],
                 num_agents = self.num_agents
             )
-            
-            self.trainer.append(tr)
-            self.buffer.append(bu)
+            self.buffer.append(agent_buffer)
         
     def run(self):
         raise NotImplementedError
@@ -114,30 +111,28 @@ class Runner(object):
     @torch.no_grad()
     def compute(self):
         central_obs = self.make_central_obs()
+        self.trainer.prep_rollout()
         for agent_id in range(self.num_agents):
-            self.trainer[agent_id].prep_rollout()
-            next_value = self.trainer[agent_id].critic_policy.get_values(
+            next_value = self.trainer.critic_policy.get_values(
                 cent_obs = central_obs[-1], 
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[-1],
                 masks = self.buffer[agent_id].masks[-1]
             )
             next_value = _t2n(next_value)
-            self.buffer[agent_id].compute_returns(next_value, self.trainer[agent_id].value_normalizer)
+            self.buffer[agent_id].compute_returns(next_value, self.trainer.value_normalizer)
 
     def train(self):
         train_infos = []
         central_obs = self.make_central_obs()
+        self.trainer.prep_training()
+        train_info = self.trainer.train(
+            central_buffer = self.buffer,
+            central_obs = central_obs,
+            actor_policy = self.actor_policy,
+            update_actor = True,
+        )
+        train_infos.append(train_info)
         for agent_id in range(self.num_agents):
-            self.trainer[agent_id].prep_training()
-            train_info = self.trainer[agent_id].train(
-                central_buffer = self.buffer,
-                central_obs = central_obs,
-                actor_policy = self.actor_policy[agent_id],
-                agent_id = agent_id,
-                update_actor = True,
-                
-            )
-            train_infos.append(train_info)
             self.buffer[agent_id].after_update()
         return train_infos
 

@@ -67,7 +67,7 @@ class MAGYM_Runner(Runner):
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
                 eval_result: float = self.eval(episode = episode)
-            self.log_train(train_infos = train_infos, eval_result = eval_result)
+            #self.log_train(train_infos = train_infos, eval_result = eval_result)
 
             for idx in range(self.sampling_batch_size):
                 self.train_env[idx].reset()
@@ -86,19 +86,17 @@ class MAGYM_Runner(Runner):
     def collect(self, step):
 
         action_values,actions, rnn_states_actor, rnn_states_critic, action_log_probs = [], [], [], [], []
-
         central_obs = self.make_central_obs()
-
+        self.trainer.prep_rollout()
+        
         for agent_id in range(self.num_agents):
-            self.trainer[agent_id].prep_rollout()
-
-            action_value, action, action_log_prob, rnn_state_actor, rnn_state_critic = self.trainer[agent_id].critic_policy.get_actions(
+            action_value, action, action_log_prob, rnn_state_actor, rnn_state_critic = self.trainer.critic_policy.get_actions(
                 obs = self.buffer[agent_id].obs[step],
                 cent_obs = central_obs[step],
                 rnn_states_actor = self.buffer[agent_id].rnn_states_actor[step],
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
                 masks = self.buffer[agent_id].masks[step],
-                actor_policy = self.actor_policy[agent_id],
+                actor = self.actor_policy.actor[agent_id],
             )
             
             action_values.append(_t2n(action_value))

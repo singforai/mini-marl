@@ -228,20 +228,18 @@ class Hybrid_ReplayBuffer(object):
             yield obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, adv_targ, available_actions_batch
 
     def recurrent_generator(self, advantages, cent_obs, num_mini_batch, data_chunk_length):
-        episode_length, n_rollout_threads = self.rewards.shape[0:2]
-        batch_size = n_rollout_threads * episode_length
-        data_chunks = batch_size // data_chunk_length  # [C=r*T/L]
-        mini_batch_size = data_chunks // num_mini_batch
+        episode_length, n_rollout_threads = self.rewards.shape[0:2] # 100 / 1
+        batch_size = n_rollout_threads * episode_length # 100
+        data_chunks = batch_size // data_chunk_length  # 20
+        mini_batch_size = data_chunks // num_mini_batch # 20
 
         assert episode_length * n_rollout_threads >= data_chunk_length, (
             "PPO requires the number of processes ({}) * episode length ({}) "
             "to be greater than or equal to the number of "
             "data chunk length ({}).".format(n_rollout_threads, episode_length, data_chunk_length))
         assert data_chunks >= 2, ("need larger batch size")
-
         rand = torch.randperm(data_chunks).numpy()
         sampler = [rand[i*mini_batch_size:(i+1)*mini_batch_size] for i in range(num_mini_batch)]
-
         if len(self.obs.shape) > 3:
             obs = self.obs[:-1].transpose(1, 0, 2, 3, 4).reshape(-1, *self.obs.shape[2:])
             cent_obs = cent_obs.shape[:-1].transpose(1, 0, 2, 3, 4).reshape(-1, *cent_obs.shape[2:])
@@ -313,7 +311,7 @@ class Hybrid_ReplayBuffer(object):
             adv_targ = np.stack(adv_targ)
 
             # States is just a (N, -1) from_numpy
-            rnn_states_batch = np.stack(rnn_states_batch).reshape(N, *self.rnn_states_actor.shape[2:])
+            rnn_states_actor_batch = np.stack(rnn_states_batch).reshape(N, *self.rnn_states_actor.shape[2:])
             rnn_states_critic_batch = np.stack(rnn_states_critic_batch).reshape(N, *self.rnn_states_critic.shape[2:])
 
             # Flatten the (L, N, ...) from_numpys to (L * N, ...)
@@ -330,4 +328,5 @@ class Hybrid_ReplayBuffer(object):
             active_masks_batch = _flatten(L, N, active_masks_batch)
             old_action_log_probs_batch = _flatten(L, N, old_action_log_probs_batch)
             adv_targ = _flatten(L, N, adv_targ)
-            yield obs_batch, cent_obs_batch, rnn_states_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, adv_targ, available_actions_batch
+
+            yield obs_batch, cent_obs_batch, rnn_states_actor_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, masks_batch, active_masks_batch, old_action_log_probs_batch, adv_targ, available_actions_batch
