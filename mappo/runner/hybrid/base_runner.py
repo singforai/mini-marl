@@ -1,8 +1,6 @@
 import wandb
 import torch
 
-import torch.nn as nn
-
 import numpy as np
 
 from gym import spaces
@@ -122,7 +120,6 @@ class Runner(object):
             self.buffer[agent_id].compute_returns(next_value, self.trainer.value_normalizer)
 
     def train(self):
-        train_infos = []
         central_obs = self.make_central_obs()
         self.trainer.prep_training()
         train_info = self.trainer.train(
@@ -131,28 +128,10 @@ class Runner(object):
             actor_policy = self.actor_policy,
             update_actor = True,
         )
-        train_infos.append(train_info)
+
         for agent_id in range(self.num_agents):
             self.buffer[agent_id].after_update()
-        return train_infos
-
-    def log_train(self, train_infos, eval_result):
-
-        total_train_infos = {key: 0.0 for key in train_infos[0]}
-        total_train_infos["Test_Rewards"] = eval_result
-
-        for agent_i in range(self.num_agents):
-            for key in train_infos[agent_i].keys():
-                total_train_infos[key] += train_infos[agent_i][key]
-
-        total_train_infos["ratio"] = total_train_infos["ratio"]/self.num_agents
-
-        total_train_infos["dist_entropy"] /= self.num_agents
-        total_train_infos["actor_grad_norm"] /= self.num_agents
-
-        if self.use_wandb:
-            wandb.log(total_train_infos)
-
+        return train_info
     
     def make_central_obs(self):
         central_obs: List = []

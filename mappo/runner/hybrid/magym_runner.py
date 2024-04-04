@@ -2,9 +2,8 @@ import time
 import torch
 
 import numpy as np
-from utils.util import obs_sharing
 from tqdm import tqdm
-
+import wandb
 from runner.hybrid.base_runner import Runner
 
 def _t2n(x):
@@ -62,15 +61,18 @@ class MAGYM_Runner(Runner):
                 init_dones = dones_batch
 
             self.compute()
-            train_infos = self.train()
+            train_info = self.train()
         
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
                 eval_result: float = self.eval(episode = episode)
-            #self.log_train(train_infos = train_infos, eval_result = eval_result)
+                train_info["Test_Rewards"] = eval_result
 
             for idx in range(self.sampling_batch_size):
                 self.train_env[idx].reset()
+            
+            if self.use_wandb:
+                wandb.log(train_info)
     
     def convert_rewards(self, rewards):
         converted_rewards = [[reward] for reward in rewards]
@@ -205,17 +207,16 @@ class MAGYM_Runner(Runner):
             if episode % self.render_interval == 0:
                 self.eval_env.render()
 
+        self.trainer.prep_rollout()
         while not all(eval_dones):
             eval_agent_actions: list = []
             for agent_id in range(self.num_agents):
-                self.trainer[agent_id].prep_rollout()
-                eval_action, eval_rnn_state = self.trainer[agent_id].actor_policy.act(
+                eval_action, eval_rnn_state = self.actor_policy.act(
                     obs=np.array([eval_obs[agent_id]]),
                     rnn_states_actor=eval_rnn_states[:, agent_id],
                     masks=eval_masks[:, agent_id],
                     deterministic=True,
                 )
-
                 eval_action = eval_action[0].detach().cpu().tolist()
                 eval_agent_actions.append(eval_action)
                 eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)

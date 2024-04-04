@@ -150,7 +150,7 @@ class R_MAPPO:
         :return actor_grad_norm: (torch.Tensor) gradient norm from actor update.
         :return imp_weights: (torch.Tensor) importance sampling weights.
         """
-        actor_policy.actor_optimizer.zero_grad()
+        
         data = Samples()
 
         for sample in data_generator_batch:
@@ -163,6 +163,8 @@ class R_MAPPO:
             data.value_preds_batches[-1] = check(data.value_preds_batches[-1]).to(**self.tpdv)
             data.return_batches[-1] = check(data.return_batches[-1]).to(**self.tpdv)
             data.active_masks_batches[-1] = check(data.active_masks_batches[-1]).to(**self.tpdv)
+
+        actor_policy.actor_optimizer.zero_grad()
         
         agents_values = []
         agents_action_log_probs = []
@@ -214,11 +216,7 @@ class R_MAPPO:
                 policy_action_loss = -torch.sum(
                     torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
                 j_clip = j_clip + policy_action_loss
-        j_clip  = j_clip / self.num_agents
-
-        policy_loss = j_clip
-
-        
+        policy_loss  = j_clip / self.num_agents
 
         if update_actor:
             (policy_loss - total_dist_entropy * self.entropy_coef).backward()
@@ -236,6 +234,8 @@ class R_MAPPO:
         actor_policy.actor_optimizer.zero_grad()
 
         # critic update
+        value_losses = []
+        critic_grad_norms = []
         for agent_id in range(self.num_agents):
             with torch.autograd.detect_anomaly(True):
                 self.critic_policy.critic_optimizer.zero_grad()
@@ -256,15 +256,19 @@ class R_MAPPO:
                     critic_grad_norm = get_gard_norm(self.critic_policy.critic.parameters())
 
                 self.critic_policy.critic_optimizer.step()
-                
 
+                value_losses.append(value_loss)
+                critic_grad_norms.append(critic_grad_norm)
+
+        value_loss = sum(value_losses) / len(self.num_agents)
+        critic_grad_norm = sum(critic_grad_norms) / len(self.num_agents)
         return (
             value_loss,
             critic_grad_norm,
             policy_loss,
-            dist_entropy,
+            total_dist_entropy,
             actor_grad_norm,
-            imp_weights,
+            total_imp_weights,
         )
 
     def train(self, central_buffer, central_obs, actor_policy, update_actor=True):
@@ -300,7 +304,7 @@ class R_MAPPO:
         train_info["dist_entropy"] = 0
         train_info["actor_grad_norm"] = 0
         train_info["critic_grad_norm"] = 0
-        train_info["ratio"] = 0
+        train_info["iw_ratio"] = 0
 
         for _ in range(self.ppo_epoch):
             data_generators = [] # [agent1: data_generator, agent2: data_generator]
@@ -343,7 +347,7 @@ class R_MAPPO:
                 train_info["dist_entropy"] += dist_entropy.item()
                 train_info["actor_grad_norm"] += actor_grad_norm.item()
                 train_info["critic_grad_norm"] += critic_grad_norm.item()
-                train_info["ratio"] += imp_weights.mean()
+                train_info["iw_ratio"] += imp_weights.mean()
 
         num_updates = self.ppo_epoch * self.training_batch_size
 

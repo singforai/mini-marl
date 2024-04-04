@@ -18,7 +18,6 @@ class R_MAPPO_Critic_Policy():
     """
 
     def __init__(self, args, cent_obs_space, device):
-        #super().__init__(args, obs_space, act_space, device)
 
         # optimizer hyperparameters
         self.critic_lr: float = args.critic_lr

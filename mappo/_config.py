@@ -217,7 +217,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--actor_lr", type=float, default=1e-4, help="Learning rate of optimizer Adam"
     )
-    param("--critic_lr", type=float, default=1e-4, help="critic learning rate")
+    param("--critic_lr", type=float, default=5e-5, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
         "--weight_decay",
