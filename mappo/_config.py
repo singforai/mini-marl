@@ -128,12 +128,24 @@ def get_config() -> argparse.ArgumentParser:
         "--policy_type",
         type = str,
         default = "share",  
-        choices = ["share", "separate", "hybrid"],
+        choices = ["share", "separate", "hybrid", "slope"],
         help = "Determining if agents want to share the same network with same parameters",
     )
 
     ## train parameters
 
+    param(
+        "--gradient_penalty_power",
+        type = float,
+        default = 1e-1,
+        help = "패널티에 적용되는 제곱함수의 계수"
+    )
+    param(
+        "--penalty_lr",
+        type = float,
+        default = 0.001,
+        help = "penalty에 곱해지는 스케일링 값"
+    )
 
     param(
     "--use_common_reward",

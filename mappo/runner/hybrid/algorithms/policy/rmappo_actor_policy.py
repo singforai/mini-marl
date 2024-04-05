@@ -25,7 +25,7 @@ class R_MAPPO_Actor_Policy(nn.Module):
         self.opti_eps: float = args.opti_eps
         self.actor_lr: float = args.actor_lr
         self.weight_decay: float = args.weight_decay
-
+        
         self.actor = nn.ModuleList()
 
         for agent_id in range(num_agents):
@@ -46,7 +46,7 @@ class R_MAPPO_Actor_Policy(nn.Module):
         )
 
 
-    def act(self, obs, rnn_states_actor, masks, available_actions=None, deterministic=False):
+    def act(self, obs, rnn_states_actor, masks, actor, available_actions=None, deterministic=False):
         """
         Compute actions using the given inputs.
         :param obs (np.ndarray): local agent inputs to the actor.
@@ -56,7 +56,7 @@ class R_MAPPO_Actor_Policy(nn.Module):
                                   (if None, all actions available)
         :param deterministic: (bool) whether the action should be mode of distribution or should be sampled.
         """
-        actions, _, rnn_states_actor = self.actor(
+        actions, _, rnn_states_actor = actor(
             obs, rnn_states_actor, masks, available_actions, deterministic
         )
         return actions, rnn_states_actor

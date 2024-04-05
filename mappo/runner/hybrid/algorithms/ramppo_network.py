@@ -1,6 +1,5 @@
 import numpy as np
 import torch
-import pdb
 import torch.nn as nn
 from utils.util import get_gard_norm, huber_loss, mse_loss
 from utils.valuenorm import ValueNorm
@@ -164,8 +163,6 @@ class R_MAPPO:
             data.return_batches[-1] = check(data.return_batches[-1]).to(**self.tpdv)
             data.active_masks_batches[-1] = check(data.active_masks_batches[-1]).to(**self.tpdv)
 
-        actor_policy.actor_optimizer.zero_grad()
-        
         agents_values = []
         agents_action_log_probs = []
         agents_dist_entropy = []
@@ -192,8 +189,8 @@ class R_MAPPO:
             agents_imp_weights.append(imp_weights)
         
         total_adv_targs= torch.stack(data.adv_targs).sum(dim = 0)
-        total_imp_weights = torch.stack(agents_imp_weights).mean(dim = 0) # 두 agent의 imp의 평균
-        #total_imp_weights = torch.prod(torch.stack(agents_imp_weights), dim=0) 두 agent의 imp의 곱
+        total_imp_weights = torch.stack(agents_imp_weights).mean(dim = 0)
+        
         total_dist_entropy = torch.stack(agents_dist_entropy).mean(dim = 0)
         
 
@@ -216,6 +213,7 @@ class R_MAPPO:
                 policy_action_loss = -torch.sum(
                     torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
                 j_clip = j_clip + policy_action_loss
+
         policy_loss  = j_clip / self.num_agents
 
         if update_actor:
@@ -231,37 +229,29 @@ class R_MAPPO:
             actor_grad_norm = get_gard_norm(actor_policy.actor.parameters())
         
         actor_policy.actor_optimizer.step()
-        actor_policy.actor_optimizer.zero_grad()
-
-        # critic update
-        value_losses = []
-        critic_grad_norms = []
+        
+        loss_values = []
         for agent_id in range(self.num_agents):
-            with torch.autograd.detect_anomaly(True):
-                self.critic_policy.critic_optimizer.zero_grad()
                 value_loss = self.cal_value_loss(
                     values = agents_values[agent_id],
                     value_preds_batch = data.value_preds_batches[agent_id], 
                     return_batch = data.return_batches[agent_id], 
                     active_masks_batch = data.active_masks_batches[agent_id]
                 )
-                (value_loss * self.value_loss_coef).backward()
+                loss_values.append(value_loss)
+        (sum(loss_values) * self.value_loss_coef).backward()
 
-                if self._use_max_grad_norm:
-                    critic_grad_norm = nn.utils.clip_grad_norm_(
-                        self.critic_policy.critic.parameters(), 
-                        self.max_grad_norm
-                    )
-                else:
-                    critic_grad_norm = get_gard_norm(self.critic_policy.critic.parameters())
+        if self._use_max_grad_norm:
+            critic_grad_norm = nn.utils.clip_grad_norm_(
+                self.critic_policy.critic.parameters(), 
+                self.max_grad_norm
+            )
+        else:
+            critic_grad_norm = get_gard_norm(self.critic_policy.critic.parameters())
 
-                self.critic_policy.critic_optimizer.step()
-
-                value_losses.append(value_loss)
-                critic_grad_norms.append(critic_grad_norm)
-
-        value_loss = sum(value_losses) / len(self.num_agents)
-        critic_grad_norm = sum(critic_grad_norms) / len(self.num_agents)
+        self.critic_policy.critic_optimizer.step()
+        self.critic_policy.critic_optimizer.zero_grad()
+        actor_policy.actor_optimizer.zero_grad()
         return (
             value_loss,
             critic_grad_norm,
@@ -304,7 +294,7 @@ class R_MAPPO:
         train_info["dist_entropy"] = 0
         train_info["actor_grad_norm"] = 0
         train_info["critic_grad_norm"] = 0
-        train_info["iw_ratio"] = 0
+        train_info["is_ratio"] = 0
 
         for _ in range(self.ppo_epoch):
             data_generators = [] # [agent1: data_generator, agent2: data_generator]
@@ -347,7 +337,7 @@ class R_MAPPO:
                 train_info["dist_entropy"] += dist_entropy.item()
                 train_info["actor_grad_norm"] += actor_grad_norm.item()
                 train_info["critic_grad_norm"] += critic_grad_norm.item()
-                train_info["iw_ratio"] += imp_weights.mean()
+                train_info["is_ratio"] += imp_weights.mean()
 
         num_updates = self.ppo_epoch * self.training_batch_size
 

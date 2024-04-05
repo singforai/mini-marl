@@ -2,9 +2,10 @@ import time
 import torch
 
 import numpy as np
+
 from tqdm import tqdm
-import wandb
-from runner.hybrid.base_runner import Runner
+
+from runner.sloped.base_runner import Runner
 
 def _t2n(x):
     return x.detach().cpu().numpy()
@@ -44,11 +45,12 @@ class MAGYM_Runner(Runner):
                     next_obs_batch.append(next_obs)
                     rewards_batch.append(rewards)
                     dones_batch.append(dones)
-                
-                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
+                next_share_obs_batch = self.process_obs_type(obs=next_obs_batch)
+                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch, step = step)
                 
                 data = (
                     np.array(next_obs_batch),
+                    next_share_obs_batch,
                     np.array(rewards_batch),
                     np.array([dones_batch]),
                     action_values,
@@ -58,74 +60,84 @@ class MAGYM_Runner(Runner):
                     rnn_states_critic,
                 )  
                 self.insert(data)
+                
                 init_dones = dones_batch
 
             self.compute()
-            train_info = self.train()
-        
+            train_infos = self.train()
             # eval
             if episode % self.eval_interval == 0 and self.use_eval:
-                eval_result: float = self.eval(episode = episode)
-                train_info["Test_Rewards"] = eval_result
+                eval_result: float = self.eval()
+
+            self.log_train(train_infos = train_infos, eval_result = eval_result)
 
             for idx in range(self.sampling_batch_size):
                 self.train_env[idx].reset()
             
-            if self.use_wandb:
-                wandb.log(train_info)
-    
+            self.reward_step = []
+            self.agent1_rewards = []
+            self.agent2_rewards = []
+
+            
     def convert_rewards(self, rewards):
         converted_rewards = [[reward] for reward in rewards]
         return converted_rewards
 
     def warmup(self):
         # reset env
+        
         obs = self.train_env[0].reset()
+        share_obs = self.process_obs_type(obs=obs, warm_up = True)
         for agent_id in range(self.num_agents):
                 self.buffer[agent_id].obs[0] = obs[agent_id].copy()
+                self.buffer[agent_id].share_obs[0] = share_obs[agent_id].copy()
         
     @torch.no_grad()
     def collect(self, step):
 
-        action_values,actions, rnn_states_actor, rnn_states_critic, action_log_probs = [], [], [], [], []
-        central_obs = self.make_central_obs()
-        self.trainer.prep_rollout()
-        
+        action_values = []
+        actions = []
+        rnn_states = []
+        rnn_states_critic = []
+        action_log_probs = []
+
         for agent_id in range(self.num_agents):
-            action_value, action, action_log_prob, rnn_state_actor, rnn_state_critic = self.trainer.critic_policy.get_actions(
+            self.trainer[agent_id].prep_rollout()
+
+            action_value, action, action_log_prob, rnn_state, rnn_state_critic = self.trainer[agent_id].policy.get_actions(
                 obs = self.buffer[agent_id].obs[step],
-                cent_obs = central_obs[step],
-                rnn_states_actor = self.buffer[agent_id].rnn_states_actor[step],
+                cent_obs = self.buffer[agent_id].share_obs[step],
+                rnn_states_actor = self.buffer[agent_id].rnn_states[step],
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
                 masks = self.buffer[agent_id].masks[step],
-                actor = self.actor_policy.actor[agent_id],
             )
-            
+
             action_values.append(_t2n(action_value))
             action = _t2n(action)
 
             actions.append(action)
             action_log_probs.append(_t2n(action_log_prob))
-            rnn_states_actor.append(_t2n(rnn_state_actor))
+            rnn_states.append(_t2n(rnn_state))
             rnn_states_critic.append(_t2n(rnn_state_critic))
 
         action_values = np.array(action_values).transpose(1, 0, 2)
         actions = np.array(actions).transpose(1, 0, 2)
         action_log_probs = np.array(action_log_probs).transpose(1, 0, 2)
-        rnn_states_actor = np.array(rnn_states_actor).transpose(1, 0, 2, 3)
+        rnn_states = np.array(rnn_states).transpose(1, 0, 2, 3)
         rnn_states_critic = np.array(rnn_states_critic).transpose(1, 0, 2, 3)
 
         return (
             action_values,
             actions,
             action_log_probs,
-            rnn_states_actor,
+            rnn_states,
             rnn_states_critic,
         )
 
     def insert(self, data):
         (
             next_obs_batch,
+            next_share_obs_batch,
             rewards_batch,
             dones_batch,
             action_values,
@@ -169,22 +181,23 @@ class MAGYM_Runner(Runner):
             (
                 (dones_batch == True).sum(), 1),
                 dtype=np.float32
-            )        
+            )
+
         for agent_id in range(self.num_agents):
             self.buffer[agent_id].insert(
-                obs = next_obs_batch[: ,agent_id],
-                rnn_states = rnn_states_actor[:, agent_id],
-                rnn_states_critic = rnn_states_critic[:, agent_id],
-                actions = actions[:, agent_id],
-                action_log_probs = action_log_probs[:, agent_id],
-                value_preds = action_values[:, agent_id],
-                rewards = rewards_batch[:, agent_id],
-                masks = masks[:, agent_id],
+                next_share_obs_batch[: ,agent_id],
+                next_obs_batch[: ,agent_id],
+                rnn_states_actor[:, agent_id],
+                rnn_states_critic[:, agent_id],
+                actions[:, agent_id],
+                action_log_probs[:, agent_id],
+                action_values[:, agent_id],
+                rewards_batch[:, agent_id],
+                masks[:, agent_id],
             )
 
     @torch.no_grad()
-    def eval(self, episode: int):
-        
+    def eval(self):
         eval_obs = self.eval_env.reset()
         eval_batch = 1
         eval_rnn_states = np.zeros(
@@ -203,34 +216,24 @@ class MAGYM_Runner(Runner):
         eval_dones: list = [False for _ in range(self.num_agents)]
         eval_episode_rewards: float = 0.0
 
-        if self.use_render:
-            if episode % self.render_interval == 0:
-                self.eval_env.render()
-
-        self.trainer.prep_rollout()
         while not all(eval_dones):
             eval_agent_actions: list = []
             for agent_id in range(self.num_agents):
-                eval_action, eval_rnn_state = self.actor_policy.act(
-                    obs=np.array([eval_obs[agent_id]]),
+                self.trainer[agent_id].prep_rollout()
+                eval_action, eval_rnn_state = self.trainer[agent_id].policy.act(
+                    obs=torch.tensor([eval_obs[agent_id]]),
                     rnn_states_actor=eval_rnn_states[:, agent_id],
                     masks=eval_masks[:, agent_id],
-                    actor = self.actor_policy.actor[agent_id],
-                    deterministic=True, 
+                    deterministic=True,
                 )
                 eval_action = eval_action[0].detach().cpu().tolist()
                 eval_agent_actions.append(eval_action)
                 eval_rnn_states[:, agent_id] = _t2n(eval_rnn_state)
 
             eval_next_obs, eval_rewards, eval_dones, _ = self.eval_env.step(np.array(eval_agent_actions))
+
             eval_episode_rewards += sum(eval_rewards)
             eval_obs = eval_next_obs
 
-            if self.use_render:
-                if episode % self.render_interval == 0:
-                    self.eval_env.render()
-                    time.sleep(self.sleep_second)
-        
         self.eval_env.reset()
-
         return eval_episode_rewards

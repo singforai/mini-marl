@@ -49,7 +49,6 @@ class Runner(object):
         # interval
         self.eval_interval: int = self.args.eval_interval
         self.render_interval: int = self.args.render_interval
-
         self.sleep_second: float = self.args.sleep_second
         
 

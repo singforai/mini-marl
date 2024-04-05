@@ -77,7 +77,7 @@ class MAGYM_Runner(Runner):
 
                 
                 next_share_obs_batch = self.obs_sharing(obs=next_obs_batch)
-                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
+                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch, step = step)
                 data = (
                     next_obs_batch,
                     next_share_obs_batch,
@@ -105,6 +105,10 @@ class MAGYM_Runner(Runner):
 
             if self.use_wandb:
                 wandb.log(train_infos)
+
+            self.reward_step = []
+            self.agent1_rewards = []
+            self.agent2_rewards = []
 
     def warmup(self):
         obs = self.train_env[0].reset()

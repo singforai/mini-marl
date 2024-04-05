@@ -76,6 +76,8 @@ def main(args):
     elif args.policy_type == "hybrid":
         from runner.hybrid.magym_runner import MAGYM_Runner as Runner
         args.use_centralized_V = False
+    elif args.policy_type == "slope":
+        from runner.sloped.magym_runner import MAGYM_Runner as Runner
     else:
         raise Exception("Check the hyperparameter: policy_type!")
 

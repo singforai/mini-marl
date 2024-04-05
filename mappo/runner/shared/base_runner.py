@@ -57,14 +57,15 @@ class Runner(object):
         self.eval_interval: int = self.args.eval_interval
 
         # render time
+        self.penalty_lr: float = self.args.penalty_lr
         self.sleep_second: float = self.args.sleep_second
-
+        self.gradient_penalty_power: float = self.args.gradient_penalty_power
         # hardware_settings
         # self.queue = multiprocessing.Queue()
 
         # share_observation
         self.observation_space = self.train_env[0].observation_space
-
+        print(self.observation_space)
         self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
         self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
         self.share_observation_space = MultiAgentObservationSpace(
@@ -96,6 +97,9 @@ class Runner(object):
             cent_obs_space=self.share_observation_space[0],
             act_space=self.train_env[0].action_space[0],
         )
+        self.reward_step = []
+        self.agent1_rewards = []
+        self.agent2_rewards = []
 
     def run(self):
         """Collect training data, perform training updates, and evaluate policy."""
@@ -147,12 +151,52 @@ class Runner(object):
             share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
         else: 
             share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs])
+
         return share_obs_list
     
-    def convert_each_rewards(self, rewards_batch):
+    def convert_each_rewards(self, rewards_batch, step):
         converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
         return converted_rewards
 
-    def convert_sum_rewards(self, rewards_batch):
-        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+    # def convert_sum_rewards(self, rewards_batch):
+    #     converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+    #     return converted_rewards
+
+
+    def convert_sum_rewards(self, rewards_batch, step):
+        self.agent1_rewards.append(rewards_batch[0][0])
+        self.agent2_rewards.append(rewards_batch[0][1])
+        self.reward_step.append(step)
+
+        agents_rewards = [self.agent1_rewards, self.agent2_rewards]
+
+        agents_gradients = []
+        for agent_rewards in agents_rewards:
+            agents_gradients.append(
+                self.cal_gradients(
+                    x_step = self.reward_step, 
+                    y_rewards = agent_rewards
+                )
+            )
+        if step > 0:
+            penaltys = []
+            for agent_gradient in agents_gradients:
+                counts = 0
+                for gradient in reversed(agent_gradient):
+                    if gradient == 0:
+                        counts += 1
+                    else:
+                        break
+                penaltys.append(self.penalty_lr*(self.gradient_penalty_power*(counts)**(2)))
+        else:
+            penaltys = [0 , 0]
+        converted_rewards = [[[reward -penaltys[idx]] for idx,reward in enumerate(rewards)] for rewards in rewards_batch]
         return converted_rewards
+        
+    def cal_gradients(self, x_step, y_rewards):
+        reward_gradients = []
+        for idx in range(len(x_step)-1):
+            slope = (y_rewards[idx+1] - y_rewards[idx]) / (x_step[idx+1] - x_step[idx])
+            reward_gradients.append(slope)
+        
+        return reward_gradients

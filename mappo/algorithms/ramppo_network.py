@@ -232,7 +232,6 @@ class R_MAPPO:
         # mean_advantages =  np.mean(advantages_copy)
         # std_advantages = np.mean(advantages_copy)
         advantages = (advantages - mean_advantages) / (std_advantages + 1e-5)
-
         train_info = {}
 
         train_info["value_loss"] = 0
@@ -292,3 +291,18 @@ class R_MAPPO:
     def prep_rollout(self):
         self.policy.actor.eval()
         self.policy.critic.eval()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
