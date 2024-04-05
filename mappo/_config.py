@@ -54,10 +54,10 @@ def get_config() -> argparse.ArgumentParser:
         default=True,
         help="Should I fix the seed during training?",
     )  # epsilon control parameters
-    param("--seed", type=int, default=42, help="Choose training seed")
+    param("--seed", type=int, default=50, help="Choose training seed")
 
     # env setting
-    param("--max_episodes", type=int, default=10000, help="Number of episodes trained")
+    param("--max_episodes", type=int, default=100000, help="Number of episodes trained")
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
     param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
 
@@ -140,13 +140,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--use_common_reward",
         action="store_true",
-        default=False,
+        default=True,
         help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     param(
         "--use_centralized_V",
         action="store_true",
-        default=False,
+        default=True,
         help="Whether to use centralized V function",
     )
     param(
