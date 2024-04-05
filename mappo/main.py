@@ -12,12 +12,13 @@ def main(args):
     args = parser.parse_known_args(args)[0]
 
     if args.use_wandb:
-        import wandb 
-        project_name = args.env_name.split(":")[1] 
+        import wandb
+
+        project_name = args.env_name.split(":")[1]
         run_wandb = wandb.init(
             entity=args.entity_name,
             project=project_name,
-            group = args.group_name,
+            group=args.group_name,
             name=f"{args.experiment_name}-{args.seed}",
             config=args,
             reinit=True,
@@ -33,7 +34,7 @@ def main(args):
     # set_logging(experiment_name=args.experiment_name)
     # log_hyperparameter(args=args, device=device)
 
-    fix_random_seed(seed = args.seed) if args.fix_seed else None
+    fix_random_seed(seed=args.seed) if args.fix_seed else None
 
     env = gym.make(
         id=args.env_name,
@@ -59,7 +60,9 @@ def main(args):
             raise Exception("Either use_recurrent_policy or use_naive_recurrent_policy must be set to True.")
 
     elif args.algorithm_name == "mappo":
-        print("You are choosing to use mappo, we have to set use_recurrent_policy & use_naive_recurrent_policy to be False")
+        print(
+            "You are choosing to use mappo, we have to set use_recurrent_policy & use_naive_recurrent_policy to be False"
+        )
         args.use_recurrent_policy = False
         args.use_naive_recurrent_policy = False
 
@@ -75,15 +78,17 @@ def main(args):
         from runner.separated.magym_runner import MAGYM_Runner as Runner
     elif args.policy_type == "hybrid":
         from runner.hybrid.magym_runner import MAGYM_Runner as Runner
+
         args.use_centralized_V = False
     else:
         raise Exception("Check the hyperparameter: policy_type!")
 
     runner = Runner(config)
     runner.run()
-    
+
     env.close()
     run_wandb.finish()
 
+
 if __name__ == "__main__":
-    main(args = sys.argv[1:])
+    main(args=sys.argv[1:])

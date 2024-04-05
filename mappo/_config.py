@@ -6,10 +6,8 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param(
-        "--use_wandb", action="store_true", default=False, help="Whether to use wandb"
-    )
-    param("--entity_name", type=str, default="singfor7012", help="wandb_name")
+    param("--use_wandb", action="store_true", default=True, help="Whether to use wandb")
+    param("--entity_name", type=str, default="sangkiko", help="wandb_name")
     param(
         "--env_name",
         type=str,
@@ -70,9 +68,7 @@ def get_config() -> argparse.ArgumentParser:
         default=False,
         help="Render the learning process",
     )
-    param(
-        "--render_interval", type=int, default=100, help="Set eval rendering interval"
-    )
+    param("--render_interval", type=int, default=100, help="Set eval rendering interval")
     param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
 
     # batch setting
@@ -219,9 +215,7 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     # optimizer hyperparameter
-    param(
-        "--actor_lr", type=float, default=1e-4, help="Learning rate of optimizer Adam"
-    )
+    param("--actor_lr", type=float, default=1e-4, help="Learning rate of optimizer Adam")
     param("--critic_lr", type=float, default=5e-5, help="critic learning rate")
     param("--opti_eps", type=float, default=1e-5, help="RMSprop optimizer epsilon")
     param(
@@ -296,9 +290,7 @@ def get_config() -> argparse.ArgumentParser:
         default=0.2,
         help="ppo clip parameter (default: 0.2)",
     )
-    param(
-        "--ppo_epoch", type=int, default=15, help="number of ppo epochs (default: 15)"
-    )
+    param("--ppo_epoch", type=int, default=15, help="number of ppo epochs (default: 15)")
 
     param(
         "--data_chunk_length",
@@ -319,9 +311,7 @@ def get_config() -> argparse.ArgumentParser:
         help="entropy term coefficient (default: 0.01)",
     )
 
-    param(
-        "--huber_delta", type=float, default=10.0, help=" coefficience of huber loss."
-    )
+    param("--huber_delta", type=float, default=10.0, help=" coefficience of huber loss.")
 
     # buffer hyperparameter
 
