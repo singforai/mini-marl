@@ -6,7 +6,9 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", action='store_true', default=False, help="Whether to use wandb")
+    param(
+        "--use_wandb", action="store_true", default=False, help="Whether to use wandb"
+    )
     param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--env_name",
@@ -22,7 +24,7 @@ def get_config() -> argparse.ArgumentParser:
     )
     param(
         "--group_name",
-        type = str,
+        type=str,
         default="None",
         help="Experiment group title stored in Wandb",
     )
@@ -45,7 +47,7 @@ def get_config() -> argparse.ArgumentParser:
         type=int,
         default=12,
         help="Number of threads to use for CPU internal calculations",
-    )  
+    )
 
     # seed setting
     param(
@@ -57,24 +59,29 @@ def get_config() -> argparse.ArgumentParser:
     param("--seed", type=int, default=42, help="Choose training seed")
 
     # env setting
-    param("--max_episodes",
-           type=int, 
-           default=10000, 
-           help="Number of episodes trained"
-    )
+    param("--max_episodes", type=int, default=10000, help="Number of episodes trained")
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
     param("--step_cost", type=float, default=-0.01, help="Rewards given per step")
 
-    # render setting 
-    param("--use_render", action = "store_true", default = False, help="Render the learning process")
-    param("--render_interval", type = int, default = 100, help = "Set eval rendering interval")
+    # render setting
+    param(
+        "--use_render",
+        action="store_true",
+        default=False,
+        help="Render the learning process",
+    )
+    param(
+        "--render_interval", type=int, default=100, help="Set eval rendering interval"
+    )
     param("--sleep_second", type=float, default=0.0, help=" Runtime of time.sleep")
 
     # batch setting
-    param("--sampling_batch_size", 
-          type=int, 
-          default=1, 
-          help="batch size of data when the model samples the episode")
+    param(
+        "--sampling_batch_size",
+        type=int,
+        default=1,
+        help="batch size of data when the model samples the episode",
+    )
     param(
         "--training_batch_size",
         type=int,
@@ -88,7 +95,7 @@ def get_config() -> argparse.ArgumentParser:
         help="Number of parallel envs for evaluating rollouts",
     )
 
-    # gae setting 
+    # gae setting
     param(
         "--use_gae",
         action="store_false",
@@ -119,32 +126,31 @@ def get_config() -> argparse.ArgumentParser:
     # policy setting
     param(
         "--algorithm_name",
-        type = str,
-        default = "rmappo",
-        choices = ["rmappo", "mappo", "ippo"],
+        type=str,
+        default="rmappo",
+        choices=["rmappo", "mappo", "ippo"],
         help="Name of algorithm to apply",
     )
     param(
         "--policy_type",
-        type = str,
-        default = "share",  
-        choices = ["share", "separate", "hybrid"],
-        help = "Determining if agents want to share the same network with same parameters",
+        type=str,
+        default="share",
+        choices=["share", "separate", "hybrid"],
+        help="Determining if agents want to share the same network with same parameters",
     )
 
     ## train parameters
 
-
     param(
-    "--use_common_reward",
-    action = 'store_true',
-    default=False,  
-    help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
+        "--use_common_reward",
+        action="store_true",
+        default=False,
+        help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     param(
         "--use_centralized_V",
-        action = "store_true",
-        default=False, 
+        action="store_true",
+        default=False,
         help="Whether to use centralized V function",
     )
     param(
@@ -211,7 +217,6 @@ def get_config() -> argparse.ArgumentParser:
         default=0.99,
         help="Discount factor used to calculate TD error",
     )
-
 
     # optimizer hyperparameter
     param(
@@ -319,7 +324,6 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     # buffer hyperparameter
-
 
     #  eval
     param("--eval_interval", type=float, default=1, help="evaluation interval")
