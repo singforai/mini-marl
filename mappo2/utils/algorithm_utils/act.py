@@ -10,14 +10,14 @@ class ACTLayer(nn.Module):
     :param use_orthogonal: (bool) whether to use orthogonal initialization.
     :param gain: (float) gain of the output layer of the network.
     """
-    def __init__(self, action_space, inputs_dim, use_orthogonal, gain):
+    def __init__(self, use_softmax_temp, t_value, action_space, inputs_dim, use_orthogonal, gain):
 
         super(ACTLayer, self).__init__()
         self.mixed_action = False
         self.multi_discrete = False
         if action_space.__class__.__name__ == "Discrete":
             action_dim = action_space.n
-            self.action_out = Categorical(inputs_dim, action_dim, use_orthogonal, gain)
+            self.action_out = Categorical(inputs_dim, action_dim, use_softmax_temp,t_value, use_orthogonal, gain)
         elif action_space.__class__.__name__ == "Box":
             action_dim = action_space.shape[0]
             self.action_out = DiagGaussian(inputs_dim, action_dim, use_orthogonal, gain)
@@ -38,7 +38,7 @@ class ACTLayer(nn.Module):
             self.action_outs = nn.ModuleList([DiagGaussian(inputs_dim, continous_dim, use_orthogonal, gain), Categorical(
                 inputs_dim, discrete_dim, use_orthogonal, gain)])
     
-    def forward(self, x, available_actions=None, deterministic=False):
+    def forward(self, x, t_value, available_actions=None, deterministic=False):
         """
         Compute actions and action logprobs from given input.
         :param x: (torch.Tensor) input to network.
@@ -78,12 +78,12 @@ class ACTLayer(nn.Module):
         else:
             # print("\n입력: ", x.shape)
             # print("available_actions: ", available_actions)
-            action_logits = self.action_out(x = x, available_actions = available_actions)
+            action_logits = self.action_out(x = x, t_value = t_value, available_actions = available_actions)
             # print("action_logits: ", action_logits)
             if deterministic:
                 actions = action_logits.mode()  
             else:
-                actions = action_logits.sample() 
+                actions = action_logits.sample(t_value = t_value) 
             # print("actions: ", actions)
             action_log_probs = action_logits.log_probs(actions)
             # print("action_log_probs: ", action_log_probs)

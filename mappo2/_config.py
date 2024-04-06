@@ -59,7 +59,7 @@ def get_config() -> argparse.ArgumentParser:
     # env setting
     param("--max_episodes",
            type=int, 
-           default=10000, 
+           default=20000, 
            help="Number of episodes trained"
     )
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
@@ -118,8 +118,8 @@ def get_config() -> argparse.ArgumentParser:
 
     param(
         '--use_softmax_temp',
-        action = 'store_false',
-        default = True,
+        action = 'store_true',
+        default = False,
         help = "whether to use softmax_temperature"
     )
     param(
@@ -128,7 +128,18 @@ def get_config() -> argparse.ArgumentParser:
         default = 5,
         help = "max T value of softmax_temperature"
     )
-
+    param(
+        '--softmax_min_temp',
+        type = int,
+        default = 1,
+        help = "min T value of softmax_temperature"
+    )
+    param(
+        '--stable_t_episode',
+        type = int,
+        default = 20000,
+        help = "min T value of softmax_temperature"
+    )
 
 
 

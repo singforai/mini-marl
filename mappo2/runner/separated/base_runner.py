@@ -36,6 +36,8 @@ class Runner(object):
         self.use_softmax_temp: bool = self.args.use_softmax_temp
         if self.use_softmax_temp:
             self.softmax_max_temp = self.args.softmax_max_temp
+            self.softmax_min_temp = self.args.softmax_min_temp
+            self.stable_t_episode = self.args.stable_t_episode
             
         # use_hyperparameter
         self.use_eval: bool = self.args.use_eval
@@ -88,6 +90,8 @@ class Runner(object):
                 self.train_env[0].observation_space[agent_id],
                 self.share_observation_space[agent_id],
                 self.train_env[0].action_space[agent_id],
+                use_softmax_temp = self.use_softmax_temp,
+                t_value =self.softmax_max_temp,
                 device = self.device
             )
             
@@ -164,7 +168,7 @@ class Runner(object):
 
         total_train_infos = {key: 0.0 for key in train_infos[0]}
         total_train_infos["Test_Rewards"] = eval_result
-
+        total_train_infos["softmax_temperature"] = self.t_value
         for agent_i in range(self.num_agents):
             for key in train_infos[agent_i].keys():
                 total_train_infos[key] += train_infos[agent_i][key]
@@ -177,3 +181,6 @@ class Runner(object):
 
         if self.use_wandb:
             wandb.log(total_train_infos)
+
+    def cal_softmax_t(self, episode):
+        self.t_value =  max(- ((self.softmax_max_temp-self.softmax_min_temp)/self.stable_t_episode)*(episode - self.stable_t_episode) + 1, 1)
