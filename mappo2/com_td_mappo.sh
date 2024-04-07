@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command="python main.py --seed {0} --experiment_name td_mappo --group_name td_mappo --policy_type separate --use_wandb True --use_centralized_V --use_common_reward --use_softmax_temp"
+command="python main.py --seed {0} --experiment_name td_mappo --policy_type separate --use_wandb True"
 
 # 각각의 GPU에 할당할 인자 설정
 args_gpu0="--num_gpu 0"

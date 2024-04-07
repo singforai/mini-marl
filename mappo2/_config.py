@@ -59,7 +59,7 @@ def get_config() -> argparse.ArgumentParser:
     # env setting
     param("--max_episodes",
            type=int, 
-           default=20000, 
+           default=50000, 
            help="Number of episodes trained"
     )
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
@@ -119,7 +119,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         '--use_softmax_temp',
         action = 'store_true',
-        default = False,
+        default = True,
         help = "whether to use softmax_temperature"
     )
     param(
@@ -186,13 +186,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
     "--use_common_reward",
     action = 'store_true',
-    default=False,  
+    default=True,  
     help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     param(
         "--use_centralized_V",
         action = "store_true",
-        default=False, 
+        default=True, 
         help="Whether to use centralized V function",
     )
     param(
