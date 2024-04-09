@@ -18,6 +18,15 @@ class MAGYM_Runner(Runner):
     def __init__(self, config):
         super().__init__(config)
 
+    # def process_batch(self, queue, batch_action):
+    #     next_obs, rewards, dones, _ = self.train_env.step(batch_action)
+    #     step_result: Dict = {
+    #         "next_obs": next_obs, 
+    #         "rewards": rewards, 
+    #         "dones": dones
+    #         }
+    #     queue.put(step_result)
+
     def run(self):
         self.warmup()
 
@@ -27,7 +36,7 @@ class MAGYM_Runner(Runner):
 
             if self.use_linear_lr_decay:
                 self.trainer.policy.lr_decay(episode=episode, episodes=max_episodes)
-            
+
             init_dones: list = [[False for _ in range(self.num_agents)] for _ in range(self.sampling_batch_size)]
             for step in range(self.episode_length):
 
@@ -37,7 +46,7 @@ class MAGYM_Runner(Runner):
                 action_log_probs, 
                 rnn_states_actor, 
                 rnn_states_critic,
-                ) = self.collect(step=step, t_value = self.t_value)
+                ) = self.collect(step=step)
 
                 next_obs_batch, rewards_batch, dones_batch = [], [], []
                 for idx, batch_action in enumerate(actions):
@@ -48,10 +57,27 @@ class MAGYM_Runner(Runner):
                     next_obs_batch.append(next_obs)
                     rewards_batch.append(rewards)
                     dones_batch.append(dones)
+                
+                # procs: List[object] = []
+
+                # for batch_action in actions:
+                #     process = multiprocessing.Process(target = self.process_batch, args = (self.queue, batch_action))
+                #     process.start()
+                #     procs.append(process)
+
+                # for each_procs in procs:
+                #     each_procs.join()
+
+                # next_obs_batch, rewards_batch, dones_batch = [], [], []
+                # while not self.queue.empty():
+                #     batch_result = self.queue.get()
+                #     next_obs_batch.append(batch_result["next_obs"])
+                #     rewards_batch.append(batch_result["rewards"])
+                #     dones_batch.append(batch_result["dones"])
 
                 
                 next_share_obs_batch = self.obs_sharing(obs=next_obs_batch)
-                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
+                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch, step = step)
                 data = (
                     next_obs_batch,
                     next_share_obs_batch,
@@ -67,8 +93,6 @@ class MAGYM_Runner(Runner):
 
                 init_dones = dones_batch
 
-            self.episode_level.append(episode)
-            self.cal_weighted_t()
             self.compute()
             train_infos = self.train()
             
@@ -93,7 +117,7 @@ class MAGYM_Runner(Runner):
         self.buffer.share_obs[0] = share_obs.copy()
 
     @torch.no_grad()
-    def collect(self, step, t_value):
+    def collect(self, step):
         self.trainer.prep_rollout()
         action_value, action, action_log_prob, rnn_state, rnn_state_critic = (
             self.trainer.policy.get_actions(
@@ -102,7 +126,6 @@ class MAGYM_Runner(Runner):
                 rnn_states_actor=np.concatenate(self.buffer.rnn_states[step]),
                 rnn_states_critic=np.concatenate(self.buffer.rnn_states_critic[step]),
                 masks=np.concatenate(self.buffer.masks[step]),
-                t_value = t_value,
             )
         )
         action_values = np.array(np.split(_t2n(action_value), self.sampling_batch_size))
@@ -175,6 +198,7 @@ class MAGYM_Runner(Runner):
             rewards = rewards_batch,
             masks = masks
         )
+
     @torch.no_grad()
     def eval(self):
         eval_obs = self.eval_env.reset()
@@ -201,7 +225,6 @@ class MAGYM_Runner(Runner):
                 obs=np.concatenate([eval_obs]),
                 rnn_states_actor=np.concatenate(eval_rnn_states),
                 masks=np.concatenate(eval_masks),
-                t_value = self.t_value,
                 deterministic=True,
             )
             eval_actions = np.array(

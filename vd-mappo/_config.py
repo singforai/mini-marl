@@ -6,24 +6,24 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", action='store_false', default=True, help="Whether to use wandb")
+    param("--use_wandb", action='store_true', default=False, help="Whether to use wandb")
     param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--env_name",
         type=str,
-        default="ma_gym:Checkers-v0",
+        default="ma_gym:Switch2-v0",
         help="Built-in Env for ma_gym",
     )
     param(
         "--experiment_name",
         type=str,
-        default="TD-MAPPO",
+        default="ppo",
         help="Experiment title stored in Wandb",
     )
     param(
         "--group_name",
         type = str,
-        default="TD-MAPPO",
+        default="None",
         help="Experiment group title stored in Wandb",
     )
 
@@ -59,7 +59,7 @@ def get_config() -> argparse.ArgumentParser:
     # env setting
     param("--max_episodes",
            type=int, 
-           default=20000, 
+           default=10000, 
            help="Number of episodes trained"
     )
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
@@ -118,7 +118,7 @@ def get_config() -> argparse.ArgumentParser:
 
     param(
         '--use_softmax_temp',
-        action = 'store_true',
+        action = 'store_false',
         default = True,
         help = "whether to use softmax_temperature"
     )
@@ -128,18 +128,7 @@ def get_config() -> argparse.ArgumentParser:
         default = 5,
         help = "max T value of softmax_temperature"
     )
-    param(
-        '--softmax_min_temp',
-        type = int,
-        default = 1,
-        help = "min T value of softmax_temperature"
-    )
-    param(
-        '--stable_t_episode',
-        type = int,
-        default = 20000,
-        help = "min T value of softmax_temperature"
-    )
+
 
 
 

@@ -6,7 +6,7 @@ def get_config() -> argparse.ArgumentParser:
     param = parser.add_argument
 
     # wandb setting
-    param("--use_wandb", action='store_true', default=False, help="Whether to use wandb")
+    param("--use_wandb", action='store_false', default=True, help="Whether to use wandb")
     param("--entity_name", type=str, default="singfor7012", help="wandb_name")
     param(
         "--env_name",
@@ -17,13 +17,13 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--experiment_name",
         type=str,
-        default="ppo",
+        default="SE-MAPPO_5",
         help="Experiment title stored in Wandb",
     )
     param(
         "--group_name",
         type = str,
-        default="None",
+        default="SE-MAPPO_5",
         help="Experiment group title stored in Wandb",
     )
 
@@ -59,7 +59,7 @@ def get_config() -> argparse.ArgumentParser:
     # env setting
     param("--max_episodes",
            type=int, 
-           default=10000, 
+           default=20000, 
            help="Number of episodes trained"
     )
     param("--max_step", type=int, default=100, help="Maximum support step per episode")
@@ -152,7 +152,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--policy_type",
         type = str,
-        default = "share",  
+        default = "separate",  
         choices = ["share", "separate", "hybrid", "slope"],
         help = "Determining if agents want to share the same network with same parameters",
     )
@@ -174,14 +174,14 @@ def get_config() -> argparse.ArgumentParser:
 
     param(
     "--use_common_reward",
-    action = 'store_true',
-    default=False,  
+    action = 'store_false',
+    default=True,  
     help="Each agent will decide whether to receive the sum of rewards from all agents or to receive rewards separately for each agent.",
     )
     param(
         "--use_centralized_V",
-        action = "store_true",
-        default=False, 
+        action = "store_false",
+        default=True, 
         help="Whether to use centralized V function",
     )
     param(

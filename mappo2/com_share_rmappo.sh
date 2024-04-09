@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command="python main.py --seed {0} --experiment_name com_share_rmappo --group_name com_share_rmappo --policy_type share --use_wandb True --use_common_reward"
+command="python main.py --seed {0} --experiment_name SH-MAPPO --group_name SH-MAPPO --policy_type share"
 
 # 각각의 GPU에 할당할 인자 설정
 args_gpu0="--num_gpu 0"

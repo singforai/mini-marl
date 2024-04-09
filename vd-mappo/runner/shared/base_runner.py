@@ -60,9 +60,8 @@ class Runner(object):
         self.penalty_lr: float = self.args.penalty_lr
         self.sleep_second: float = self.args.sleep_second
         self.gradient_penalty_power: float = self.args.gradient_penalty_power
-
-
-        self.t_value  = 1
+        # hardware_settings
+        # self.queue = multiprocessing.Queue()
 
         # share_observation
         self.observation_space = self.train_env[0].observation_space
@@ -84,8 +83,6 @@ class Runner(object):
             obs_space=self.observation_space[0],
             cent_obs_space=self.share_observation_space[0],
             act_space=self.train_env[0].action_space[0],
-            use_softmax_temp = True, 
-            t_value = self.t_value,
             device=self.device,
         )
 
@@ -99,14 +96,10 @@ class Runner(object):
             cent_obs_space=self.share_observation_space[0],
             act_space=self.train_env[0].action_space[0],
         )
+        self.reward_step = []
+        self.agent1_rewards = []
+        self.agent2_rewards = []
 
-        
-
-        self.episode_level = []
-        self.cumulated_rewards_record = [[] for _ in range(self.num_agents)]
-        self.each_rewards = [0 for _ in range(self.num_agents)]
-        self.ewma_records = [[] for _ in range(self.num_agents)]
-        self.ewma_gradients_records = [[] for _ in range(self.num_agents)]
     def run(self):
         """Collect training data, perform training updates, and evaluate policy."""
         raise NotImplementedError
@@ -164,30 +157,45 @@ class Runner(object):
         converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
         return converted_rewards
 
-    def convert_sum_rewards(self, rewards_batch):
-        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+    # def convert_sum_rewards(self, rewards_batch):
+    #     converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+    #     return converted_rewards
+
+
+    def convert_sum_rewards(self, rewards_batch, step):
+        self.agent1_rewards.append(rewards_batch[0][0])
+        self.agent2_rewards.append(rewards_batch[0][1])
+        self.reward_step.append(step)
+
+        agents_rewards = [self.agent1_rewards, self.agent2_rewards]
+
+        agents_gradients = []
+        for agent_rewards in agents_rewards:
+            agents_gradients.append(
+                self.cal_gradients(
+                    x_step = self.reward_step, 
+                    y_rewards = agent_rewards
+                )
+            )
+        if step > 0:
+            penaltys = []
+            for agent_gradient in agents_gradients:
+                counts = 0
+                for gradient in reversed(agent_gradient):
+                    if gradient == 0:
+                        counts += 1
+                    else:
+                        break
+                penaltys.append(self.penalty_lr*(self.gradient_penalty_power*(counts)**(2)))
+        else:
+            penaltys = [0 , 0]
+        converted_rewards = [[[reward -penaltys[idx]] for idx,reward in enumerate(rewards)] for rewards in rewards_batch]
         return converted_rewards
-
-    def cal_weighted_t(self):
-        for idx, each_reward in enumerate(self.each_rewards):
-            self.cumulated_rewards_record[idx].append(each_reward)
-
-        for idx, reward_records in enumerate(self.cumulated_rewards_record):
-            reward_gradients = self.cal_ewma_record(reward_records = reward_records) # 각 episode마다 누적한 reward를 
-            self.ewma_records[idx].append(reward_gradients)
-        #print(self.ewma_gradients_records)
-
-    def cal_ewma_record(self, reward_records, alpha = 0.99):
-
-        if not reward_records:
-            return None
         
-        weighted_sum = 0
-        weighted_factor_sum = 0
+    def cal_gradients(self, x_step, y_rewards):
+        reward_gradients = []
+        for idx in range(len(x_step)-1):
+            slope = (y_rewards[idx+1] - y_rewards[idx]) / (x_step[idx+1] - x_step[idx])
+            reward_gradients.append(slope)
         
-        for t, reward in enumerate(reversed(reward_records)):
-            weighted_sum += (alpha ** t) * reward
-            weighted_factor_sum += alpha ** t
-        
-
-        return weighted_sum / weighted_factor_sum
+        return reward_gradients

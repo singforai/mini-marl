@@ -21,8 +21,8 @@ def softmax_with_temperature(z, T) :
     y = exp_z / sum_exp_z
     return y
 
-print("orginal: ", [0.2013, 0.1979, 0.1993, 0.2021, 0.1994])
+print("orginal: ", z)
 
 print(softmax(z))
 print(softmax_with_temperature(z, 2))
-print(softmax_with_temperature(z, 10))
+print(softmax_with_temperature(z, 3))

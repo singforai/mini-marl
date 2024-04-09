@@ -1,11 +1,11 @@
 import wandb
 import torch
-
+import sys
 import numpy as np
 
 from gym import spaces
 from typing import Callable, Dict, List
-from runner.separated.separated_buffer import SeparatedReplayBuffer
+from runner.sloped.sloped_buffer import SlopedReplayBuffer
 from utils.observation_space import MultiAgentObservationSpace
 
 from algorithms.ramppo_network import R_MAPPO as TrainAlgo
@@ -32,16 +32,6 @@ class Runner(object):
         self.sampling_batch_size: int = self.args.sampling_batch_size
         self.eval_rollout_threads = 1
 
-        
-        self.use_softmax_temp: bool = self.args.use_softmax_temp
-        if self.use_softmax_temp:
-            self.softmax_max_temp = self.args.softmax_max_temp
-            self.softmax_min_temp = self.args.softmax_min_temp
-            self.stable_t_episode = self.args.stable_t_episode
-        else:
-            self.args.softmax_max_temp = 1
-            self.args.softmax_min_temp = 1
-            
         # use_hyperparameter
         self.use_eval: bool = self.args.use_eval
         self.use_wandb: bool = self.args.use_wandb
@@ -62,7 +52,9 @@ class Runner(object):
         self.eval_interval: int = self.args.eval_interval
 
         # render time
+        self.gradient_penalty_power: float = self.args.gradient_penalty_power
         self.sleep_second: float = self.args.sleep_second
+        self.penalty_lr: float = self.args.penalty_lr
 
         self.observation_space = self.train_env[0].observation_space
         
@@ -88,21 +80,17 @@ class Runner(object):
         self.buffer: List[object] = []
 
         for agent_id in range(self.num_agents): 
-            po = Policy(
-                self.args,
-                self.train_env[0].observation_space[agent_id],
-                self.share_observation_space[agent_id],
-                self.train_env[0].action_space[agent_id],
-                use_softmax_temp = self.use_softmax_temp,
-                t_value =self.softmax_max_temp,
-                device = self.device
-            )
+            po = Policy(self.args,
+                        self.train_env[0].observation_space[agent_id],
+                        self.share_observation_space[agent_id],
+                        self.train_env[0].action_space[agent_id],
+                        device = self.device)
             
             self.policy.append(po)
 
             tr = TrainAlgo(self.args, self.policy[agent_id], device = self.device)
             
-            bu = SeparatedReplayBuffer(self.args,
+            bu = SlopedReplayBuffer(self.args,
                                        self.train_env[0].observation_space[agent_id],
                                        self.share_observation_space[agent_id],
                                        self.train_env[0].action_space[agent_id])
@@ -110,11 +98,9 @@ class Runner(object):
             self.trainer.append(tr)
             self.buffer.append(bu)
         
-        self.episode_level = []
-        self.cumulated_rewards_record = [[] for _ in range(self.num_agents)]
-        self.each_rewards = [0 for _ in range(self.num_agents)]
-        self.ewma_records = [[] for _ in range(self.num_agents)]
-        self.ewma_gradients_records = [[] for _ in range(self.num_agents)]
+        self.reward_step = []
+        self.agent1_rewards = []
+        self.agent2_rewards = []
 
     def run(self):
         raise NotImplementedError
@@ -162,31 +148,59 @@ class Runner(object):
             isolated_obs_list = np.array(obs)
         return isolated_obs_list
     
-    def convert_each_rewards(self, rewards_batch):
+    def convert_each_rewards(self, rewards_batch, step):
         converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
         return converted_rewards
 
-    def convert_sum_rewards(self, rewards_batch):
-        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+    def convert_sum_rewards(self, rewards_batch, step):
+        self.agent1_rewards.append(rewards_batch[0][0])
+        self.agent2_rewards.append(rewards_batch[0][1])
+        self.reward_step.append(step)
+
+        agents_rewards = [self.agent1_rewards, self.agent2_rewards]
+
+        agents_gradients = []
+        for agent_rewards in agents_rewards:
+            agents_gradients.append(
+                self.cal_gradients(
+                    x_step = self.reward_step, 
+                    y_rewards = agent_rewards
+                )
+            )
+        if step > 0:
+            penaltys = []
+            for agent_gradient in agents_gradients:
+                counts = 0
+                for gradient in reversed(agent_gradient):
+                    if gradient == 0:
+                        counts += 1
+                    else:
+                        break
+                penaltys.append(self.penalty_lr*(self.gradient_penalty_power*(counts)**(2)))
+            penalty = sum(penaltys)
+        else:
+            penalty = 0
         
-        cumulated_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch][0]
-        for idx, reward in enumerate(cumulated_rewards):
-            self.each_rewards[idx] += reward[0]
+        converted_rewards = [[[sum(rewards)-penalty] for _ in range(self.num_agents)] for rewards in rewards_batch]
         return converted_rewards
+    
+    def cal_gradients(self, x_step, y_rewards):
+        reward_gradients = []
+        for idx in range(len(x_step)-1):
+            slope = (y_rewards[idx+1] - y_rewards[idx]) / (x_step[idx+1] - x_step[idx])
+            reward_gradients.append(slope)
+        
+        return reward_gradients
 
     
     def log_train(self, train_infos, eval_result):
 
         total_train_infos = {key: 0.0 for key in train_infos[0]}
         total_train_infos["Test_Rewards"] = eval_result
-        total_train_infos["softmax_temperature"] = self.t_value
+
         for agent_i in range(self.num_agents):
             for key in train_infos[agent_i].keys():
                 total_train_infos[key] += train_infos[agent_i][key]
-
-
-        for agent_id in range(self.num_agents):
-            total_train_infos[f"agent_{agent_id+1}_reward_ewma"] = self.ewma_records[agent_id][-1]
 
         total_train_infos["ratio"] /= self.num_agents
         total_train_infos["value_loss"] /= self.num_agents
@@ -196,41 +210,3 @@ class Runner(object):
 
         if self.use_wandb:
             wandb.log(total_train_infos)
-
-    def cal_softmax_t(self, episode):
-        self.t_value = [5 for _ in range(self.num_agents)]  #[max(- ((self.softmax_max_temp-self.softmax_min_temp)/self.stable_t_episode)*(episode - self.stable_t_episode) + 1, 1) for _ in range(self.num_agents)]
-
-    def cal_weighted_t(self):
-        for idx, each_reward in enumerate(self.each_rewards):
-            self.cumulated_rewards_record[idx].append(each_reward)
-
-        for idx, reward_records in enumerate(self.cumulated_rewards_record):
-            reward_gradients = self.cal_ewma_record(reward_records = reward_records) # 각 episode마다 누적한 reward를 
-            self.ewma_records[idx].append(reward_gradients)
-
-            ewma_gradients = self.cal_ewma_gradients(ewma_records = self.ewma_records[idx])
-            self.ewma_gradients_records[idx].append(ewma_gradients)
-        
-        #print(self.ewma_gradients_records)
-
-    def cal_ewma_record(self, reward_records, alpha = 0.99):
-
-        if not reward_records:
-            return None
-        
-        weighted_sum = 0
-        weighted_factor_sum = 0
-        
-        for t, reward in enumerate(reversed(reward_records)):
-            weighted_sum += (alpha ** t) * reward
-            weighted_factor_sum += alpha ** t
-        
-
-        return weighted_sum / weighted_factor_sum
-
-    def cal_ewma_gradients(self, ewma_records):        
-        if len(self.episode_level) > 1:
-            slope = (ewma_records[-1] - ewma_records[-2]) / (self.episode_level[-1] - self.episode_level[-2])
-        else:
-            slope = 0
-        return slope

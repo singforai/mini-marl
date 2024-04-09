@@ -5,7 +5,7 @@ import numpy as np
 
 from tqdm import tqdm
 
-from runner.separated.base_runner import Runner
+from runner.sloped.base_runner import Runner
 
 def _t2n(x):
     return x.detach().cpu().numpy()
@@ -27,8 +27,6 @@ class MAGYM_Runner(Runner):
             
             init_dones: list = [[False for _ in range(self.num_agents)] for _ in range(self.sampling_batch_size)]
 
-            self.cal_softmax_t(episode)
-
             for step in range(self.episode_length):
                 (
                     action_values,
@@ -36,7 +34,7 @@ class MAGYM_Runner(Runner):
                     action_log_probs,
                     rnn_states_actor,
                     rnn_states_critic,
-                ) = self.collect(step=step, t_value = self.t_value)
+                ) = self.collect(step=step)
 
                 next_obs_batch, rewards_batch, dones_batch = [], [], []
                 for idx, batch_action in enumerate(actions):
@@ -47,9 +45,8 @@ class MAGYM_Runner(Runner):
                     next_obs_batch.append(next_obs)
                     rewards_batch.append(rewards)
                     dones_batch.append(dones)
-                
                 next_share_obs_batch = self.process_obs_type(obs=next_obs_batch)
-                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch)
+                rewards_batch = self.process_reward_type(rewards_batch = rewards_batch, step = step)
                 
                 data = (
                     np.array(next_obs_batch),
@@ -66,11 +63,6 @@ class MAGYM_Runner(Runner):
                 
                 init_dones = dones_batch
 
-            
-            
-            self.episode_level.append(episode)
-            self.cal_weighted_t()
-            
             self.compute()
             train_infos = self.train()
             # eval
@@ -81,15 +73,12 @@ class MAGYM_Runner(Runner):
 
             for idx in range(self.sampling_batch_size):
                 self.train_env[idx].reset()
-
-            self.each_rewards = [0 for _ in range(self.num_agents)]
             
-            
-            
-
+            self.reward_step = []
+            self.agent1_rewards = []
+            self.agent2_rewards = []
 
             
-    
     def convert_rewards(self, rewards):
         converted_rewards = [[reward] for reward in rewards]
         return converted_rewards
@@ -104,7 +93,7 @@ class MAGYM_Runner(Runner):
                 self.buffer[agent_id].share_obs[0] = share_obs[agent_id].copy()
         
     @torch.no_grad()
-    def collect(self, step, t_value):
+    def collect(self, step):
 
         action_values = []
         actions = []
@@ -121,7 +110,6 @@ class MAGYM_Runner(Runner):
                 rnn_states_actor = self.buffer[agent_id].rnn_states[step],
                 rnn_states_critic = self.buffer[agent_id].rnn_states_critic[step],
                 masks = self.buffer[agent_id].masks[step],
-                t_value = t_value[agent_id]
             )
 
             action_values.append(_t2n(action_value))
@@ -236,7 +224,6 @@ class MAGYM_Runner(Runner):
                     obs=torch.tensor([eval_obs[agent_id]]),
                     rnn_states_actor=eval_rnn_states[:, agent_id],
                     masks=eval_masks[:, agent_id],
-                    t_value = self.t_value[agent_id],
                     deterministic=True,
                 )
                 eval_action = eval_action[0].detach().cpu().tolist()
