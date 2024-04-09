@@ -17,7 +17,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--experiment_name",
         type=str,
-        default="CoPPO",
+        default="TD-MAPPO",
         help="Experiment title stored in Wandb",
     )
     param(
@@ -110,7 +110,7 @@ def get_config() -> argparse.ArgumentParser:
     )
 
     param("--use_softmax_temp", action="store_true", default=True, help="whether to use softmax_temperature")
-    param("--softmax_max_temp", type=int, default=1, help="max T value of softmax_temperature")
+    param("--softmax_max_temp", type=int, default=5, help="max T value of softmax_temperature")
     param("--softmax_min_temp", type=int, default=1, help="min T value of softmax_temperature")
     param("--stable_t_episode", type=int, default=20000, help="min T value of softmax_temperature")
 
@@ -125,29 +125,11 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--policy_type",
         type=str,
-        default="share",
+        default="separate",
         choices=["share", "separate", "hybrid", "slope"],
         help="Determining if agents want to share the same network with same parameters",
     )
 
-    param(
-        "--noise_type",
-        type=str,
-        default="fixed",
-        choices=[None, "fixed", "adaptive"],
-        help="Usage of parameter space noise",
-    )
-
-    param(
-        "--use_coordinate",
-        action="store_true",
-        default=True,
-        help="Use coordination.",
-    )
-    parser.add_argument("--if_AMix", type=bool, default=True)
-    parser.add_argument("--if_abs_AMix", default=True)
-    parser.add_argument("--min_before_mix", type=bool, default=True)
-    parser.add_argument("--qmix_hidden_dim", type=int, default=32)
     ## train parameters
 
     param("--gradient_penalty_power", type=float, default=1e-1, help="패널티에 적용되는 제곱함수의 계수")
@@ -269,12 +251,6 @@ def get_config() -> argparse.ArgumentParser:
         help="Whether to use a naive recurrent policy",
     )
 
-    parser.add_argument("--if_double_clip", type=bool, default=True)
-    parser.add_argument("--double_clip_inner_eps", type=float, default=0.10)
-
-    parser.add_argument("--clip_before_prod", type=bool, default=False)
-    parser.add_argument("--clpr_clip_param", type=float, default=0.10)
-
     param(
         "--use_clipped_value_loss",
         action="store_false",
@@ -312,12 +288,12 @@ def get_config() -> argparse.ArgumentParser:
         default=0.2,
         help="ppo clip parameter (default: 0.2)",
     )
-    param("--ppo_epoch", type=int, default=15, help="number of ppo epochs (default: 15)")
+    param("--ppo_epoch", type=int, default=1, help="number of ppo epochs (default: 15)")
 
     param(
         "--data_chunk_length",
         type=int,
-        default=20,
+        default=10,
         help="Time length of chunks used to train a recurrent_policy",
     )
     param(
@@ -329,7 +305,7 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--entropy_coef",
         type=float,
-        default=0.01,
+        default=0.05,
         help="entropy term coefficient (default: 0.01)",
     )
 

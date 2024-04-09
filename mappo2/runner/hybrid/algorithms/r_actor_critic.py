@@ -1,13 +1,12 @@
 import torch
 import torch.nn as nn
 
-from utils.layers.util import init, check
-from utils.layers.cnn import CNNBase
-from utils.layers.mlp import MLPBase
-from utils.layers.rnn import RNNLayer
-from utils.layers.act import ACTLayer
-from utils.layers.popart import PopArt
-from utils.layers.noisy import NoisyLinear
+from utils.algorithm_utils.util import init, check
+from utils.algorithm_utils.cnn import CNNBase
+from utils.algorithm_utils.mlp import MLPBase
+from utils.algorithm_utils.rnn import RNNLayer
+from utils.algorithm_utils.act import ACTLayer
+from utils.algorithm_utils.popart import PopArt
 from utils.util import get_shape_from_obs_space
 
 
@@ -20,9 +19,7 @@ class R_Actor(nn.Module):
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
 
-    def __init__(
-        self, args, obs_space, action_space, use_softmax_temp, t_value, device=torch.device("cpu"), noise_type="fixed"
-    ):
+    def __init__(self, args, obs_space, action_space, device=torch.device("cpu")):
         super(R_Actor, self).__init__()
 
         # bool hyperparameter
@@ -42,11 +39,9 @@ class R_Actor(nn.Module):
 
         obs_shape = get_shape_from_obs_space(obs_space)
 
-        self.noise_type = noise_type
-
         base = CNNBase if len(obs_shape) == 3 else MLPBase
 
-        self.base = base(args, obs_shape, self.noise_type)
+        self.base = base(args, obs_shape)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(
@@ -56,20 +51,15 @@ class R_Actor(nn.Module):
                 self._use_orthogonal,
             )
 
-        self.act = ACTLayer(use_softmax_temp, t_value, action_space, self.hidden_size, self._use_orthogonal, self._gain)
+        self.act = ACTLayer(
+            action_space, self.hidden_size, self._use_orthogonal, self._gain
+        )
 
         self.to(device)
 
-    def resample(self):
-        """
-        Resample the noisy layers in the actor network.
-        """
-        self.base.resample()
-        if self._use_naive_recurrent_policy or self._use_recurrent_policy:
-            self.rnn.resample()
-        self.act.resample()
-
-    def forward(self, obs, rnn_states, masks, t_value, available_actions=None, deterministic=False):
+    def forward(
+        self, obs, rnn_states, masks, available_actions=None, deterministic=False
+    ):
         """
         Compute actions from the given inputs.
         :param obs: (np.ndarray / torch.Tensor) observation inputs into network.
@@ -92,18 +82,19 @@ class R_Actor(nn.Module):
         actor_features = self.base(obs)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
-            actor_features, rnn_states = self.rnn(x=actor_features, hxs=rnn_states, masks=masks)
+            actor_features, rnn_states = self.rnn(
+                x=actor_features, hxs=rnn_states, masks=masks
+            )
 
         actions, action_log_probs = self.act(
-            x=actor_features,
-            t_value=t_value,
-            available_actions=available_actions,
-            deterministic=deterministic,
+            actor_features, available_actions, deterministic
         )
 
         return actions, action_log_probs, rnn_states
 
-    def evaluate_actions(self, obs, rnn_states, action, masks, available_actions=None, active_masks=None):
+    def evaluate_actions(
+        self, obs, rnn_states, action, masks, available_actions=None, active_masks=None
+    ):
         """
         Compute log probability and entropy of given actions.
         :param obs: (torch.Tensor) observation inputs into network.
@@ -151,7 +142,7 @@ class R_Critic(nn.Module):
     :param device: (torch.device) specifies the device to run on (cpu/gpu).
     """
 
-    def __init__(self, args, cent_obs_space, device=torch.device("cpu"), noise_type=None):
+    def __init__(self, args, cent_obs_space, device=torch.device("cpu")):
         super(R_Critic, self).__init__()
 
         # bool hyperparameter
@@ -164,15 +155,15 @@ class R_Critic(nn.Module):
         self.hidden_size: int = args.hidden_size
         self._recurrent_N: int = args.recurrent_N
 
-        self.noise_type = noise_type
-
         self.tpdv = dict(dtype=torch.float32, device=device)
-        init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][self._use_orthogonal]
+        init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][
+            self._use_orthogonal
+        ]
 
         cent_obs_shape = get_shape_from_obs_space(cent_obs_space)
         base = CNNBase if len(cent_obs_shape) == 3 else MLPBase
 
-        self.base = base(args, cent_obs_shape, self.noise_type)
+        self.base = base(args, cent_obs_shape)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:
             self.rnn = RNNLayer(
@@ -183,31 +174,17 @@ class R_Critic(nn.Module):
             )
 
         def init_(m):
-            """
+            '''
             Initialize the weights and biases of the input module
-            """
-            return init(module=m, weight_init=init_method, bias_init=lambda x: nn.init.constant_(x, 0))
+            '''
+            return init(module = m, weight_init = init_method, bias_init = lambda x: nn.init.constant_(x, 0))
 
         if self._use_popart:
-            self.v_out = init_(m=PopArt(self.hidden_size, 1, device=device))
+            self.v_out = init_(m = PopArt(self.hidden_size, 1, device=device))
         else:
-            if noise_type == "fixed":
-                self.v_out = NoisyLinear(self.hidden_size, 1)
-            elif noise_type == "adaptive":
-                self.v_out = NoisyLinear(self.hidden_size, 1, std_init=0.1)
-            else:
-                self.v_out = init_(m=nn.Linear(self.hidden_size, 1))
+            self.v_out = init_(m = nn.Linear(self.hidden_size, 1))
 
         self.to(device)
-
-    def resample(self):
-        """
-        Resample the noisy layers in the actor network.
-        """
-        self.base.resample()
-        if self._use_naive_recurrent_policy or self._use_recurrent_policy:
-            self.rnn.resample()
-        self.v_out.resample()
 
     def forward(self, cent_obs, rnn_states, masks):
         """

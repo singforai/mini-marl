@@ -7,11 +7,12 @@ from .noisy import NoisyLinear
 
 
 class MLPLayer(nn.Module):
-    def __init__(self, input_dim, hidden_size, layer_N, use_orthogonal, use_ReLU, use_noise=True):
+
+    def __init__(self, input_dim, hidden_size, layer_N, use_orthogonal, use_ReLU, noise_type=None):
         super(MLPLayer, self).__init__()
         self._layer_N = layer_N
 
-        self.use_noise = use_noise
+        self.noise_type = noise_type
 
         active_func = [nn.Tanh(), nn.ReLU()][use_ReLU]
         init_method = [nn.init.xavier_uniform_, nn.init.orthogonal_][use_orthogonal]
@@ -20,9 +21,17 @@ class MLPLayer(nn.Module):
         def init_(m):
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain=gain)
 
-        if use_noise:
+        if noise_type == "fixed":
             self.fc1 = nn.Sequential(NoisyLinear(input_dim, hidden_size), active_func, nn.LayerNorm(hidden_size))
             self.fc_h = nn.Sequential(NoisyLinear(hidden_size, hidden_size), active_func, nn.LayerNorm(hidden_size))
+            self.fc2 = get_clones(self.fc_h, self._layer_N)
+        elif noise_type == "adaptive":
+            self.fc1 = nn.Sequential(
+                NoisyLinear(input_dim, hidden_size, std_init=0.1), active_func, nn.LayerNorm(hidden_size)
+            )
+            self.fc_h = nn.Sequential(
+                NoisyLinear(hidden_size, hidden_size, std_init=0.1), active_func, nn.LayerNorm(hidden_size)
+            )
             self.fc2 = get_clones(self.fc_h, self._layer_N)
         else:
             self.fc1 = nn.Sequential(init_(nn.Linear(input_dim, hidden_size)), active_func, nn.LayerNorm(hidden_size))
@@ -38,16 +47,13 @@ class MLPLayer(nn.Module):
         return x
 
     def resample(self):
-        if self.use_noise:
-            self.fc1[0].resample()
-            for i in range(self._layer_N):
-                self.fc2[i][0].resample()
-        else:
-            pass
+        self.fc1[0].resample()
+        for i in range(self._layer_N):
+            self.fc2[i][0].resample()
 
 
 class MLPBase(nn.Module):
-    def __init__(self, args, obs_shape, cat_self=True, attn_internal=False):
+    def __init__(self, args, obs_shape, noise_type=None, cat_self=True, attn_internal=False):
         super(MLPBase, self).__init__()
 
         self._use_feature_normalization = args.use_feature_normalization
@@ -62,7 +68,7 @@ class MLPBase(nn.Module):
         if self._use_feature_normalization:
             self.feature_norm = nn.LayerNorm(obs_dim)
 
-        self.mlp = MLPLayer(obs_dim, self.hidden_size, self._layer_N, self._use_orthogonal, self._use_ReLU)
+        self.mlp = MLPLayer(obs_dim, self.hidden_size, self._layer_N, self._use_orthogonal, self._use_ReLU, noise_type)
 
     def forward(self, x):
         if self._use_feature_normalization:

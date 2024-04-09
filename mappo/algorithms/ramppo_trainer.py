@@ -2,9 +2,10 @@ import numpy as np
 import torch
 import pdb
 import torch.nn as nn
-from utils.util import get_gard_norm, huber_loss, mse_loss
+from utils.util import get_grad_norm, huber_loss, mse_loss, split_chunks_into_n_ags
 from utils.valuenorm import ValueNorm
 from utils.util import check
+from utils.layers.qmix import QMixNet
 
 
 class R_MAPPO:
@@ -17,44 +18,35 @@ class R_MAPPO:
 
     def __init__(self, args, policy, device):
 
-        self._use_popart: bool = args.use_popart
-        self._use_valuenorm: bool = args.use_valuenorm
-        self._use_huber_loss: bool = args.use_huber_loss
-        self._use_max_grad_norm: bool = args.use_max_grad_norm
-        self._use_recurrent_policy: bool = args.use_recurrent_policy
-        self._use_clipped_value_loss: bool = args.use_clipped_value_loss
-        self._use_value_active_masks: bool = args.use_value_active_masks
-        self._use_naive_recurrent: bool = args.use_naive_recurrent_policy
-        self._use_policy_active_masks: bool = args.use_policy_active_masks
-
-        self.ppo_epoch: int = args.ppo_epoch
-        self.training_batch_size: int = args.training_batch_size
-        self.data_chunk_length: int = args.data_chunk_length
-
-        self.clip_param: float = args.clip_param
-        self.huber_delta: float = args.huber_delta
-        self.entropy_coef: float = args.entropy_coef
-        self.max_grad_norm: float = args.max_grad_norm
-        self.value_loss_coef: float = args.value_loss_coef
+        self.args = args
 
         self.use_adv_noise = False
         self.alpha = 0.1
+
+        self.n_agents = 2
 
         self.device: torch.device = device
         self.tpdv: dict = dict(dtype=torch.float32, device=device)
 
         self.policy = policy
 
+        args.state_shape = policy.share_obs_space.shape[0]  # obs_space is (98,)
+
         assert (
-            self._use_popart and self._use_valuenorm
+            self.args.use_popart and self.args.use_valuenorm
         ) == False, "self._use_popart and self._use_valuenorm can not be set True simultaneously"
 
-        if self._use_popart:
+        if self.args.use_popart:
             self.value_normalizer = self.policy.critic.v_out
-        elif self._use_valuenorm:
+        elif self.args.use_valuenorm:
             self.value_normalizer = ValueNorm(input_shape=1).to(self.device)
         else:
             self.value_normalizer = None
+
+        if args.use_coordinate and args.if_AMix:
+            self.amix_net = QMixNet(args)
+            if args.use_cuda:
+                self.amix_net = self.amix_net.cuda()
 
     def cal_value_loss(self, values, value_preds_batch, return_batch, active_masks_batch):
         """
@@ -66,9 +58,11 @@ class R_MAPPO:
 
         :return value_loss: (torch.Tensor) value function loss.
         """
-        value_pred_clipped = value_preds_batch + (values - value_preds_batch).clamp(-self.clip_param, self.clip_param)
+        value_pred_clipped = value_preds_batch + (values - value_preds_batch).clamp(
+            -self.args.clip_param, self.args.clip_param
+        )
 
-        if self._use_popart or self._use_valuenorm:
+        if self.args.use_popart or self.args.use_valuenorm:
             self.value_normalizer.update(return_batch)
             error_clipped = self.value_normalizer.normalize(return_batch) - value_pred_clipped
             error_original = self.value_normalizer.normalize(return_batch) - values
@@ -76,19 +70,19 @@ class R_MAPPO:
             error_clipped = return_batch - value_pred_clipped
             error_original = return_batch - values
 
-        if self._use_huber_loss:
-            value_loss_clipped = huber_loss(error_clipped, self.huber_delta)
-            value_loss_original = huber_loss(error_original, self.huber_delta)
+        if self.args.use_huber_loss:
+            value_loss_clipped = huber_loss(error_clipped, self.args.huber_delta)
+            value_loss_original = huber_loss(error_original, self.args.huber_delta)
         else:
             value_loss_clipped = mse_loss(error_clipped)
             value_loss_original = mse_loss(error_original)
 
-        if self._use_clipped_value_loss:
+        if self.args.use_clipped_value_loss:
             value_loss = torch.max(value_loss_original, value_loss_clipped)
         else:
             value_loss = value_loss_original
 
-        if self._use_value_active_masks:
+        if self.args.use_value_active_masks:
             value_loss = (value_loss * active_masks_batch).sum() / active_masks_batch.sum()
         else:
             value_loss = value_loss.mean()
@@ -123,6 +117,8 @@ class R_MAPPO:
             available_actions_batch,
         ) = sample
 
+        share_obs_batch = torch.from_numpy(share_obs_batch)
+
         old_action_log_probs_batch = check(old_action_log_probs_batch).to(**self.tpdv)
         adv_targ = check(adv_targ).to(**self.tpdv)
         value_preds_batch = check(value_preds_batch).to(**self.tpdv)
@@ -131,13 +127,10 @@ class R_MAPPO:
 
         # Add noise to advantage values
 
-        if self.use_adv_noise:
-            adv_noise = check(noise_vector).to(**self.tpdv)
-            adv_noise = adv_noise[:, 0:1].repeat(adv_targ.shape[0] // 2, 1).view(-1, 1)  # 2 is n_agents
-            adv_targ = (1 - self.alpha) * adv_targ + self.alpha * adv_noise
-
-        self.policy.actor.resample()
-        self.policy.critic.resample()
+        # if self.use_adv_noise:
+        #    adv_noise = check(noise_vector).to(**self.tpdv)
+        #    adv_noise = adv_noise[:, 0:1].repeat(adv_targ.shape[0] // 2, 1).view(-1, 1)  # 2 is n_agents
+        #    adv_targ = (1 - self.alpha) * adv_targ + self.alpha * adv_noise
 
         # Reshape to do in a single forward pass for all steps
         values, action_log_probs, dist_entropy = self.policy.evaluate_actions(
@@ -154,41 +147,100 @@ class R_MAPPO:
         # actor update
         imp_weights = torch.exp(action_log_probs - old_action_log_probs_batch)
 
-        surr1 = imp_weights * adv_targ
-        surr2 = torch.clamp(imp_weights, 1.0 - self.clip_param, 1.0 + self.clip_param) * adv_targ
+        if self.args.use_coordinate:
+            prcl_clip_param = self.args.clip_param
+            adv_targ_ags = split_chunks_into_n_ags(self.args, adv_targ)
+            imp_weights_ags = split_chunks_into_n_ags(self.args, imp_weights)
+            active_masks_batch_ags = split_chunks_into_n_ags(self.args, active_masks_batch)
+            state_batch_ags = split_chunks_into_n_ags(self.args, share_obs_batch)
+            if self.args.use_cuda:
+                state_batch_ags = state_batch_ags.cuda()
+                # for surr1
+            ratio = torch.prod(imp_weights_ags, dim=-2, keepdim=True).repeat(1, 1, self.n_agents, 1)
+            # for surr2
+            if self.args.if_double_clip:
+                prod_ratios_for_surr2 = []
+                for i in range(self.n_agents):
+                    ratios = imp_weights_ags.clone()
+                    ratios[:, :, i, :] = torch.ones_like(ratios[:, :, i, :])
+                    prod_others_ratio_i = torch.prod(ratios, dim=-2).squeeze()
+                    inner_eps = self.args.double_clip_inner_eps
+                    prod_others_ratio_i_for_surr2 = torch.clamp(prod_others_ratio_i, 1 - inner_eps, 1 + inner_eps)
+                    prod_others_i_for_surr2 = prod_others_ratio_i_for_surr2 * imp_weights_ags[:, :, i, :].squeeze()
+                    prod_ratios_for_surr2.append(prod_others_i_for_surr2)
+                ratio_for_surr2 = torch.stack(prod_ratios_for_surr2, dim=-1).unsqueeze(-1)
+            if self.args.clip_before_prod:
+                clipped_ratio = torch.prod(
+                    torch.clamp(imp_weights_ags, 1.0 - self.args.clpr_clip_param, 1.0 + self.args.clpr_clip_param),
+                    dim=-2,
+                    keepdim=True,
+                ).repeat(1, 1, self.n_agents, 1)
+            else:
+                if self.args.if_double_clip:
+                    clipped_ratio = torch.clamp(ratio_for_surr2, 1.0 - prcl_clip_param, 1.0 + prcl_clip_param)
+                else:
+                    clipped_ratio = torch.clamp(ratio, 1.0 - prcl_clip_param, 1.0 + prcl_clip_param)
 
-        if self._use_policy_active_masks:
-            policy_action_loss = (
-                -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True) * active_masks_batch
-            ).sum() / active_masks_batch.sum()
-        else:
-            policy_action_loss = -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
+            surr1 = ratio * adv_targ_ags
+            surr2 = clipped_ratio * adv_targ_ags
 
-        policy_loss = policy_action_loss
+            if self.args.if_AMix:
+                if self.args.min_before_mix:
+                    surr = self.amix_net(
+                        torch.min(surr1, surr2) * active_masks_batch_ags / active_masks_batch.sum(), state_batch_ags
+                    )
+                else:
+                    surr1 = self.amix_net(surr1 * active_masks_batch_ags / active_masks_batch.sum(), state_batch_ags)
+                    surr2 = self.amix_net(surr2 * active_masks_batch_ags / active_masks_batch.sum(), state_batch_ags)
+                    surr = torch.min(surr1, surr2)
+            else:  # ASum
+                surr = torch.min(surr1, surr2) * active_masks_batch_ags / active_masks_batch.sum()
+                surr = surr.sum(-2)
+            policy_loss = -surr.sum()
+            self.policy.actor_optimizer.zero_grad()
+            if update_actor:
+                (policy_loss - dist_entropy * self.args.entropy_coef).backward()
+            if self.args.use_max_grad_norm:
+                actor_grad_norm = nn.utils.clip_grad_norm_(self.policy.actor.parameters(), self.args.max_grad_norm)
+            else:
+                actor_grad_norm = get_grad_norm(self.policy.actor.parameters())
+            self.policy.actor_optimizer.step()
+        else:  # MAPPO
+            surr1 = imp_weights * adv_targ
+            surr2 = torch.clamp(imp_weights, 1.0 - self.args.clip_param, 1.0 + self.args.clip_param) * adv_targ
 
-        self.policy.actor_optimizer.zero_grad()
+            if self.args.use_policy_active_masks:
+                policy_action_loss = (
+                    -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True) * active_masks_batch
+                ).sum() / active_masks_batch.sum()
+            else:
+                policy_action_loss = -torch.sum(torch.min(surr1, surr2), dim=-1, keepdim=True).mean()
 
-        if update_actor:
-            (policy_loss - dist_entropy * self.entropy_coef).backward()
+            policy_loss = policy_action_loss
 
-        if self._use_max_grad_norm:
-            actor_grad_norm = nn.utils.clip_grad_norm_(self.policy.actor.parameters(), self.max_grad_norm)
+            self.policy.actor_optimizer.zero_grad()
 
-        else:
-            actor_grad_norm = get_gard_norm(self.policy.actor.parameters())
-        self.policy.actor_optimizer.step()
+            if update_actor:
+                (policy_loss - dist_entropy * self.args.entropy_coef).backward()
+
+            if self.args.use_max_grad_norm:
+                actor_grad_norm = nn.utils.clip_grad_norm_(self.policy.actor.parameters(), self.args.max_grad_norm)
+            else:
+                actor_grad_norm = get_grad_norm(self.policy.actor.parameters())
+
+            self.policy.actor_optimizer.step()
 
         # critic update
         value_loss = self.cal_value_loss(values, value_preds_batch, return_batch, active_masks_batch)
 
         self.policy.critic_optimizer.zero_grad()
 
-        (value_loss * self.value_loss_coef).backward()
+        (value_loss * self.args.value_loss_coef).backward()
 
-        if self._use_max_grad_norm:
-            critic_grad_norm = nn.utils.clip_grad_norm_(self.policy.critic.parameters(), self.max_grad_norm)
+        if self.args.use_max_grad_norm:
+            critic_grad_norm = nn.utils.clip_grad_norm_(self.policy.critic.parameters(), self.args.max_grad_norm)
         else:
-            critic_grad_norm = get_gard_norm(self.policy.critic.parameters())
+            critic_grad_norm = get_grad_norm(self.policy.critic.parameters())
 
         self.policy.critic_optimizer.step()
 
@@ -210,7 +262,7 @@ class R_MAPPO:
         :return train_info: (dict) contains information regarding training update (e.g. loss, grad norms, etc).
         """
 
-        if self._use_popart or self._use_valuenorm:
+        if self.args.use_popart or self.args.use_valuenorm:
             advantages = buffer.returns[:-1] - self.value_normalizer.denormalize(buffer.value_preds[:-1])
         else:
             advantages = buffer.returns[:-1] - buffer.value_preds[:-1]
@@ -233,20 +285,20 @@ class R_MAPPO:
         train_info["critic_grad_norm"] = 0
         train_info["ratio"] = 0
 
-        for _ in range(self.ppo_epoch):
-            if self._use_recurrent_policy:
+        for _ in range(self.args.ppo_epoch):
+            if self.args.use_recurrent_policy:
                 data_generator = buffer.recurrent_generator(
                     advantages=advantages,
-                    num_mini_batch=self.training_batch_size,
-                    data_chunk_length=self.data_chunk_length,
+                    num_mini_batch=self.args.training_batch_size,
+                    data_chunk_length=self.args.data_chunk_length,
                 )
-            elif self._use_naive_recurrent:
+            elif self.args.use_naive_recurrent:
                 data_generator = buffer.naive_recurrent_generator(
-                    advantages=advantages, num_mini_batch=self.training_batch_size
+                    advantages=advantages, num_mini_batch=self.args.training_batch_size
                 )
             else:
                 data_generator = buffer.feed_forward_generator(
-                    advantages=advantages, num_mini_batch=self.training_batch_size
+                    advantages=advantages, num_mini_batch=self.args.training_batch_size
                 )
 
             for sample in data_generator:
@@ -267,7 +319,7 @@ class R_MAPPO:
                 train_info["critic_grad_norm"] += critic_grad_norm.item()
                 train_info["ratio"] += imp_weights.mean()
 
-        num_updates = self.ppo_epoch * self.training_batch_size
+        num_updates = self.args.ppo_epoch * self.args.training_batch_size
         train_info["Sampling_Rewards"] = buffer.rewards.sum()
 
         for k in train_info.keys():

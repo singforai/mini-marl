@@ -48,7 +48,7 @@ class NoisyLinear(Module):
         >>> print(output_new)
     """
 
-    def __init__(self, in_features, out_features, bias=True, factorized=True, std_init=None):
+    def __init__(self, in_features, out_features, bias=True, factorized=False, std_init=None):
         super(NoisyLinear, self).__init__()
         self.in_features = in_features
         self.out_features = out_features

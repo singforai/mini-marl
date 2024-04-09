@@ -1,21 +1,20 @@
+
 import torch
 
 import numpy as np
-import multiprocessing
+import multiprocessing 
 
 from gym import spaces
 from typing import Callable, Dict, List
 from runner.shared.shared_buffer import SharedReplayBuffer
 from utils.observation_space import MultiAgentObservationSpace
 
-from algorithms.ramppo_trainer import R_MAPPO as TrainAlgo
+from algorithms.ramppo_network import R_MAPPO as TrainAlgo
 from algorithms.rmappo_policy import R_MAPPOPolicy as Policy
-
 
 def _t2n(x):
     """Convert torch tensor to a numpy array."""
     return x.detach().cpu().numpy()
-
 
 class Runner(object):
     """
@@ -31,23 +30,12 @@ class Runner(object):
         self.eval_env = config["eval_env"]
         self.device = config["device"]
         self.num_agents = config["num_agents"]
-        self.args.num_agents = self.num_agents
-
-        self.sigma = 1
-        self.noise_dim = 10
-        self.use_value_noise = True
 
         # name_parameter
         self.env_name: str = self.args.env_name
         self.algorithm_name: str = self.args.algorithm_name
         self.experiment_name: str = self.args.experiment_name
-
-        self.use_softmax_temp: bool = self.args.use_softmax_temp
-        if self.use_softmax_temp:
-            self.softmax_max_temp = self.args.softmax_max_temp
-            self.softmax_min_temp = self.args.softmax_min_temp
-            self.stable_t_episode = self.args.stable_t_episode
-
+        
         # use_hyperparameter
         self.use_eval: bool = self.args.use_eval
         self.use_wandb: bool = self.args.use_wandb
@@ -56,7 +44,7 @@ class Runner(object):
         self.use_linear_lr_decay: bool = self.args.use_linear_lr_decay
 
         # parameters
-        self.sampling_batch_size: int = self.args.sampling_batch_size
+        self.sampling_batch_size: int = self.args.sampling_batch_size  
         self.hidden_size: int = self.args.hidden_size
         self.recurrent_N: int = self.args.recurrent_N
         self.episode_length: int = self.args.max_step
@@ -69,23 +57,24 @@ class Runner(object):
         self.eval_interval: int = self.args.eval_interval
 
         # render time
+        self.penalty_lr: float = self.args.penalty_lr
         self.sleep_second: float = self.args.sleep_second
-
-        self.noise_type: str = self.args.noise_type
+        self.gradient_penalty_power: float = self.args.gradient_penalty_power
+        # hardware_settings
+        # self.queue = multiprocessing.Queue()
 
         # share_observation
         self.observation_space = self.train_env[0].observation_space
-
         self._obs_high = np.tile(self.train_env[0]._obs_high, self.num_agents)
         self._obs_low = np.tile(self.train_env[0]._obs_low, self.num_agents)
         self.share_observation_space = MultiAgentObservationSpace(
-            [spaces.Box(self._obs_low, self._obs_high) for _ in range(self.num_agents)]
+            [
+                spaces.Box(self._obs_low, self._obs_high)
+                for _ in range(self.num_agents)
+            ]
         )
 
-        process_reward: Dict[bool, object] = {
-            True: self.convert_custom_rewards,
-            False: self.convert_each_rewards,
-        }
+        process_reward: Dict[bool, object] = {True : self.convert_sum_rewards, False: self.convert_each_rewards}
         self.process_reward_type: Callable[[bool], object] = process_reward.get(self.use_common_reward)
 
         # policy network
@@ -94,14 +83,11 @@ class Runner(object):
             obs_space=self.observation_space[0],
             cent_obs_space=self.share_observation_space[0],
             act_space=self.train_env[0].action_space[0],
-            use_softmax_temp=self.use_softmax_temp,
-            t_value=self.softmax_max_temp,
             device=self.device,
         )
 
         # algorithm
         self.trainer = TrainAlgo(args=self.args, policy=self.policy, device=self.device)
-
         # buffer
         self.buffer = SharedReplayBuffer(
             args=self.args,
@@ -110,6 +96,9 @@ class Runner(object):
             cent_obs_space=self.share_observation_space[0],
             act_space=self.train_env[0].action_space[0],
         )
+        self.reward_step = []
+        self.agent1_rewards = []
+        self.agent2_rewards = []
 
     def run(self):
         """Collect training data, perform training updates, and evaluate policy."""
@@ -134,7 +123,7 @@ class Runner(object):
     def compute(self):
         """
         Calculate the expected value of the action performed by the agent, and use these expected values to calculate the return value
-
+        
         :param next_values: Value function predictions calculated by Critic(advantages? or v values?)
         :param value_normalizer: Normalization function/class that depends on the use_propart, use_valuenorm hyperparameter value
         """
@@ -145,55 +134,68 @@ class Runner(object):
             np.concatenate(self.buffer.masks[-1]),
         )
         next_values = np.array(np.split(_t2n(next_values), self.sampling_batch_size))
-        self.buffer.compute_returns(next_value=next_values, value_normalizer=self.trainer.value_normalizer)
+        self.buffer.compute_returns(next_value = next_values, 
+                                    value_normalizer = self.trainer.value_normalizer)
 
-    def train(self, noise_vector=None):
+    def train(self):
         """Train policies with data in buffer."""
         self.trainer.prep_training()
-        train_infos = self.trainer.train(buffer=self.buffer, noise_vector=noise_vector)
+        train_infos = self.trainer.train(buffer = self.buffer)
         self.buffer.after_update()
         return train_infos
-
-    def obs_sharing(self, obs: List, warm_up=False) -> np.array:
+    
+    def obs_sharing(self, obs: List, warm_up = False) -> np.array:
         if warm_up:
             share_obs = np.array(obs).reshape(-1)
-            share_obs_list = np.array([share_obs for _ in range(self.num_agents)])
-        else:
-            share_obs_list = np.array(
-                [[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs]
-            )
-        return share_obs_list
+            share_obs_list = np.array([share_obs for _ in range(self.num_agents)]) 
+        else: 
+            share_obs_list = np.array([[np.array(each_obs).reshape(-1) for _ in range(self.num_agents)] for each_obs in obs])
 
-    def convert_each_rewards(self, rewards_batch):
+        return share_obs_list
+    
+    def convert_each_rewards(self, rewards_batch, step):
         converted_rewards = [[[reward] for reward in rewards] for rewards in rewards_batch]
         return converted_rewards
 
-    def convert_sum_rewards(self, rewards_batch):
-        converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
-        return converted_rewards
+    # def convert_sum_rewards(self, rewards_batch):
+    #     converted_rewards = [[[sum(rewards)] for _ in range(self.num_agents)] for rewards in rewards_batch]
+    #     return converted_rewards
 
-    def convert_custom_rewards(self, rewards_batch):
-        converted_rewards = []
-        for rewards in rewards_batch:
-            agent_reward = []
-            for i, reward in enumerate(rewards):
-                if i == 0:
-                    agent_reward.append([reward])
-                else:
-                    if reward == -1 + self.args.step_cost:
-                        # print("come heere")
-                        agent_reward.append([sum(rewards)])
+
+    def convert_sum_rewards(self, rewards_batch, step):
+        self.agent1_rewards.append(rewards_batch[0][0])
+        self.agent2_rewards.append(rewards_batch[0][1])
+        self.reward_step.append(step)
+
+        agents_rewards = [self.agent1_rewards, self.agent2_rewards]
+
+        agents_gradients = []
+        for agent_rewards in agents_rewards:
+            agents_gradients.append(
+                self.cal_gradients(
+                    x_step = self.reward_step, 
+                    y_rewards = agent_rewards
+                )
+            )
+        if step > 0:
+            penaltys = []
+            for agent_gradient in agents_gradients:
+                counts = 0
+                for gradient in reversed(agent_gradient):
+                    if gradient == 0:
+                        counts += 1
                     else:
-                        agent_reward.append([sum(rewards)])
-
-            converted_rewards.append(agent_reward)
-
+                        break
+                penaltys.append(self.penalty_lr*(self.gradient_penalty_power*(counts)**(2)))
+        else:
+            penaltys = [0 , 0]
+        converted_rewards = [[[reward -penaltys[idx]] for idx,reward in enumerate(rewards)] for rewards in rewards_batch]
         return converted_rewards
-
-    def cal_softmax_t(self, episode):
-        self.t_value = max(
-            -((self.softmax_max_temp - self.softmax_min_temp) / self.stable_t_episode)
-            * (episode - self.stable_t_episode)
-            + 1,
-            1,
-        )
+        
+    def cal_gradients(self, x_step, y_rewards):
+        reward_gradients = []
+        for idx in range(len(x_step)-1):
+            slope = (y_rewards[idx+1] - y_rewards[idx]) / (x_step[idx+1] - x_step[idx])
+            reward_gradients.append(slope)
+        
+        return reward_gradients
