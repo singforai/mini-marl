@@ -11,19 +11,19 @@ def get_config() -> argparse.ArgumentParser:
     param(
         "--env_name",
         type=str,
-        default="ma_gym:Checkers-v0",
+        default="ma_gym:Switch2-v0",
         help="Built-in Env for ma_gym",
     )
     param(
         "--experiment_name",
         type=str,
-        default="SE-MAPPO_5",
+        default="MAPPO",
         help="Experiment title stored in Wandb",
     )
     param(
         "--group_name",
         type = str,
-        default="SE-MAPPO_5",
+        default="MAPPO",
         help="Experiment group title stored in Wandb",
     )
 

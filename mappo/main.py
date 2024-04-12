@@ -37,9 +37,6 @@ def main(args):
 
     env = gym.make(
         id=args.env_name,
-        full_observable=False,
-        max_steps=args.max_step,
-        step_cost=args.step_cost,
     )
 
     train_env_batch = [env for _ in range(args.sampling_batch_size)]
